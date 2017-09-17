@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Import" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Gallery" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Slideshow" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Tools" />
+    </group>-->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/registro"
+            android:icon="@mipmap/registro"
+            android:title="@string/registro" />
+        <item
+            android:id="@+id/eserciziSvolti"
+            android:icon="@mipmap/esercizi_svolti"
+            android:title="@string/esercizi" />
+    </group>
+
+    <item android:title="Torna a:">
+        <menu>
+            <item
+                android:id="@+id/elencoClassi"
+                android:icon="@android:drawable/ic_menu_sort_by_size"
+                android:title="@string/listaClassi" />
+            <item
+                android:id="@+id/homePrincipale"
+                android:icon="@mipmap/home"
+                android:title="@string/home" />
+        </menu>
+    </item>
+
+    <item android:title="impostazioni">
+        <menu>
+            <item
+                android:id="@+id/impostazioni"
+                android:icon="@mipmap/impstazioni"
+                android:title="@string/impostazioni" />
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/logout" />
+        </menu>
+    </item>
+
+</menu>

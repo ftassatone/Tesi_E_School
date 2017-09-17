@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.eschool.e_school.HomeClasse"
+    tools:showIn="@layout/app_bar_home_classe">
+
+    <LinearLayout
+        android:id="@+id/linearElenco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/elencoClasse"
+            android:textSize="@dimen/textSizeTitolo"
+            android:layout_marginLeft="@dimen/margineBordi"/>
+
+        <LinearLayout
+            android:id="@+id/contenitoreElenco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="110dp">
+
+            <!-- lista degli alunni -->
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toRightOf="@id/linearElenco"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="@dimen/margineBordi">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/programma"
+            android:textSize="@dimen/textSizeTitolo"/>
+
+        <!-- lista del programma -->
+
+    </LinearLayout>
+</RelativeLayout>
