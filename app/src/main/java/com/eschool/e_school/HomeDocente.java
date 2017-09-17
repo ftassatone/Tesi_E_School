@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 /**
  * Created by LenovoZ70 on 17/09/2017.
@@ -15,6 +17,14 @@ public class HomeDocente extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_docente);
+        TextView txParteDiagnostica = (TextView) findViewById(R.id.txParteDiagnostica);
+        txParteDiagnostica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeDocente.this,SezioneDiagnostica.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
