@@ -18,7 +18,7 @@
     <string name="terza">Terza</string>
     <string name="quarta">Quarta</string>
     <string name="quinta">Quinta</string>
-    <string name="pswdimenticata">Password dimeticata?</string>
+    <string name="pswdimenticata"><a href="https://stackoverflow.com/questions/9204303/android-is-it-possible-to-add-a-clickable-link-into-a-string-resource">Password dimeticata?</a></string>
     <string name="parteDiagnostica">Parte diagnostica</string>
     <string name="materie">Lista materie</string>
     <string name="scegliClasse">Scegli livello:</string>

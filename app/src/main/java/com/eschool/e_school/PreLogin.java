@@ -25,7 +25,7 @@ public class PreLogin extends AppCompatActivity {
         btConfermaUtente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(PreLogin.this,HomeDocente.class);
+                Intent i = new Intent(PreLogin.this,Login.class);
                 startActivity(i);
             }
         });

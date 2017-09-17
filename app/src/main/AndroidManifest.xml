@@ -50,6 +50,12 @@
             android:screenOrientation="landscape"
             android:parentActivityName=".HomeDocente">
         </activity>
+        
+        <activity android:name=".Login"
+            android:screenOrientation="landscape"
+            android:parentActivityName=".PreLogin">
+        </activity>
+
 
     </application>
 

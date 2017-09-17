@@ -8,13 +8,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:src="@drawable/logo_300"/>
+        android:src="@drawable/logo_300" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Username"
+
         android:textStyle="bold"
         android:textSize="@dimen/textSize"
         android:layout_gravity="center"
@@ -44,10 +45,12 @@
         android:layout_gravity="center"/>
 
     <TextView
+        android:id="@+id/psw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/pswdimenticata"/>
+        android:text="@string/pswdimenticata"
+        android:autoLink="web"/>
     <Button
         android:id="@+id/btConfermaLogin"
         android:layout_width="wrap_content"
