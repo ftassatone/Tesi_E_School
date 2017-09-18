@@ -25,6 +25,7 @@
             android:text="@string/parteDiagnostica"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="150dp"
+            android:textColor="@color/coloreTesto"
             android:textSize="@dimen/textSizeTitolo"
             android:clickable="true"/>
 

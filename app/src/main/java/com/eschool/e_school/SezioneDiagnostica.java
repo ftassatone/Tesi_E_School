@@ -11,6 +11,6 @@ public class SezioneDiagnostica extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scheda_alunno);
+        setContentView(R.layout.sezione_diagnostica);
     }
 }

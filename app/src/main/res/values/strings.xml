@@ -52,4 +52,13 @@
     <string name="impostazioni">Impostazioni</string>
     <string name="home">Home principale</string>
     <string name="esercizi">Esercizi svolti</string>
+
+    <string name="sezioneTest">Test</string>
+    <string name="testDiagnostico">Test diagnostico (cartaceo)</string>
+    <string name="testDiagnosticoErrori">Test errori da compilare</string>
+    <string name="listaErrori">Lista test errori</string>
+    <string name="schedeLetture">Schede/letture</string>
+    <string name="livello1">Livello 1</string>
+    <string name="livello2">Livello 2</string>
+    <string name="livello3">Livello 3</string>
 </resources>
