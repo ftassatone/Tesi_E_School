@@ -25,7 +25,6 @@
             android:text="@string/parteDiagnostica"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="150dp"
-            android:textColor="@color/coloreTesto"
             android:textSize="@dimen/textSizeTitolo"
             android:clickable="true"/>
 
@@ -40,7 +39,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/materie"
-                android:textColor="@color/coloreTesto"
                 android:textSize="@dimen/textSizeTitolo"/>
 
             <RadioGroup
