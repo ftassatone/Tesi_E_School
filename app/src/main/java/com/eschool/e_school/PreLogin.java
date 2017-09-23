@@ -7,9 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 
-/**
- * Created by LenovoZ70 on 17/09/2017.
- */
+import java.lang.invoke.MethodType;
+
 public class PreLogin extends AppCompatActivity {
 
     @Override
