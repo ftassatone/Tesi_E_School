@@ -6,7 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * Created by LenovoZ70 on 17/09/2017.
@@ -17,6 +21,7 @@ public class HomeDocente extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_docente);
+
         TextView txParteDiagnostica = (TextView) findViewById(R.id.txParteDiagnostica);
         txParteDiagnostica.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -25,6 +30,20 @@ public class HomeDocente extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        ListView lvMaterie = (ListView) findViewById(R.id.lvMaterie);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,ricezioneDatiIntent());
+        lvMaterie.setAdapter(adapter);
+
+    }
+
+    public ArrayList<String> ricezioneDatiIntent(){
+        Bundle dati = getIntent().getExtras();
+        ArrayList<String> lista = new ArrayList<>();
+        for(int i=0; i < dati.size(); i++){
+            lista.add(dati.getString("arrayMaterie"));
+        }
+        return lista;
     }
 
     @Override

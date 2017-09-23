@@ -41,14 +41,12 @@
                 android:text="@string/materie"
                 android:textSize="@dimen/textSizeTitolo"/>
 
-            <RadioGroup
-                android:id="@+id/groupRadioMaterie"
+            <ListView
+                android:id="@+id/lvMaterie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <!-- lista delle materie insegnate dal docente -->
-
-            </RadioGroup>
+            </ListView>
 
         </LinearLayout>
 

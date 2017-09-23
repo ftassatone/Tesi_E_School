@@ -15,9 +15,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +32,7 @@ public class Login extends AppCompatActivity{
     EditText usernameTxt;
     EditText passwordTxt;
     Button btConfermaLogin;
-    String urlCarica = "http://www.eschooldb.altervista.org/PHP/carica.php";
+    String urlCarica = "http://www.eschooldb.altervista.org/PHP/loginDocente.php";
     RequestQueue requestQueue;
 
     @Override
@@ -65,10 +72,26 @@ public class Login extends AppCompatActivity{
     public void loginPost(View view) {
         final String username = usernameTxt.getText().toString();
         final String password = passwordTxt.getText().toString();
-        StringRequest richiesta = new StringRequest(Request.Method.POST, urlCarica, new Response.Listener<String>() {
+        final ArrayList<String> listaMaterie = new ArrayList<>();
+        JsonObjectRequest richiesta = new JsonObjectRequest(Request.Method.POST, urlCarica, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JSONObject response) {
                 Log.v("LOG", "connesso");
+                try {
+                    JSONArray materie = response.getJSONArray("materie");
+
+                    for(int i = 0; i < materie.length(); i++){
+                        listaMaterie.add(materie.get(i).toString());
+                        //JSONObject materia = materie.getJSONObject(i);
+
+                        //String nomeMateria = materia.getString("descrizioneMateria");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Intent i = new Intent(Login.this,HomeDocente.class);
+                i.putExtra("arrayMaterie",listaMaterie);
+                startActivity(i);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -86,5 +109,8 @@ public class Login extends AppCompatActivity{
             }
         };
         requestQueue.add(richiesta);
+
+
+
     }
 }
