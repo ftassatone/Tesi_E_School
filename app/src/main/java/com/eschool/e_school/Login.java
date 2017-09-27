@@ -1,6 +1,7 @@
 package com.eschool.e_school;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,107 +11,133 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.JsonRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Login extends AppCompatActivity{
-    EditText usernameTxt;
-    EditText passwordTxt;
-    Button btConfermaLogin;
-    String urlCarica = "http://www.eschooldb.altervista.org/PHP/loginDocente.php";
-    RequestQueue requestQueue;
+
+    private EditText usernameTxt,passwordTxt;
+    private Button btConfermaLogin;
+    private TextView pswDimenticata;
+    private String urlLogin = "http://www.eschooldb.altervista.org/PHP/login.php";
+    private String matricolaDoc, pswDoc;
+    private RequestQueue requestQueue;
+    private AlertDialog.Builder infoAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        btConfermaLogin = (Button) findViewById(R.id.btConfermaLogin);
         usernameTxt = (EditText) findViewById(R.id.usernameTxt);
         passwordTxt = (EditText) findViewById(R.id.passwordTxt);
+        btConfermaLogin = (Button) findViewById(R.id.btConfermaLogin);
+        pswDimenticata = (TextView) findViewById(R.id.linkPswDimenticata);
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
+        infoAlert = new AlertDialog.Builder(Login.this);
 
-        TextView textView = (TextView) findViewById(R.id.linkPswDimenticata);
-        textView.setOnClickListener(new View.OnClickListener() {
+        //controllo futuro sulla password dimenticata
+        pswDimenticata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder miaAlert = new AlertDialog.Builder(Login.this);
-                miaAlert.setTitle("Recupero password");
-                miaAlert.setMessage("La nuova password è stata inviata all'indirizzo email");
-                AlertDialog alert = miaAlert.create();
+                infoAlert.setTitle("Recupero password");
+                infoAlert.setMessage("La nuova password è stata inviata all'indirizzo email");
+                AlertDialog alert = infoAlert.create();
                 alert.show();
             }
         });
 
+        //button di accesso
         btConfermaLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent i = new Intent(Login.this, HomeDocente.class);
-                startActivity(i);
+                matricolaDoc = usernameTxt.getText().toString();
+                pswDoc = passwordTxt.getText().toString();
+                Log.v("LOG","par "+matricolaDoc +", "+ pswDoc);
+                login();
 
             }
         });
+
     }
 
-    public void loginPost(View view) {
-        final String username = usernameTxt.getText().toString();
-        final String password = passwordTxt.getText().toString();
-        final ArrayList<String> listaMaterie = new ArrayList<>();
-        JsonObjectRequest richiesta = new JsonObjectRequest(Request.Method.POST, urlCarica, new Response.Listener<JSONObject>() {
+    //metodo di login, acquisisce i dati dalle editText e le invia al server,
+    // ricevuta la risposta (se esiste o meno lutenete loggato) reindirizza
+    // alla homeDocente,inviando l'user dell'utenete loggato
+    public void login(){
+        new AsyncTask<Void,Void,Void>(){
+
             @Override
-            public void onResponse(JSONObject response) {
-                Log.v("LOG", "connesso");
-                try {
-                    JSONArray materie = response.getJSONArray("materie");
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
 
-                    for(int i = 0; i < materie.length(); i++){
-                        listaMaterie.add(materie.get(i).toString());
-                        //JSONObject materia = materie.getJSONObject(i);
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+            }
 
-                        //String nomeMateria = materia.getString("descrizioneMateria");
+            @Override
+            protected Void doInBackground(Void... voids) {
+                //raccolgo i dati inseriti dall'utente
+                HashMap<String,String> parametri = new HashMap<String, String>();
+                parametri.put("matricola",matricolaDoc);
+                parametri.put("password",pswDoc);
+
+                Log.v("LOG","parametri "+ parametri);
+
+                //richiesta di connessione al server
+                JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlLogin, parametri, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String c ="";
+                        Log.v("LOG","ris "+ response.toString());
+                        try {
+                           c  = response.getString("ris");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if(c=="true"){
+                            Log.v("LOG","sono qui");
+                            Intent vaiHomeDoc = new Intent(Login.this,HomeDocente.class);
+                            vaiHomeDoc.putExtra("username",matricolaDoc);
+                            startActivity(vaiHomeDoc);
+                        }else if(c=="false") {
+                            infoAlert.setTitle("Credenziali errate");
+                            infoAlert.setMessage("Username o password errati, riprovare.");
+                            AlertDialog alert = infoAlert.create();
+                            alert.show();
+                        }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Intent i = new Intent(Login.this,HomeDocente.class);
-                i.putExtra("arrayMaterie",listaMaterie);
-                startActivity(i);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v("LOG", "non connesso");
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> parametri = new HashMap<String, String>();
-                parametri.put("codice", username);
-                parametri.put("descrizioneMateria", password);
+                }, new Response.ErrorListener() {
 
-                return parametri;
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v("LOG","errore "+ error.toString());
+
+                        infoAlert.setTitle("Errore di connessione");
+                        infoAlert.setMessage("Controllare connessione internet e riprovare.");
+                        AlertDialog alert = infoAlert.create();
+                        alert.show();
+                    }
+                });
+                requestQueue.add(richiesta);
+                return null;
             }
-        };
-        requestQueue.add(richiesta);
 
-
+        }.execute();
 
     }
+
 }

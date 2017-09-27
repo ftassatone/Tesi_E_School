@@ -1,49 +1,69 @@
 package com.eschool.e_school;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 
-/**
- * Created by LenovoZ70 on 17/09/2017.
- */
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class HomeDocente extends AppCompatActivity {
+    private TextView txtParteDiagnostica;
+    private String docente;
+    private String url = "http://www.eschooldb.altervista.org/PHP/loginDocente.php";
+    private RequestQueue requestQueue;
+    private ListView lvMaterie,lvClassi;
+    private AlertDialog.Builder infoAlert;
+    private RadioGroup rgClassi, rgMaterie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_docente);
 
-        TextView txParteDiagnostica = (TextView) findViewById(R.id.txParteDiagnostica);
-        txParteDiagnostica.setOnClickListener(new View.OnClickListener() {
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        infoAlert = new AlertDialog.Builder(HomeDocente.this);
+
+        txtParteDiagnostica = (TextView) findViewById(R.id.txtParteDiagnostica);
+        rgMaterie =(RadioGroup) findViewById(R.id.rgMaterie);
+        rgClassi =(RadioGroup) findViewById(R.id.rgClassi);
+
+        txtParteDiagnostica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(HomeDocente.this,SezioneDiagnostica.class);
                 startActivity(i);
             }
         });
-        ListView lvMaterie = (ListView) findViewById(R.id.lvMaterie);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,ricezioneDatiIntent());
-        lvMaterie.setAdapter(adapter);
+        Bundle dato = getIntent().getExtras();
+        docente = dato.getString("username");
+        Log.v("LOG","nome doc"+docente);
 
-    }
+        connessione();
 
-    public ArrayList<String> ricezioneDatiIntent(){
-        Bundle dati = getIntent().getExtras();
-        ArrayList<String> lista = new ArrayList<>();
-        for(int i=0; i < dati.size(); i++){
-            lista.add(dati.getString("arrayMaterie"));
-        }
-        return lista;
     }
 
     @Override
@@ -65,10 +85,66 @@ public class HomeDocente extends AppCompatActivity {
             Intent i = new Intent(HomeDocente.this,SezioneScegliClasse.class);
             startActivity(i);
         }else if (id == R.id.action_logout){
-            return true;
+            Intent esci = new Intent(HomeDocente.this,Login.class);
+            startActivity(esci);
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    //metodo per la connessione al server
+    public void connessione() {
+
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                HashMap<String, String> parametri = new HashMap<String, String>();
+                parametri.put("matricola", docente);
+
+                //richiesta di connessione al server
+                JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            JSONArray materie = response.getJSONArray("materie");
+                            RadioButton[] rbMat = new RadioButton[materie.length()];
+
+                            for (int i = 0; i < materie.length(); i++) {
+                                rbMat[i] = new RadioButton(getApplicationContext());
+                                rbMat[i].setText(materie.getJSONObject(i).getString("descrizioneMateria"));
+                                rgMaterie.addView(rbMat[i]);
+                            }
+
+                            JSONArray classi = response.getJSONArray("classi");
+                            RadioButton[] rbCl = new RadioButton[classi.length()];
+                            for (int i = 0; i < classi.length(); i++) {
+                                rbCl[i] = new RadioButton(getApplicationContext());
+                                rbCl[i].setText(classi.getJSONObject(i).getString("nomeClasse"));
+                                rgClassi.addView(rbCl[i]);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v("LOG","errore: "+error.toString());
+                        infoAlert.setTitle("Errore di connessione");
+                        infoAlert.setMessage("Controllare connessione internet e riprovare.");
+                        AlertDialog alert = infoAlert.create();
+                        alert.show();
+                    }
+                });
+                requestQueue.add(richiesta);
+                return null;
+            }
+        }.execute();
+    }
+
 }
 

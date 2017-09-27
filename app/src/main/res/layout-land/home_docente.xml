@@ -9,31 +9,29 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!-- inseriamo la lista di icone come menù -->
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
         <TextView
-            android:id="@+id/txParteDiagnostica"
+            android:id="@+id/txtParteDiagnostica"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/parteDiagnostica"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="@dimen/marginetop"
             android:textSize="@dimen/textSizeTitolo"
             android:clickable="true"/>
 
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/linearMaterie"
+            android:layout_width="500dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginLeft="500dp"
-            android:layout_marginTop="150dp">
+            android:layout_marginLeft="@dimen/marginetop"
+            android:layout_marginTop="@dimen/marginetop">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -41,16 +39,37 @@
                 android:text="@string/materie"
                 android:textSize="@dimen/textSizeTitolo"/>
 
-            <ListView
-                android:id="@+id/lvMaterie"
+            <RadioGroup
+                android:id="@+id/rgMaterie"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"/>
 
-            </ListView>
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/linearClassi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/linearMaterie"
+            android:layout_marginLeft="@dimen/margineBordi"
+            android:layout_marginTop="@dimen/marginetop">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/elencoClasse"
+                android:textSize="@dimen/textSizeTitolo"/>
+
+            <RadioGroup
+                android:id="@+id/rgClassi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
         <!-- sezione per "ultime lezioni" -->
 
-    </LinearLayout>
+    </RelativeLayout>
+
 </LinearLayout>
