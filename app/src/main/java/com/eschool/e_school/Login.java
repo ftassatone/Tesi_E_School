@@ -26,7 +26,7 @@ import java.util.HashMap;
 public class Login extends AppCompatActivity{
 
     private EditText usernameTxt,passwordTxt;
-    private Button btConfermaLogin;
+    private Button btConfermaLogin, btRegistrazione;
     private TextView pswDimenticata;
     private String urlLogin = "http://www.eschooldb.altervista.org/PHP/login.php";
     private String matricolaDoc, pswDoc;
@@ -42,6 +42,7 @@ public class Login extends AppCompatActivity{
         passwordTxt = (EditText) findViewById(R.id.passwordTxt);
         btConfermaLogin = (Button) findViewById(R.id.btConfermaLogin);
         pswDimenticata = (TextView) findViewById(R.id.linkPswDimenticata);
+        btRegistrazione = (Button) findViewById(R.id.btRegistrazione);
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         infoAlert = new AlertDialog.Builder(Login.this);
@@ -66,6 +67,14 @@ public class Login extends AppCompatActivity{
                 Log.v("LOG","par "+matricolaDoc +", "+ pswDoc);
                 login();
 
+            }
+        });
+
+        btRegistrazione.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent vaiRegistazione = new Intent(Login.this, Registrazione.class);
+                startActivity(vaiRegistazione);
             }
         });
 

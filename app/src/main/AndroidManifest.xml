@@ -59,6 +59,10 @@
             android:parentActivityName=".PreLogin">
         </activity>
 
+        <activity android:name=".Registrazione"
+            android:screenOrientation="landscape">
+        </activity>
+
 
     </application>
 

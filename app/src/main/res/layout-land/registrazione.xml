@@ -63,6 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
+                android:inputType="date"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginRight="@dimen/marginetop"/>
 
@@ -254,6 +255,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/textSize"
+        android:textColor="@android:color/holo_red_dark"
         android:layout_marginTop="@dimen/marginetop"
         android:layout_marginLeft="@dimen/marginetop"/>
     <TextView
@@ -271,7 +273,6 @@
         android:text="@string/conferma"
         android:textAllCaps="false"
         android:layout_gravity="end"
-        android:layout_marginTop="@dimen/margineBordi"
         android:layout_marginRight="@dimen/marginetop"/>
 
 </LinearLayout>
