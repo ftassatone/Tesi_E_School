@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
                 android:maxLines="1"
+                android:inputType="number"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
             <EditText
@@ -49,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
+                android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/margineBordi"/>
         </TableRow>
 
@@ -105,6 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
+                android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
             <EditText
@@ -112,6 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
+                android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
             <EditText
@@ -119,6 +123,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
+                android:maxLines="@integer/numeroRighe"
+                android:inputType="date"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
         </TableRow>
@@ -159,6 +165,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
+                android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
             <EditText
@@ -166,6 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
+                android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
             <EditText
@@ -173,6 +181,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
+                android:maxLines="@integer/numeroRighe"
+                android:inputType="number"
+                android:maxLength="@integer/lunghezzaNumero"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
         </TableRow>
@@ -213,6 +224,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
+                android:maxLines="@integer/numeroRighe"
+                android:inputType="number"
+                android:maxLength="@integer/lunghezzaNumero"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
             <EditText
@@ -220,6 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
+                android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
             <CheckBox

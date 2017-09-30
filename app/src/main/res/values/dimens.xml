@@ -20,4 +20,5 @@
     <!-- lunghezze -->
     <integer name="lunghezzaCf">16</integer>
     <integer name="lunghezzaNumero">10</integer>
+    <integer name="numeroRighe">1</integer>
 </resources>
