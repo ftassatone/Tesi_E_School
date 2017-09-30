@@ -18,6 +18,6 @@
     <dimen name="marginetop">20dp</dimen>
 
     <!-- lunghezze -->
-    <dimen name="lunghezzaCf">16</dimen>
-    <dimen name="lunghezzaNumero">10</dimen>
+    <integer name="lunghezzaCf">16</integer>
+    <integer name="lunghezzaNumero">10</integer>
 </resources>

@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
-                android:maxLength="@dimen/lunghezzaCf"
+                android:maxLength="@integer/lunghezzaCf"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginRight="@dimen/marginetop"/>
 
@@ -165,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
                 android:inputType="number"
-                android:maxLength="@dimen/lunghezzaNumero"
+                android:maxLength="@integer/lunghezzaNumero"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
             <EditText
@@ -174,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
                 android:inputType="number"
-                android:maxLength="@dimen/lunghezzaNumero"
+                android:maxLength="@integer/lunghezzaNumero"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
             <EditText

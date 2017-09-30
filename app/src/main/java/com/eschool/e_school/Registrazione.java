@@ -54,6 +54,8 @@ public class Registrazione extends AppCompatActivity {
         txtErrore = (TextView) findViewById(R.id.txtErrore);
         btConfermaRegistrazione = (Button) findViewById(R.id.btConfermaRegistrazione);
         infoAlert = new AlertDialog.Builder(Registrazione.this);
+        txtCf = (TextView) findViewById(R.id.txtCf);
+
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         btConfermaRegistrazione.setOnClickListener(new View.OnClickListener() {
@@ -94,10 +96,11 @@ public class Registrazione extends AppCompatActivity {
             txtErrore.setText(R.string.erroreCorrispondenza);
             return false;
         }
-        if(cf.length()!=16) {
-
+        /*if(cf.length()!=16) {
+            txtCf.setTextColor(Color.RED);
+            txtCf.setText("Codice fiscale (16 caratteri)");
             return false;
-        }
+        }*/
         return true;
     }
 
