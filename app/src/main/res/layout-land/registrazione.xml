@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_marginTop="@dimen/marginetop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1,2">
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/infoGenerali"
+                android:layout_marginLeft="@dimen/marginetop"
+                android:textSize="@dimen/textSize"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nome"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cognome"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dataNascita"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+        </TableRow>
+
+        <TableRow>
+            <EditText
+                android:id="@+id/nomeDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"/>
+
+            <EditText
+                android:id="@+id/cognomeDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"/>
+
+            <EditText
+                android:id="@+id/dataNascitaDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginRight="@dimen/marginetop"/>
+
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="#FF909090" />
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/luogoNascita"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/residenza"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cf"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+        </TableRow>
+
+        <TableRow>
+            <EditText
+                android:id="@+id/luogoNascitaDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"/>
+
+            <EditText
+                android:id="@+id/residenzaDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"/>
+
+            <EditText
+                android:id="@+id/cfDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginRight="@dimen/marginetop"/>
+
+        </TableRow>
+
+        <View
+            android:layout_height="2dip"
+            android:background="#FF909090" />
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/telefono"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Cellulare"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+        </TableRow>
+
+        <TableRow>
+            <EditText
+                android:id="@+id/telefonoDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"/>
+
+            <EditText
+                android:id="@+id/cellulareDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"/>
+
+            <EditText
+                android:id="@+id/emailDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"/>
+        </TableRow>
+        <View
+            android:layout_height="2dip"
+            android:background="#FF909090" />
+    </TableLayout>
+
+
+    <TableLayout
+        android:layout_marginTop="@dimen/marginetop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0,1,2">
+
+        <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/infoAccesso"
+            android:layout_marginLeft="@dimen/marginetop"
+            android:textSize="@dimen/textSize"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/matricola"
+            android:textSize="@dimen/textSize"
+            android:layout_marginLeft="@dimen/margineBordi"
+            android:layout_marginTop="@dimen/marginetop"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/passwordTxt"
+            android:textSize="@dimen/textSize"
+            android:layout_marginLeft="@dimen/margineBordi"
+            android:layout_marginTop="@dimen/marginetop"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/confermaPsw"
+            android:textSize="@dimen/textSize"
+            android:layout_marginLeft="@dimen/margineBordi"
+            android:layout_marginTop="@dimen/marginetop"/>
+    </TableRow>
+
+        <TableRow>
+            <EditText
+                android:id="@+id/matricolaDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"/>
+
+            <EditText
+                android:id="@+id/pswDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"/>
+
+            <EditText
+                android:id="@+id/confermaPswDoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginRight="@dimen/marginetop"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+    <TextView
+        android:id="@+id/txtErrore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textSize"
+        android:layout_marginTop="@dimen/marginetop"
+        android:layout_marginLeft="@dimen/marginetop"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/infoMatricola"
+        android:textSize="@dimen/textSize"
+        android:layout_marginTop="@dimen/marginetop"
+        android:layout_marginLeft="@dimen/marginetop"/>
+
+    <Button
+        android:id="@+id/btConfermaRegistrazione"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/conferma"
+        android:textAllCaps="false"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/margineBordi"
+        android:layout_marginRight="@dimen/marginetop"/>
+
+</LinearLayout>

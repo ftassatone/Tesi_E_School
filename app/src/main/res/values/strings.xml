@@ -44,8 +44,15 @@
     <string name="classe">Classe</string>
     <string name="sezione">Sezione</string>
     <string name="infoAlunno">Informazioni alunno</string>
+    <string name="infoGenerali">Informazioni generali</string>
+    <string name="infoAccesso">Informazioni per l'accesso al sistema</string>
     <string name="infoClasse">Informazioni classe</string>
     <string name="modifica">Modifica</string>
+    <string name="matricola">Matricola</string>
+    <string name="confermaPsw">Conferma la password</string>
+    <string name="infoMatricola">N.B. La matricola verrà usata come username al momento dell'accesso al sistema.</string>
+    <string name="erroreCorrispondenza">Le password non corrispondono.</string>
+    <string name="erroreCampiVuoti">E'obbligatorio compilare tutti i campi.</string>
 
 
     <string name="logout">Logout</string>

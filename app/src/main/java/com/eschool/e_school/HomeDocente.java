@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -37,6 +38,8 @@ public class HomeDocente extends AppCompatActivity {
     private ListView lvMaterie,lvClassi;
     private AlertDialog.Builder infoAlert;
     private RadioGroup rgClassi, rgMaterie;
+    private ImageButton btVaiClasse;
+    private RadioButton[] rbMat,rbCl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class HomeDocente extends AppCompatActivity {
         txtParteDiagnostica = (TextView) findViewById(R.id.txtParteDiagnostica);
         rgMaterie =(RadioGroup) findViewById(R.id.rgMaterie);
         rgClassi =(RadioGroup) findViewById(R.id.rgClassi);
+        btVaiClasse = (ImageButton) findViewById(R.id.btViaClasse);
 
         txtParteDiagnostica.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +67,13 @@ public class HomeDocente extends AppCompatActivity {
         Log.v("LOG","nome doc"+docente);
 
         connessione();
+
+        btVaiClasse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
     }
 
@@ -110,7 +121,7 @@ public class HomeDocente extends AppCompatActivity {
 
                         try {
                             JSONArray materie = response.getJSONArray("materie");
-                            RadioButton[] rbMat = new RadioButton[materie.length()];
+                            rbMat = new RadioButton[materie.length()];
 
                             for (int i = 0; i < materie.length(); i++) {
                                 rbMat[i] = new RadioButton(getApplicationContext());
@@ -119,7 +130,7 @@ public class HomeDocente extends AppCompatActivity {
                             }
 
                             JSONArray classi = response.getJSONArray("classi");
-                            RadioButton[] rbCl = new RadioButton[classi.length()];
+                            rbCl = new RadioButton[classi.length()];
                             for (int i = 0; i < classi.length(); i++) {
                                 rbCl[i] = new RadioButton(getApplicationContext());
                                 rbCl[i].setText(classi.getJSONObject(i).getString("nomeClasse"));
