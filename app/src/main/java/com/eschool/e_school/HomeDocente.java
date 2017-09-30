@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -38,7 +39,7 @@ public class HomeDocente extends AppCompatActivity {
     private ListView lvMaterie,lvClassi;
     private AlertDialog.Builder infoAlert;
     private RadioGroup rgClassi, rgMaterie;
-    private ImageButton btVaiClasse;
+    private Button btVaiClasse,btAggiungiClasse;
     private RadioButton[] rbMat,rbCl;
 
     @Override
@@ -52,7 +53,8 @@ public class HomeDocente extends AppCompatActivity {
         txtParteDiagnostica = (TextView) findViewById(R.id.txtParteDiagnostica);
         rgMaterie =(RadioGroup) findViewById(R.id.rgMaterie);
         rgClassi =(RadioGroup) findViewById(R.id.rgClassi);
-        btVaiClasse = (ImageButton) findViewById(R.id.btViaClasse);
+        btVaiClasse = (Button) findViewById(R.id.btVaiClasse);
+        btAggiungiClasse = (Button) findViewById(R.id.btAggiungiClasse);
 
         txtParteDiagnostica.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +77,14 @@ public class HomeDocente extends AppCompatActivity {
             }
         });
 
+        btAggiungiClasse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent vaiAggiungiClasse = new Intent(HomeDocente.this, AggiungiClasse.class);
+                startActivity(vaiAggiungiClasse);
+            }
+        });
+
     }
 
     @Override
@@ -93,8 +103,9 @@ public class HomeDocente extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_impostazioni) {
-            Intent i = new Intent(HomeDocente.this,SezioneScegliClasse.class);
-            startActivity(i);
+            //TODO vai a impostazioni
+            //Intent i = new Intent(HomeDocente.this,SezioneScegliClasse.class);
+            //startActivity(i);
         }else if (id == R.id.action_logout){
             Intent esci = new Intent(HomeDocente.this,Login.class);
             startActivity(esci);

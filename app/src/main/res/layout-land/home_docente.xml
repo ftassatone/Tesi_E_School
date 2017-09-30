@@ -9,39 +9,51 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <Button
             android:id="@+id/txtParteDiagnostica"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/parteDiagnostica"
             android:layout_marginLeft="@dimen/marginetop"
             android:layout_marginTop="@dimen/marginetop"
-            android:textSize="@dimen/textSizeTitolo"
-            android:clickable="true"/>
+            android:background="#00000000"
+            android:textAllCaps="false"
+            android:textStyle="italic"
+            android:drawableTop="@android:drawable/checkbox_on_background"
+            android:clickable="true"
+            android:textSize="@dimen/textSize"/>
 
-        <TextView
-            android:id="@+id/txtAggiungiClasse"
+        <Button
+            android:id="@+id/btAggiungiClasse"
+            android:background="#00000000"
+            android:textAllCaps="false"
+            android:drawableTop="@android:drawable/ic_input_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/aggungiClasse"
+            android:textStyle="italic"
             android:layout_marginLeft="@dimen/margineBordi"
             android:layout_marginTop="@dimen/marginetop"
-            android:textSize="@dimen/textSizeTitolo"
-            android:clickable="true"/>
+            android:clickable="true"
+            android:textSize="@dimen/textSize"/>
 
-        <TextView
+        <Button
             android:id="@+id/txtCaricaMateriale"
+            android:background="#00000000"
+            android:textStyle="italic"
+            android:textAllCaps="false"
+            android:drawableTop="@android:drawable/checkbox_on_background"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="carica materiale"
+            android:text="Carica materiale"
             android:layout_marginLeft="@dimen/margineBordi"
             android:layout_marginTop="@dimen/marginetop"
-            android:textSize="@dimen/textSizeTitolo"
-            android:clickable="true"/>
+            android:clickable="true"
+            android:textSize="@dimen/textSize"/>
 
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -57,7 +69,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/materie"
-                android:textSize="@dimen/textSizeTitolo"/>
+                android:textStyle="bold"
+                android:textSize="@dimen/textSize"/>
 
             <RadioGroup
                 android:id="@+id/rgMaterie"
@@ -80,7 +93,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/elencoClasse"
-                android:textSize="@dimen/textSizeTitolo"/>
+                android:textStyle="bold"
+                android:textSize="@dimen/textSize"/>
 
             <RadioGroup
                 android:id="@+id/rgClassi"
@@ -89,20 +103,36 @@
 
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btViaClasse"
-            android:foregroundGravity="center"
+        <Button
+            android:id="@+id/btVaiClasse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_edit"
-            android:layout_marginTop="91dp"
-            android:layout_below="@+id/linearClassi"
-            android:layout_alignParentRight="true"
+            android:drawableTop="@android:drawable/ic_menu_edit"
+            android:background="#00000000"
+            android:text="@string/homeClasse"
+            android:textAllCaps="false"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="202dp"
-            android:layout_marginEnd="202dp" />
+            android:layout_gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/margineBordi"/>
 
 
-    </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:layout_height="2dip"
+        android:background="#FF909090"
+        android:layout_width="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lista argomenti svolti"
+            android:layout_marginLeft="@dimen/marginetop"
+            android:textSize="@dimen/textSize"/>
+    </LinearLayout>
     <!-- sezione per "ultime lezioni" -->
 </LinearLayout>

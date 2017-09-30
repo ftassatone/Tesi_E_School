@@ -22,13 +22,23 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".HomeClasse"
+        <activity android:name=".Login"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".PreLogin">
+        </activity>
+
+        <activity android:name=".Registrazione"
+            android:screenOrientation="landscape"
+            android:parentActivityName=".Login">
         </activity>
 
         <activity android:name=".HomeDocente"
             android:screenOrientation="landscape">
+        </activity>
+
+        <activity android:name=".HomeClasse"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity android:name=".AggiungiClasse"
@@ -52,15 +62,6 @@
         <activity android:name=".SezioneScegliClasse"
             android:screenOrientation="landscape"
             android:parentActivityName=".HomeDocente">
-        </activity>
-        
-        <activity android:name=".Login"
-            android:screenOrientation="landscape"
-            android:parentActivityName=".PreLogin">
-        </activity>
-
-        <activity android:name=".Registrazione"
-            android:screenOrientation="landscape">
         </activity>
 
 

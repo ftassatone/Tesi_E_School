@@ -14,7 +14,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/infoGenerali"
                 android:layout_marginLeft="@dimen/marginetop"
-                android:textSize="@dimen/textSize"/>
+                android:textSize="@dimen/textSize"
+                android:textStyle="bold|italic"/>
         </TableRow>
 
         <TableRow>
@@ -202,7 +203,8 @@
             android:layout_height="wrap_content"
             android:text="@string/infoAccesso"
             android:layout_marginLeft="@dimen/marginetop"
-            android:textSize="@dimen/textSize"/>
+            android:textSize="@dimen/textSize"
+            android:textStyle="bold|italic"/>
     </TableRow>
 
     <TableRow>

@@ -63,14 +63,12 @@
         android:layout_marginTop="@dimen/marginetop"
         android:onClick="loginPost"/>
 
-    <Button
-        android:id="@+id/btRegistrazione"
+    <TextView
+        android:id="@+id/linkNuovoDoc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:textSize="@dimen/textSizeButton"
-        android:text="@string/regitrazione"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/marginetop"
-        android:onClick="loginPost"/>
+        android:text="@string/registraDocente"
+        android:linksClickable="true"/>
 </LinearLayout>
