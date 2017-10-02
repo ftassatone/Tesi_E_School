@@ -14,7 +14,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/infoClasse"
                 android:layout_marginLeft="@dimen/marginetop"
-                android:textSize="@dimen/textSize"
                 android:textStyle="bold|italic"/>
         </TableRow>
         <TableRow>
@@ -22,7 +21,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/classe"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -30,7 +28,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sezione"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
         </TableRow>
@@ -72,7 +69,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/infoAlunno"
                 android:layout_marginLeft="@dimen/marginetop"
-                android:textSize="@dimen/textSize"
                 android:textStyle="bold|italic"/>
         </TableRow>
         <TableRow>
@@ -80,7 +76,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nome"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -88,7 +83,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cognome"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -96,7 +90,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dataNascita"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
         </TableRow>
@@ -138,7 +131,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cf"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
                 />
@@ -146,7 +138,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/luogoNascita"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -154,7 +145,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/residenza"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -199,7 +189,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/telefono"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -207,7 +196,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Cellulare"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -215,19 +203,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/opzDsa"
-                android:textSize="@dimen/textSize"
-                android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+
         </TableRow>
-
         <TableRow>
             <EditText
                 android:id="@+id/telefonoAlunno"
@@ -257,6 +237,21 @@
                 android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
+        </TableRow>
+        <View
+            android:layout_height="2dip"
+            android:background="#FF909090" />
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/opzDsa"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+
+        </TableRow>
+
+        <TableRow>
             <CheckBox
                 android:id="@+id/opzDsaAlunno"
                 android:layout_width="wrap_content"
@@ -286,7 +281,6 @@
             android:drawableTop="@android:drawable/ic_input_add"
             android:text="@string/nuovoAlunno"
             android:clickable="true"
-            android:textSize="@dimen/textSize"
             android:textStyle="italic"/>
 
         <Button
