@@ -8,10 +8,9 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- dimensioni del testo -->
-    <dimen name="textSizeTitolo">35dp</dimen>
-    <dimen name="textSizeOpzioni">25dp</dimen>
-    <dimen name="textSizeButton">30dp</dimen>
-    <dimen name="textSize">20dp</dimen>
+    <dimen name="textSizeTitolo">30sp</dimen>
+    <dimen name="textSizeButton">25sp</dimen>
+    <dimen name="textSize">20sp</dimen>
 
     <!-- margini -->
     <dimen name="margineBordi">100dp</dimen>

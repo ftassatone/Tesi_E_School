@@ -20,8 +20,7 @@
             android:textAllCaps="false"
             android:textStyle="italic"
             android:drawableTop="@android:drawable/checkbox_on_background"
-            android:clickable="true"
-            android:textSize="@dimen/textSize"/>
+            android:clickable="true"/>
 
         <Button
             android:id="@+id/btAggiungiClasse"
@@ -34,8 +33,7 @@
             android:textStyle="italic"
             android:layout_marginLeft="@dimen/margineBordi"
             android:layout_marginTop="@dimen/marginetop"
-            android:clickable="true"
-            android:textSize="@dimen/textSize"/>
+            android:clickable="true"/>
 
         <Button
             android:id="@+id/txtCaricaMateriale"
@@ -48,8 +46,7 @@
             android:text="Carica materiale"
             android:layout_marginLeft="@dimen/margineBordi"
             android:layout_marginTop="@dimen/marginetop"
-            android:clickable="true"
-            android:textSize="@dimen/textSize"/>
+            android:clickable="true"/>
 
     </LinearLayout>
 
@@ -69,8 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/materie"
-                android:textStyle="bold"
-                android:textSize="@dimen/textSize"/>
+                android:textStyle="bold"/>
 
             <RadioGroup
                 android:id="@+id/rgMaterie"
@@ -93,8 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/elencoClasse"
-                android:textStyle="bold"
-                android:textSize="@dimen/textSize"/>
+                android:textStyle="bold"/>
 
             <RadioGroup
                 android:id="@+id/rgClassi"
@@ -131,8 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lista argomenti svolti"
-            android:layout_marginLeft="@dimen/marginetop"
-            android:textSize="@dimen/textSize"/>
+            android:layout_marginLeft="@dimen/marginetop"/>
     </LinearLayout>
     <!-- sezione per "ultime lezioni" -->
 </LinearLayout>

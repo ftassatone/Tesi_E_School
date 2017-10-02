@@ -29,35 +29,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/prima"
-                android:textSize="@dimen/textSizeOpzioni"/>
+                android:textSize="@dimen/textSize"/>
 
             <RadioButton
                 android:id="@+id/radioSeconda"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/seconda"
-                android:textSize="@dimen/textSizeOpzioni"/>
+                android:textSize="@dimen/textSize"/>
 
             <RadioButton
                 android:id="@+id/radioTerza"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/terza"
-                android:textSize="@dimen/textSizeOpzioni"/>
+                android:textSize="@dimen/textSize"/>
 
             <RadioButton
                 android:id="@+id/radioQuarta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/quarta"
-                android:textSize="@dimen/textSizeOpzioni"/>
+                android:textSize="@dimen/textSize"/>
 
             <RadioButton
                 android:id="@+id/radioQuinta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/quinta"
-                android:textSize="@dimen/textSizeOpzioni"/>
+                android:textSize="@dimen/textSize"/>
 
         </RadioGroup>
     </LinearLayout>
