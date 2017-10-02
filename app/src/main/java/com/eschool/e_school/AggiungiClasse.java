@@ -3,9 +3,6 @@ package com.eschool.e_school;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-/**
- * Created by LenovoZ70 on 17/09/2017.
- */
 public class AggiungiClasse extends AppCompatActivity {
 
     @Override

@@ -26,16 +26,12 @@
             android:textSize="@dimen/textSizeTitolo"
             android:layout_marginLeft="@dimen/margineBordi"/>
 
-        <LinearLayout
-            android:id="@+id/contenitoreElenco"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="110dp">
+            <ListView
+                android:id="@+id/listViewElencoClasse"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content">
 
-            <!-- lista degli alunni -->
-
-        </LinearLayout>
+            </ListView>
 
     </LinearLayout>
 
@@ -53,7 +49,14 @@
             android:text="@string/programma"
             android:textSize="@dimen/textSizeTitolo"/>
 
-        <!-- lista del programma -->
+
+        <ListView
+            android:id="@+id/listViewProgramma"
+            android:layout_weight="1"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content">
+
+        </ListView>
 
     </LinearLayout>
 </RelativeLayout>

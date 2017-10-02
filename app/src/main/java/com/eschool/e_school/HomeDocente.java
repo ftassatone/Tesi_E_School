@@ -33,7 +33,7 @@ import java.util.HashMap;
 
 public class HomeDocente extends AppCompatActivity {
     private TextView txtParteDiagnostica;
-    private String docente;
+    private String docente, radioMateria, radioClasse;
     private String url = "http://www.eschooldb.altervista.org/PHP/loginDocente.php";
     private RequestQueue requestQueue;
     private ListView lvMaterie,lvClassi;
@@ -73,7 +73,22 @@ public class HomeDocente extends AppCompatActivity {
         btVaiClasse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                for(int i = 0; i < rbMat.length; i++){
+                    if(rbMat[i].isChecked()){
+                        radioMateria = rbMat.toString();
+                    }
+                }
 
+                for(int i = 0; i < rbCl.length; i++){
+                    if(rbCl[i].isChecked()){
+                        radioClasse = rbCl.toString();
+                    }
+                }
+
+                Intent vaiHomeClasse = new Intent(HomeDocente.this, HomeClasse.class);
+                vaiHomeClasse.putExtra("Materia",radioMateria);
+                vaiHomeClasse.putExtra("Classe",radioClasse);
+                startActivity(vaiHomeClasse);
             }
         });
 

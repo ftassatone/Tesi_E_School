@@ -33,7 +33,7 @@
     <string name="cf">Codice fiscale</string>
     <string name="nome">Nome</string>
     <string name="cognome">Cognome</string>
-    <string name="dataNascita">Data di nascita</string>
+    <string name="dataNascita">Data di nascita (AAAA-MM-GG)</string>
     <string name="luogoNascita">Luogo di nascita</string>
     <string name="residenza">Residenza</string>
     <string name="email">E-mail</string>

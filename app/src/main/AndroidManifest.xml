@@ -64,7 +64,6 @@
             android:parentActivityName=".HomeDocente">
         </activity>
 
-
     </application>
 
 
