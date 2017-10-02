@@ -14,7 +14,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/infoGenerali"
                 android:layout_marginLeft="@dimen/marginetop"
-                android:textSize="@dimen/textSize"
                 android:textStyle="bold|italic"/>
         </TableRow>
 
@@ -24,7 +23,6 @@
                 android:layout_height="wrap_content"
 
                 android:text="@string/nome"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -32,7 +30,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cognome"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -40,7 +37,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dataNascita"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
         </TableRow>
@@ -85,7 +81,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/luogoNascita"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -93,7 +88,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/residenza"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -102,7 +96,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cf"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
         </TableRow>
@@ -145,7 +138,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/telefono"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -153,7 +145,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Cellulare"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
@@ -161,7 +152,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
-                android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
         </TableRow>
@@ -213,7 +203,6 @@
             android:layout_height="wrap_content"
             android:text="@string/infoAccesso"
             android:layout_marginLeft="@dimen/marginetop"
-            android:textSize="@dimen/textSize"
             android:textStyle="bold|italic"/>
     </TableRow>
 
@@ -222,7 +211,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/matricola"
-            android:textSize="@dimen/textSize"
             android:layout_marginLeft="@dimen/margineBordi"
             android:layout_marginTop="@dimen/marginetop"/>
 
@@ -230,7 +218,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/passwordTxt"
-            android:textSize="@dimen/textSize"
             android:layout_marginLeft="@dimen/margineBordi"
             android:layout_marginTop="@dimen/marginetop"/>
 
@@ -238,7 +225,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/confermaPsw"
-            android:textSize="@dimen/textSize"
             android:layout_marginLeft="@dimen/margineBordi"
             android:layout_marginTop="@dimen/marginetop"/>
     </TableRow>
@@ -277,7 +263,6 @@
         android:id="@+id/txtErrore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/textSize"
         android:textColor="@android:color/holo_red_dark"
         android:layout_marginTop="@dimen/marginetop"
         android:layout_marginLeft="@dimen/marginetop"/>
@@ -285,7 +270,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/infoMatricola"
-        android:textSize="@dimen/textSize"
         android:layout_marginTop="@dimen/marginetop"
         android:layout_marginLeft="@dimen/marginetop"/>
 

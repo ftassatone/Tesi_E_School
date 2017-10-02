@@ -14,7 +14,6 @@
             android:text="@string/livello"
             android:layout_marginTop="@dimen/marginetop"
             android:layout_marginLeft="50dp"
-            android:textSize="@dimen/textSizeTitolo"
             android:textStyle="bold"/>
 
         <RadioGroup
@@ -28,36 +27,31 @@
                 android:id="@+id/radioPrima"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/prima"
-                android:textSize="@dimen/textSizeOpzioni"/>
+                android:text="@string/prima"/>
 
             <RadioButton
                 android:id="@+id/radioSeconda"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/seconda"
-                android:textSize="@dimen/textSizeOpzioni"/>
+                android:text="@string/seconda" />
 
             <RadioButton
                 android:id="@+id/radioTerza"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/terza"
-                android:textSize="@dimen/textSizeOpzioni"/>
+                android:text="@string/terza"/>
 
             <RadioButton
                 android:id="@+id/radioQuarta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/quarta"
-                android:textSize="@dimen/textSizeOpzioni"/>
+                android:text="@string/quarta"/>
 
             <RadioButton
                 android:id="@+id/radioQuinta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/quinta"
-                android:textSize="@dimen/textSizeOpzioni"/>
+                android:text="@string/quinta"/>
 
         </RadioGroup>
     </LinearLayout>
@@ -70,6 +64,5 @@
         android:layout_gravity="end"
         android:layout_marginRight="20dp"
         android:text="@string/accedi"
-        android:textAllCaps="false"
-        android:textSize="@dimen/textSizeButton"/>
+        android:textAllCaps="false"/>
 </LinearLayout>

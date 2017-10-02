@@ -12,7 +12,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/registro"
-            android:textSize="@dimen/textSizeTitolo"
             android:layout_marginLeft="@dimen/margineBordi"
             android:layout_marginTop="@dimen/marginetop"/>
         <!-- info registro -->

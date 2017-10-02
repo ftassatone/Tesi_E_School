@@ -16,7 +16,6 @@
         android:paddingTop="30dp"
         android:layout_gravity="center"
         android:textStyle="bold"
-        android:textSize="@dimen/textSizeTitolo"
         android:text="Chi sei?"/>
 
     <LinearLayout
@@ -39,16 +38,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/docente"
-                android:textSize="25dp"
                 android:layout_marginBottom="10dp"/>
 
             <RadioButton
                 android:id="@+id/radioAlunno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/alunno"
-                android:textSize="25dp"
-                />
+                android:text="@string/alunno"/>
         </RadioGroup>
 
     </LinearLayout>
@@ -59,7 +55,6 @@
         android:layout_height="wrap_content"
         android:text="@string/conferma"
         android:textAllCaps="false"
-        android:textSize="@dimen/textSizeButton"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"/>
 
