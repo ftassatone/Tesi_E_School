@@ -56,6 +56,10 @@
     <string name="erroreCampiVuoti">E obbligatorio compilare tutti i campi.</string>
     <string name="regitrazione">Registrati</string>
     <string name="homeClasse">Vai a home classe</string>
+    <string name="nuovoAlunno">Nuovo alunno</string>
+    <string name="Conferma">Fine</string>
+
+
 
 
     <string name="logout">Logout</string>

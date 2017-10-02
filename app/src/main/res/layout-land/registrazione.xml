@@ -22,6 +22,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:text="@string/nome"
                 android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
@@ -50,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/inserisci"
-                android:maxLines="1"
+                android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
             <EditText

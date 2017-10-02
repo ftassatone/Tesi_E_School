@@ -137,6 +137,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/cf"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/luogoNascita"
                 android:textSize="@dimen/textSize"
                 android:layout_marginLeft="@dimen/margineBordi"
@@ -150,16 +158,18 @@
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/telefono"
-                android:textSize="@dimen/textSize"
-                android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+
         </TableRow>
 
         <TableRow>
+            <EditText
+                android:id="@+id/cfAlunno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:maxLines="@integer/numeroRighe"
+                android:layout_marginLeft="@dimen/margineBordi"/>
+
             <EditText
                 android:id="@+id/luogoNascitaAlunno"
                 android:layout_width="wrap_content"
@@ -176,15 +186,7 @@
                 android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/margineBordi"/>
 
-            <EditText
-                android:id="@+id/telefonoAlunno"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/inserisci"
-                android:maxLines="@integer/numeroRighe"
-                android:inputType="number"
-                android:maxLength="@integer/lunghezzaNumero"
-                android:layout_marginLeft="@dimen/margineBordi"/>
+
 
         </TableRow>
 
@@ -193,6 +195,14 @@
             android:background="#FF909090" />
 
         <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/telefono"
+                android:textSize="@dimen/textSize"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginTop="@dimen/marginetop"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -219,6 +229,16 @@
         </TableRow>
 
         <TableRow>
+            <EditText
+                android:id="@+id/telefonoAlunno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/inserisci"
+                android:maxLines="@integer/numeroRighe"
+                android:inputType="number"
+                android:maxLength="@integer/lunghezzaNumero"
+                android:layout_marginLeft="@dimen/margineBordi"/>
+
             <EditText
                 android:id="@+id/cellulareAlunno"
                 android:layout_width="wrap_content"
@@ -252,18 +272,34 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageButton
+        <EditText
+            android:id="@+id/txtError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
             android:id="@+id/btConfermaAlunno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/conferma"/>
+            android:background="#00000000"
+            android:textAllCaps="false"
+            android:drawableTop="@android:drawable/ic_input_add"
+            android:text="@string/nuovoAlunno"
+            android:clickable="true"
+            android:textSize="@dimen/textSize"
+            android:textStyle="italic"/>
 
-        <ImageButton
+        <Button
             android:id="@+id/btFine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/checkbox_on_background"
-            android:layout_marginLeft="@dimen/marginetop"/>
+            android:background="#00000000"
+            android:textAllCaps="false"
+            android:drawableTop="@android:drawable/checkbox_on_background"
+            android:layout_marginLeft="@dimen/marginetop"
+            android:text="@string/conferma"
+            android:clickable="true"
+            android:textStyle="italic"/>
 
     </LinearLayout>
 
