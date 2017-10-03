@@ -3,7 +3,52 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/linearMenuHmDoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/txtParteDiagnostica"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/parteDiagnostica"
+            android:layout_marginLeft="@dimen/marginetop"
+            android:layout_marginTop="@dimen/marginetop"
+            android:textSize="@dimen/textSizeButton"
+            android:background="#00000000"
+            android:textAllCaps="false"
+            android:drawableLeft="@android:drawable/checkbox_on_background"
+            android:clickable="true"/>
+
+        <Button
+            android:id="@+id/btAggiungiClasse"
+            android:background="#00000000"
+            android:textAllCaps="false"
+            android:textSize="@dimen/textSizeButton"
+            android:drawableLeft="@android:drawable/ic_input_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/aggungiClasse"
+            android:layout_marginLeft="@dimen/margineBordi"
+            android:layout_marginTop="@dimen/marginetop"
+            android:clickable="true"/>
+
+        <Button
+            android:id="@+id/txtCaricaMateriale"
+            android:background="#00000000"
+            android:textAllCaps="false"
+            android:textSize="@dimen/textSizeButton"
+            android:drawableLeft="@android:drawable/checkbox_on_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Carica materiale"
+            android:layout_marginLeft="@dimen/margineBordi"
+            android:layout_marginTop="@dimen/marginetop"
+            android:clickable="true"/>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/relativeContenitore"

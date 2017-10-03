@@ -1,16 +1,8 @@
 package com.eschool.e_school;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerTabStrip;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -40,114 +32,156 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HomeDocente extends AppCompatActivity {
+    private TextView txtParteDiagnostica;
+    private String docente, radioMateria, radioClasse;
+    private String url = "http://www.eschooldb.altervista.org/PHP/loginDocente.php";
+    private RequestQueue requestQueue;
+    private ListView lvMaterie,lvClassi;
+    private AlertDialog.Builder infoAlert;
+    private RadioGroup rgClassi, rgMaterie;
+    private Button btVaiClasse,btAggiungiClasse;
+    private RadioButton[] rbMat,rbCl;
 
-    private FragmentPagerAdapter adapterViewPager;
-    private Button btHome;
-    private AlertDialog alertDialog;
-    private AlertDialog.Builder builder;
-
-    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.home_docente);
 
-        /* Per la barra con la guida
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.barra_con_guida);
-        actionBar.setDisplayShowCustomEnabled(true);
-        ((TextView)findViewById(R.id.title)).setText("Seleziona tipologia esercizio");
-        // ----------------------------------------*/
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Home docente"));
-        tabLayout.addTab(tabLayout.newTab().setText("Aggiungi classe"));
-        tabLayout.addTab(tabLayout.newTab().setText("Sezione diagnostica"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
+        infoAlert = new AlertDialog.Builder(HomeDocente.this);
 
-        ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
-        vpPager.setAdapter(adapterViewPager);
-        vpPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(onTabSelectedListener(vpPager));
+        txtParteDiagnostica = (TextView) findViewById(R.id.txtParteDiagnostica);
+        rgMaterie =(RadioGroup) findViewById(R.id.rgMaterie);
+        rgClassi =(RadioGroup) findViewById(R.id.rgClassi);
+        btVaiClasse = (Button) findViewById(R.id.btVaiClasse);
+        btAggiungiClasse = (Button) findViewById(R.id.btAggiungiClasse);
 
-
-
-
-        // Per settare il colore della barra sotto al nome del tab
-        /*PagerTabStrip pagerTabStrip = (PagerTabStrip)findViewById(R.id.pager_header);
-        pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.colorAccent));
-        pagerTabStrip.setDrawFullUnderline(true);
-        pagerTabStrip.setTextSpacing(-200);
-        // ---------------------------------------------------------*/
-
-    }
-
-    public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 3;
-
-        public MyPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-        }
-
-        @Override
-        public int getCount() {
-            return NUM_ITEMS;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return FirstFragment.newInstance(position,"");
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch(position){
-                case 0: return "Home";
-                case 1: return "Aggiungi classe";
-                case 2: return "Sezione diagnostica";
-            }
-            return "No name";
-        }
-
-    }
-
-    public void vaiHomeDocente (View v){
-        Log.d("DEBUG","cliccato color");
-        startActivity(new Intent(getApplicationContext(),HomeDocente.class));
-        finish();
-    }
-
-    public void vaiAggiungiClasse(View v){
-        Log.d("DEBUG","cliccato memo");
-        startActivity(new Intent(getApplicationContext(),AggiungiClasse.class));
-        finish();
-    }
-
-    public void vaiSezDiagnostica(View v){
-        Log.d("DEBUG","cliccato casa");
-        startActivity(new Intent(getApplicationContext(),SezioneDiagnostica.class));
-        finish();
-    }
-
-    private TabLayout.OnTabSelectedListener onTabSelectedListener(final ViewPager pager) {
-        return new TabLayout.OnTabSelectedListener() {
+        txtParteDiagnostica.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                pager.setCurrentItem(tab.getPosition());
+            public void onClick(View view) {
+                Intent i = new Intent(HomeDocente.this,SezioneDiagnostica.class);
+                startActivity(i);
             }
+        });
 
+        Bundle dato = getIntent().getExtras();
+        docente = dato.getString("username");
+        Log.v("LOG","nome doc"+docente);
+
+        connessione();
+
+        btVaiClasse.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+            public void onClick(View view) {
+                for(int i = 0; i < rbMat.length; i++){
+                    if(rbMat[i].isChecked()){
+                        radioMateria = rbMat.toString();
+                    }
+                }
 
+                for(int i = 0; i < rbCl.length; i++){
+                    if(rbCl[i].isChecked()){
+                        radioClasse = rbCl.toString();
+                    }
+                }
+
+                Intent vaiHomeClasse = new Intent(HomeDocente.this, HomeClasse.class);
+                vaiHomeClasse.putExtra("Materia",radioMateria);
+                vaiHomeClasse.putExtra("Classe",radioClasse);
+                startActivity(vaiHomeClasse);
             }
+        });
+
+        btAggiungiClasse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent vaiAggiungiClasse = new Intent(HomeDocente.this, AggiungiClasse.class);
+                startActivity(vaiAggiungiClasse);
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home_classe, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_impostazioni) {
+            //TODO vai a impostazioni
+            //Intent i = new Intent(HomeDocente.this,SezioneScegliClasse.class);
+            //startActivity(i);
+        }else if (id == R.id.action_logout){
+            Intent esci = new Intent(HomeDocente.this,Login.class);
+            startActivity(esci);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    //metodo per la connessione al server
+    public void connessione() {
+
+        new AsyncTask<Void, Void, Void>() {
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            protected Void doInBackground(Void... voids) {
+                HashMap<String, String> parametri = new HashMap<String, String>();
+                parametri.put("matricola", docente);
 
+                //richiesta di connessione al server
+                JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            JSONArray materie = response.getJSONArray("materie");
+                            rbMat = new RadioButton[materie.length()];
+
+                            for (int i = 0; i < materie.length(); i++) {
+                                rbMat[i] = new RadioButton(getApplicationContext());
+                                rbMat[i].setText(materie.getJSONObject(i).getString("nomeMateria"));
+                                rgMaterie.addView(rbMat[i]);
+                            }
+
+                            JSONArray classi = response.getJSONArray("classi");
+                            rbCl = new RadioButton[classi.length()];
+                            for (int i = 0; i < classi.length(); i++) {
+                                rbCl[i] = new RadioButton(getApplicationContext());
+                                rbCl[i].setText(classi.getJSONObject(i).getString("nomeClasse"));
+                                rgClassi.addView(rbCl[i]);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v("LOG","errore: "+error.toString());
+                        infoAlert.setTitle("Errore di connessione");
+                        infoAlert.setMessage("Controllare connessione internet e riprovare.");
+                        AlertDialog alert = infoAlert.create();
+                        alert.show();
+                    }
+                });
+                requestQueue.add(richiesta);
+                return null;
             }
-        };
+        }.execute();
     }
 
 }
-
 
