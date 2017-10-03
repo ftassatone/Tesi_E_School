@@ -9,8 +9,10 @@
 
     <!-- dimensioni del testo -->
     <dimen name="textSizeTitolo">30sp</dimen>
-    <dimen name="textSizeButton">25sp</dimen>
+    <dimen name="textSizeSottotitolo">25sp</dimen>
+    <dimen name="textSizeButton">22sp</dimen>
     <dimen name="textSize">20sp</dimen>
+    <dimen name="textInfo">15sp</dimen>
 
     <!-- margini -->
     <dimen name="margineBordi">100dp</dimen>

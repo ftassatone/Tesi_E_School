@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/logo_300"
+        android:src="@drawable/logo_250"
         android:layout_marginTop="30dp"/>
 
     <TextView
@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="30dp"
         android:layout_gravity="center"
-        android:textStyle="bold|italic"
+        android:textStyle="bold"
+        android:textSize="@dimen/textSizeTitolo"
         android:text="Chi sei?"/>
 
     <LinearLayout
@@ -56,11 +57,7 @@
         android:text="@string/conferma"
         android:textAllCaps="false"
         android:layout_marginTop="20dp"
+        android:textSize="@dimen/textSizeButton"
         android:layout_gravity="center"/>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_dialog_info"/>
 
 </LinearLayout>

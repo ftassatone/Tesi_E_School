@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:src="@drawable/logo_300" />
+        android:src="@drawable/logo_250" />
 
 
     <TextView
@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/pswdimenticata"
+        android:textSize="@dimen/textInfo"
         android:linksClickable="true"/>
 
     <Button
@@ -57,7 +58,8 @@
         android:text="@string/accedi"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/marginetop"
-        android:onClick="loginPost"/>
+        android:onClick="loginPost"
+        android:textSize="@dimen/textSizeButton"/>
 
     <TextView
         android:id="@+id/linkNuovoDoc"
@@ -66,5 +68,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/marginetop"
         android:text="@string/registraDocente"
-        android:linksClickable="true"/>
+        android:linksClickable="true"
+        android:textSize="@dimen/textInfo"/>
 </LinearLayout>

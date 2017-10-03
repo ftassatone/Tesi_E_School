@@ -3,77 +3,41 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/linearMenuHmDoc"
-        android:layout_width="wrap_content"
+
+
+    <RelativeLayout
+        android:id="@+id/relativeContenitore"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="@dimen/marginetop">
 
-        <Button
-            android:id="@+id/txtParteDiagnostica"
+        <TextView
+            android:id="@+id/txtAiuto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/parteDiagnostica"
             android:layout_marginLeft="@dimen/marginetop"
-            android:layout_marginTop="@dimen/marginetop"
-            android:background="#00000000"
-            android:textAllCaps="false"
-            android:textStyle="italic"
-            android:drawableTop="@android:drawable/checkbox_on_background"
-            android:clickable="true"/>
-
-        <Button
-            android:id="@+id/btAggiungiClasse"
-            android:background="#00000000"
-            android:textAllCaps="false"
-            android:drawableTop="@android:drawable/ic_input_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/aggungiClasse"
-            android:textStyle="italic"
-            android:layout_marginLeft="@dimen/margineBordi"
-            android:layout_marginTop="@dimen/marginetop"
-            android:clickable="true"/>
-
-        <Button
-            android:id="@+id/txtCaricaMateriale"
-            android:background="#00000000"
-            android:textStyle="italic"
-            android:textAllCaps="false"
-            android:drawableTop="@android:drawable/checkbox_on_background"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Carica materiale"
-            android:layout_marginLeft="@dimen/margineBordi"
-            android:layout_marginTop="@dimen/marginetop"
-            android:clickable="true"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+            android:layout_marginBottom="@dimen/marginetop"
+            android:text="Selezionare materia e classe in cui insegnare."/>
 
         <LinearLayout
             android:id="@+id/linearMaterie"
-            android:layout_width="500dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginLeft="@dimen/marginetop"
-            android:layout_marginTop="@dimen/marginetop">
+            android:layout_below="@id/txtAiuto"
+            android:layout_alignParentLeft="true">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/materie"
-                android:textStyle="bold"/>
+                android:textStyle="bold|italic"/>
 
             <RadioGroup
                 android:id="@+id/rgMaterie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -82,14 +46,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_toRightOf="@id/linearMaterie"
+            android:layout_below="@id/txtAiuto"
             android:layout_marginLeft="@dimen/margineBordi"
-            android:layout_marginTop="@dimen/marginetop">
+            android:layout_marginRight="@dimen/margineBordi">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/elencoClasse"
-                android:textStyle="bold"/>
+                android:textStyle="bold|italic"/>
 
             <RadioGroup
                 android:id="@+id/rgClassi"
@@ -98,35 +63,48 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btVaiClasse"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@android:drawable/ic_menu_edit"
-            android:background="#00000000"
-            android:text="@string/homeClasse"
-            android:textAllCaps="false"
+            android:layout_toRightOf="@id/linearClassi"
+            android:layout_below="@id/txtAiuto"
             android:layout_alignParentEnd="true"
-            android:layout_gravity="center"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/margineBordi"/>
+            android:layout_centerInParent="true">
+            <Button
+                android:id="@+id/btVaiClasse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@android:drawable/ic_menu_edit"
+                android:background="#00000000"
+                android:text="@string/homeClasse"
+                android:textSize="@dimen/textSizeButton"
+                android:textAllCaps="false"
+                android:layout_alignParentEnd="true"
+
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
 
 
-    </LinearLayout>
+
+    </RelativeLayout>
     <View
         android:layout_height="2dip"
         android:background="#FF909090"
-        android:layout_width="wrap_content" />
-
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/marginetop"/>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/marginetop">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lista argomenti svolti"
+            android:textStyle="bold|italic"
             android:layout_marginLeft="@dimen/marginetop"/>
+
     </LinearLayout>
     <!-- sezione per "ultime lezioni" -->
 </LinearLayout>
