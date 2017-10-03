@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -57,17 +58,27 @@ public class HomeDocente extends AppCompatActivity {
         actionBar.setDisplayShowCustomEnabled(true);
         ((TextView)findViewById(R.id.title)).setText("Seleziona tipologia esercizio");
         // ----------------------------------------*/
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Home docente"));
+        tabLayout.addTab(tabLayout.newTab().setText("Aggiungi classe"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sezione diagnostica"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
+        vpPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(onTabSelectedListener(vpPager));
+
+
+
 
         // Per settare il colore della barra sotto al nome del tab
-        PagerTabStrip pagerTabStrip = (PagerTabStrip)findViewById(R.id.pager_header);
+        /*PagerTabStrip pagerTabStrip = (PagerTabStrip)findViewById(R.id.pager_header);
         pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.colorAccent));
         pagerTabStrip.setDrawFullUnderline(true);
         pagerTabStrip.setTextSpacing(-200);
-        // ---------------------------------------------------------
+        // ---------------------------------------------------------*/
 
     }
 
@@ -116,6 +127,25 @@ public class HomeDocente extends AppCompatActivity {
         Log.d("DEBUG","cliccato casa");
         startActivity(new Intent(getApplicationContext(),SezioneDiagnostica.class));
         finish();
+    }
+
+    private TabLayout.OnTabSelectedListener onTabSelectedListener(final ViewPager pager) {
+        return new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                pager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        };
     }
 
 }
