@@ -118,7 +118,7 @@ public class Login extends AppCompatActivity{
                         }
                         if(c=="true"){
                             Log.v("LOG","sono qui");
-                            Intent vaiHomeDoc = new Intent(Login.this,HomeDocente.class);
+                            Intent vaiHomeDoc = new Intent(Login.this,FirstFragment.class);
                             vaiHomeDoc.putExtra("username",matricolaDoc);
                             startActivity(vaiHomeDoc);
                         }else if(c=="false") {

@@ -1,8 +1,12 @@
 package com.eschool.e_school;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,37 +36,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HomeDocente extends AppCompatActivity {
-    private TextView txtParteDiagnostica;
     private String docente, radioMateria, radioClasse;
     private String url = "http://www.eschooldb.altervista.org/PHP/loginDocente.php";
     private RequestQueue requestQueue;
-    private ListView lvMaterie,lvClassi;
     private AlertDialog.Builder infoAlert;
     private RadioGroup rgClassi, rgMaterie;
-    private Button btVaiClasse,btAggiungiClasse;
+    private Button btVaiClasse;
     private RadioButton[] rbMat,rbCl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_docente);
+        Log.v("LOG","home doc");
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         infoAlert = new AlertDialog.Builder(HomeDocente.this);
 
-        txtParteDiagnostica = (TextView) findViewById(R.id.txtParteDiagnostica);
         rgMaterie =(RadioGroup) findViewById(R.id.rgMaterie);
         rgClassi =(RadioGroup) findViewById(R.id.rgClassi);
         btVaiClasse = (Button) findViewById(R.id.btVaiClasse);
-        btAggiungiClasse = (Button) findViewById(R.id.btAggiungiClasse);
-
-        txtParteDiagnostica.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(HomeDocente.this,SezioneDiagnostica.class);
-                startActivity(i);
-            }
-        });
 
         Bundle dato = getIntent().getExtras();
         docente = dato.getString("username");
@@ -75,13 +68,14 @@ public class HomeDocente extends AppCompatActivity {
             public void onClick(View view) {
                 for(int i = 0; i < rbMat.length; i++){
                     if(rbMat[i].isChecked()){
-                        radioMateria = rbMat.toString();
+                        radioMateria = rbMat[i].toString();
+                        Log.v("LOG","mat "+ rbMat[i]);
                     }
                 }
 
                 for(int i = 0; i < rbCl.length; i++){
                     if(rbCl[i].isChecked()){
-                        radioClasse = rbCl.toString();
+                        radioClasse = rbCl[i].toString();
                     }
                 }
 
@@ -89,14 +83,6 @@ public class HomeDocente extends AppCompatActivity {
                 vaiHomeClasse.putExtra("Materia",radioMateria);
                 vaiHomeClasse.putExtra("Classe",radioClasse);
                 startActivity(vaiHomeClasse);
-            }
-        });
-
-        btAggiungiClasse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent vaiAggiungiClasse = new Intent(HomeDocente.this, AggiungiClasse.class);
-                startActivity(vaiAggiungiClasse);
             }
         });
 
@@ -182,6 +168,8 @@ public class HomeDocente extends AppCompatActivity {
             }
         }.execute();
     }
+
+
 
 }
 
