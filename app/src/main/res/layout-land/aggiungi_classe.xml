@@ -293,7 +293,7 @@
             android:layout_marginLeft="@dimen/marginetop"
             android:text="@string/conferma"
             android:clickable="true"
-            android:textStyle="italic"/>
+            android:textStyle="italic" />
 
     </LinearLayout>
 

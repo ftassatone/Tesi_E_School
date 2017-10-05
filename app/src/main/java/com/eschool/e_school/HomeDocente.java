@@ -50,7 +50,7 @@ public class HomeDocente extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.home_docente);
 
         /* Per la barra con la guida
         ActionBar actionBar = getSupportActionBar();
