@@ -108,10 +108,10 @@ public class HomeDocente extends AppCompatActivity {
     //metodo per la connessione al server
     public void connessione() {
 
-        new AsyncTask<Void, Void, Void>() {
+        /*new AsyncTask<Void, Void, Void>() {
 
             @Override
-            protected Void doInBackground(Void... voids) {
+            protected Void doInBackground(Void... voids) {*/
                 HashMap<String, String> parametri = new HashMap<String, String>();
                 parametri.put("matricola", docente);
 
@@ -154,9 +154,9 @@ public class HomeDocente extends AppCompatActivity {
                     }
                 });
                 requestQueue.add(richiesta);
-                return null;
+               /* return null;
             }
-        }.execute();
+        }.execute();*/
     }
 
 
