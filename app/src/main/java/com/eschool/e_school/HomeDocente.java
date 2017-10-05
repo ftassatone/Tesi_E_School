@@ -18,6 +18,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +53,7 @@ public class HomeDocente extends AppCompatActivity {
 
         connessione();
 
-        btVaiClasse.setOnClickListener(new View.OnClickListener() {
+       btVaiClasse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 for(int i = 0; i < rbMat.length; i++){
@@ -111,53 +112,54 @@ public class HomeDocente extends AppCompatActivity {
 
             @Override
             protected Void doInBackground(Void... voids) {*/
-        HashMap<String, String> parametri = new HashMap<String, String>();
-        parametri.put("matricola", docente);
+                HashMap<String, String> parametri = new HashMap<String, String>();
+                parametri.put("matricola", docente);
 
-        //richiesta di connessione al server
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
+                //richiesta di connessione al server
+                JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
 
-            @Override
-            public void onResponse(JSONObject response) {
+                    @Override
+                    public void onResponse(JSONObject response) {
 
-                try {
-                    JSONArray materie = response.getJSONArray("materie");
-                    rbMat = new RadioButton[materie.length()];
+                        try {
+                            JSONArray materie = response.getJSONArray("materie");
+                            rbMat = new RadioButton[materie.length()];
 
-                    for (int i = 0; i < materie.length(); i++) {
-                        rbMat[i] = new RadioButton(getApplicationContext());
-                        rbMat[i].setText(materie.getJSONObject(i).getString("nomeMateria"));
-                        rgMaterie.addView(rbMat[i]);
+                            for (int i = 0; i < materie.length(); i++) {
+                                rbMat[i] = new RadioButton(getApplicationContext());
+                                rbMat[i].setText(materie.getJSONObject(i).getString("nomeMateria"));
+                                rgMaterie.addView(rbMat[i]);
+                            }
+
+                            JSONArray classi = response.getJSONArray("classi");
+                            rbCl = new RadioButton[classi.length()];
+                            for (int i = 0; i < classi.length(); i++) {
+                                rbCl[i] = new RadioButton(getApplicationContext());
+                                rbCl[i].setText(classi.getJSONObject(i).getString("nomeClasse"));
+                                rgClassi.addView(rbCl[i]);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
+                }, new Response.ErrorListener() {
 
-                    JSONArray classi = response.getJSONArray("classi");
-                    rbCl = new RadioButton[classi.length()];
-                    for (int i = 0; i < classi.length(); i++) {
-                        rbCl[i] = new RadioButton(getApplicationContext());
-                        rbCl[i].setText(classi.getJSONObject(i).getString("nomeClasse"));
-                        rgClassi.addView(rbCl[i]);
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v("LOG","errore: "+error.toString());
+                        infoAlert.setTitle("Errore di connessione");
+                        infoAlert.setMessage("Controllare connessione internet e riprovare.");
+                        AlertDialog alert = infoAlert.create();
+                        alert.show();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                });
+                requestQueue.add(richiesta);
+               /* return null;
             }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.v("LOG", "errore: " + error.toString());
-                infoAlert.setTitle("Errore di connessione");
-                infoAlert.setMessage("Controllare connessione internet e riprovare.");
-                AlertDialog alert = infoAlert.create();
-                alert.show();
-            }
-        });
-        requestQueue.add(richiesta);
-                /*return null;
-            }
-        }.execute();
-    }*/
-
+        }.execute();*/
     }
 
+
+
 }
+

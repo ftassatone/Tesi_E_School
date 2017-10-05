@@ -63,9 +63,6 @@ public class HomeClasse extends AppCompatActivity
         materia = getIntent().getStringExtra("Materia");
         classe = getIntent().getStringExtra("Classe");
 
-
-
-
     }
 
     @Override

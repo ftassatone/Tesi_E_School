@@ -83,7 +83,7 @@ public class Login extends AppCompatActivity{
     // ricevuta la risposta (se esiste o meno lutenete loggato) reindirizza
     // alla homeDocente,inviando l'user dell'utenete loggato
     public void login(){
-        new AsyncTask<Void,Void,Void>(){
+        /*new AsyncTask<Void,Void,Void>(){
 
             @Override
             protected void onPreExecute() {
@@ -96,7 +96,7 @@ public class Login extends AppCompatActivity{
             }
 
             @Override
-            protected Void doInBackground(Void... voids) {
+            protected Void doInBackground(Void... voids) {*/
                 //raccolgo i dati inseriti dall'utente
                 HashMap<String,String> parametri = new HashMap<String, String>();
                 parametri.put("matricola",matricolaDoc);
@@ -112,7 +112,7 @@ public class Login extends AppCompatActivity{
                         String c ="";
                         Log.v("LOG","ris "+ response.toString());
                         try {
-                            c  = response.getString("ris");
+                           c  = response.getString("ris");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -141,10 +141,11 @@ public class Login extends AppCompatActivity{
                     }
                 });
                 requestQueue.add(richiesta);
-                return null;
+                //return null;
             }
 
-        }.execute();
+        //}.execute();
 
-    }
+   // }
+
 }

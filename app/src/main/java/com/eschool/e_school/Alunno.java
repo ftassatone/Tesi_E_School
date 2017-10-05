@@ -1,8 +1,5 @@
 package com.eschool.e_school;
 
-import java.io.StringReader;
-
-
 public class Alunno {
     String cf;
     String nome;

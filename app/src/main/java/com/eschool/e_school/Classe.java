@@ -1,6 +1,7 @@
 package com.eschool.e_school;
 
 public class Classe {
+
     String nomeClasse;
 
     public Classe (String nomeClasse){
