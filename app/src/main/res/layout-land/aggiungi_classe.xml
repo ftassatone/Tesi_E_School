@@ -133,7 +133,7 @@
                 android:text="@string/cf"
                 android:layout_marginLeft="@dimen/margineBordi"
                 android:layout_marginTop="@dimen/marginetop"/>
-                />
+            />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
