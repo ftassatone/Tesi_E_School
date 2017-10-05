@@ -64,14 +64,6 @@
             android:parentActivityName=".HomeDocente">
         </activity>
 
-        <activity android:name=".Home"
-            android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.Home" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
     </application>
 
 

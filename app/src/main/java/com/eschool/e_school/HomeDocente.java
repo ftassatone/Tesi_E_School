@@ -1,26 +1,17 @@
 package com.eschool.e_school;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,7 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HomeDocente extends AppCompatActivity {
@@ -63,7 +53,7 @@ public class HomeDocente extends AppCompatActivity {
 
         connessione();
 
-        btVaiClasse.setOnClickListener(new View.OnClickListener() {
+       btVaiClasse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 for(int i = 0; i < rbMat.length; i++){

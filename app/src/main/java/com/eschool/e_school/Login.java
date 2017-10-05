@@ -118,9 +118,9 @@ public class Login extends AppCompatActivity{
                         }
                         if(c=="true"){
                             Log.v("LOG","sono qui");
-                            Intent vaiHomeDoc = new Intent(Login.this,FirstFragment.class);
-                            vaiHomeDoc.putExtra("username",matricolaDoc);
-                            startActivity(vaiHomeDoc);
+                            Intent vai = new Intent(Login.this,HomeDocente.class);
+                            vai.putExtra("username",matricolaDoc);
+                            startActivity(vai);
                         }else if(c=="false") {
                             infoAlert.setTitle("Credenziali errate");
                             infoAlert.setMessage("Username o password errati, riprovare.");
