@@ -32,10 +32,6 @@
             android:parentActivityName=".Login">
         </activity>
 
-        <activity android:name=".HomeDocente"
-            android:screenOrientation="landscape">
-        </activity>
-
         <activity android:name=".HomeClasse"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar">
