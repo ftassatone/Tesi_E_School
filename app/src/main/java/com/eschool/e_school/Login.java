@@ -23,7 +23,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 public class Login extends AppCompatActivity{
-//ciao
+
     private EditText usernameTxt,passwordTxt;
     private Button btConfermaLogin, btRegistrazione;
     private TextView pswDimenticata,linkNuovoDoc;
