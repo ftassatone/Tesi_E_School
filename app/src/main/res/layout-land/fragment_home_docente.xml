@@ -1,0 +1,115 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.eschool.e_school.HomeDocenteFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/relativeContenitore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginetop">
+
+            <TextView
+                android:id="@+id/txtAiuto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/marginetop"
+                android:layout_marginBottom="@dimen/marginetop"
+                android:text="Selezionare materia e classe in cui insegnare."/>
+
+            <LinearLayout
+                android:id="@+id/linearMaterie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/marginetop"
+                android:layout_below="@id/txtAiuto"
+                android:layout_alignParentLeft="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/materie"
+                    android:textStyle="bold|italic"/>
+
+                <RadioGroup
+                    android:id="@+id/rgMaterie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearClassi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toRightOf="@id/linearMaterie"
+                android:layout_below="@id/txtAiuto"
+                android:layout_marginLeft="@dimen/margineBordi"
+                android:layout_marginRight="@dimen/margineBordi">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/elencoClasse"
+                    android:textStyle="bold|italic"/>
+
+                <RadioGroup
+                    android:id="@+id/rgClassi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/linearClassi"
+                android:layout_below="@id/txtAiuto"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true">
+
+                <Button
+                    android:id="@+id/btVaiClasse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@android:drawable/ic_menu_edit"
+                    android:background="#00000000"
+                    android:text="@string/homeClasse"
+                    android:textSize="@dimen/textSizeButton"
+                    android:textAllCaps="false"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_height="2dip"
+            android:background="#FF909090"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/marginetop"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginetop">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lista argomenti svolti"
+                android:textStyle="bold|italic"
+                android:layout_marginLeft="@dimen/marginetop"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

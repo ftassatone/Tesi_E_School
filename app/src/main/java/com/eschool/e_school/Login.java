@@ -1,7 +1,6 @@
 package com.eschool.e_school;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +24,7 @@ import java.util.HashMap;
 public class Login extends AppCompatActivity{
 
     private EditText usernameTxt,passwordTxt;
-    private Button btConfermaLogin, btRegistrazione;
+    private Button btConfermaLogin;
     private TextView pswDimenticata,linkNuovoDoc;
     private String urlLogin = "http://www.eschooldb.altervista.org/PHP/login.php";
     private String matricolaDoc, pswDoc;
@@ -83,69 +82,51 @@ public class Login extends AppCompatActivity{
     // ricevuta la risposta (se esiste o meno lutenete loggato) reindirizza
     // alla homeDocente,inviando l'user dell'utenete loggato
     public void login(){
-        /*new AsyncTask<Void,Void,Void>(){
+        //raccolgo i dati inseriti dall'utente
+        HashMap<String,String> parametri = new HashMap<String, String>();
+        parametri.put("matricola",matricolaDoc);
+        parametri.put("password",pswDoc);
+
+        Log.v("LOG","parametri "+ parametri);
+
+        //richiesta di connessione al server
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlLogin, parametri, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                String c ="";
+                Log.v("LOG","ris "+ response.toString());
+                try {
+                    c  = response.getString("ris");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(c=="true"){
+                    Log.v("LOG","sono qui");
+                    //Intent vai = new Intent(Login.this,HomeDocente.class);
+                    Intent vai = new Intent(getApplicationContext(),Home.class);
+                    vai.putExtra("username",matricolaDoc);
+                    startActivity(vai);
+                }else if(c=="false") {
+                    infoAlert.setTitle("Credenziali errate");
+                    infoAlert.setMessage("Username o password errati, riprovare.");
+                    AlertDialog alert = infoAlert.create();
+                    alert.show();
+                }
+            }
+        }, new Response.ErrorListener() {
 
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            public void onErrorResponse(VolleyError error) {
+                Log.v("LOG","errore "+ error.toString());
+
+                infoAlert.setTitle("Errore di connessione");
+                infoAlert.setMessage("Controllare connessione internet e riprovare.");
+                AlertDialog alert = infoAlert.create();
+                alert.show();
             }
+        });
+        requestQueue.add(richiesta);
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-            }
-
-            @Override
-            protected Void doInBackground(Void... voids) {*/
-                //raccolgo i dati inseriti dall'utente
-                HashMap<String,String> parametri = new HashMap<String, String>();
-                parametri.put("matricola",matricolaDoc);
-                parametri.put("password",pswDoc);
-
-                Log.v("LOG","parametri "+ parametri);
-
-                //richiesta di connessione al server
-                JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlLogin, parametri, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        String c ="";
-                        Log.v("LOG","ris "+ response.toString());
-                        try {
-                           c  = response.getString("ris");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        if(c=="true"){
-                            Log.v("LOG","sono qui");
-                            Intent vai = new Intent(Login.this,HomeDocente.class);
-                            vai.putExtra("username",matricolaDoc);
-                            startActivity(vai);
-                        }else if(c=="false") {
-                            infoAlert.setTitle("Credenziali errate");
-                            infoAlert.setMessage("Username o password errati, riprovare.");
-                            AlertDialog alert = infoAlert.create();
-                            alert.show();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.v("LOG","errore "+ error.toString());
-
-                        infoAlert.setTitle("Errore di connessione");
-                        infoAlert.setMessage("Controllare connessione internet e riprovare.");
-                        AlertDialog alert = infoAlert.create();
-                        alert.show();
-                    }
-                });
-                requestQueue.add(richiesta);
-                //return null;
-            }
-
-        //}.execute();
-
-   // }
+    }
 
 }
