@@ -36,32 +36,9 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".AggiungiClasse"
-            android:parentActivityName=".SezioneScegliClasse"
-            android:screenOrientation="landscape" >
-        </activity>
-        <activity
-            android:name=".Registro"
-            android:parentActivityName=".SezioneScegliClasse"
-            android:screenOrientation="landscape" >
-        </activity>
-        <activity
             android:name=".SchedaAlunno"
             android:screenOrientation="landscape" >
         </activity>
-        <activity
-            android:name=".SezioneDiagnostica"
-            android:screenOrientation="landscape" >
-        </activity>
-        <activity
-            android:name=".SezioneScegliClasse"
-            android:parentActivityName=".HomeDocente"
-            android:screenOrientation="landscape" >
-        </activity>
-        <!--activity
-            android:name=".HomeDocente"
-            android:screenOrientation="landscape" >
-        </activity-->
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
