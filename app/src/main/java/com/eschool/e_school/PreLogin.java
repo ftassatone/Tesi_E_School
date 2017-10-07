@@ -64,5 +64,4 @@ public class PreLogin extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

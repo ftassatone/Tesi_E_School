@@ -10,6 +10,17 @@
         android:layout_marginTop="30dp"
         android:src="@drawable/logo_250" />
 
+    <TextView
+        android:id="@+id/txtCredenzialiErrate"
+        android:visibility="invisible"
+        android:drawableLeft="@android:drawable/ic_dialog_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#E10000"
+        android:gravity="center"
+        android:text="Username o password errati. Riprovare."
+        android:layout_gravity="center"
+        android:paddingTop="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,6 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/passwordTxt"
+        android:password="true"
         android:layout_gravity="center"/>
 
     <TextView

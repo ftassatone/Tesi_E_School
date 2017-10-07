@@ -14,4 +14,9 @@ public class Registro extends AppCompatActivity {
         //getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
 }

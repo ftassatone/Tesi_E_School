@@ -159,7 +159,7 @@ public class Registrazione extends AppCompatActivity {
             alert.show();
         }
         });
-        requestQueue.add(richiesta);
+                requestQueue.add(richiesta);
     }
 
 }
