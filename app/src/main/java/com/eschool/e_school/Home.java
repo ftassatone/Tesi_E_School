@@ -125,4 +125,9 @@ public class Home extends AppCompatActivity {
             return null;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

@@ -1,10 +1,13 @@
 package com.eschool.e_school;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -70,29 +73,67 @@ public class Registrazione extends AppCompatActivity {
     }
 
     private void aquisiszioneDati(){
-        nome = nomeDoc.getText().toString();
-        cognome = cognomeDoc.getText().toString();
-        datanascita = dataNascitaDoc.getText().toString();
-        luogoNascita = luogoNascitaDoc.getText().toString();
-        cf = cfDoc.getText().toString();
-        residenza = residenzaDoc.getText().toString();
-        telefono = telefonoDoc.getText().toString();
-        cellulare = cellulareDoc.getText().toString();
-        email = emailDoc.getText().toString();
-        matricola = matricolaDoc.getText().toString();
-        psw = pswDoc.getText().toString();
-        confermaPsw = confermaPswDoc.getText().toString();
+        nome = nomeDoc.getText().toString().trim();
+        cognome = cognomeDoc.getText().toString().trim();
+        datanascita = dataNascitaDoc.getText().toString().trim();
+        luogoNascita = luogoNascitaDoc.getText().toString().trim();
+        cf = cfDoc.getText().toString().trim();
+        residenza = residenzaDoc.getText().toString().trim();
+        telefono = telefonoDoc.getText().toString().trim();
+        cellulare = cellulareDoc.getText().toString().trim();
+        email = emailDoc.getText().toString().trim();
+        matricola = matricolaDoc.getText().toString().trim();
+        psw = pswDoc.getText().toString().trim();
+        confermaPsw = confermaPswDoc.getText().toString().trim();
     }
 
     public boolean controllo(){
         if(nome.equals("") || cognome.equals("") || datanascita.equals("")|| luogoNascita.equals("") || cf.equals("") || residenza.equals("")
                 || telefono.equals("") || cellulare.equals("") || email.equals("") || matricola.equals("") || psw.equals("")){
-            txtErrore.setText(R.string.erroreCampiVuoti);
+            txtErrore.setTextColor(Color.RED);
             return false;
         }
 
         if(!psw.equals(confermaPsw) ){
-            txtErrore.setText(R.string.erroreCorrispondenza);
+            pswDoc.setTextColor(Color.RED);
+            pswDoc.setError("Le password non corrispondono");
+            pswDoc.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    pswDoc.setTextColor(Color.BLACK);
+                    pswDoc.setError(null);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
+            confermaPswDoc.setTextColor(Color.RED);
+            confermaPswDoc.setError("Le password non corrispondono");
+            confermaPswDoc.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    confermaPswDoc.setTextColor(Color.BLACK);
+                    confermaPswDoc.setError(null);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
             return false;
         }
         /*if(cf.length()!=16) {
@@ -160,6 +201,11 @@ public class Registrazione extends AppCompatActivity {
         }
         });
                 requestQueue.add(richiesta);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
 }
