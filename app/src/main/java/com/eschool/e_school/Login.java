@@ -79,7 +79,7 @@ public class Login extends AppCompatActivity{
     }
 
     //metodo di login, acquisisce i dati dalle editText e le invia al server,
-    // ricevuta la risposta (se esiste o meno lutenete loggato) reindirizza
+    // ricevuta la risposta (se esiste o meno l'utenete loggato) reindirizza
     // alla homeDocente,inviando l'user dell'utenete loggato
     public void login(){
         //raccolgo i dati inseriti dall'utente
@@ -102,7 +102,6 @@ public class Login extends AppCompatActivity{
                 }
                 if(c=="true"){
                     Log.v("LOG","sono qui");
-                    //Intent vai = new Intent(Login.this,HomeDocente.class);
                     Intent vai = new Intent(getApplicationContext(),Home.class);
                     vai.putExtra("username",matricolaDoc);
                     startActivity(vai);

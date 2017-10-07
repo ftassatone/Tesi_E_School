@@ -5,9 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-/**
- * Created by LenovoZ70 on 17/09/2017.
- */
 public class SchedaAlunno extends AppCompatActivity {
 
     @Override

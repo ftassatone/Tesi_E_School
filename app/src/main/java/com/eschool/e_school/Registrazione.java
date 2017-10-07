@@ -1,7 +1,6 @@
 package com.eschool.e_school;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -105,81 +104,62 @@ public class Registrazione extends AppCompatActivity {
     }
 
     public void registrazione(){
-        new AsyncTask<Void,Void,Void>(){
+        //raccolgo i dati inseriti dall'utente
+        HashMap<String,String> parametri = new HashMap<String, String>();
 
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
+        parametri.put("matricola",matricola);
+        parametri.put("nome",nome);
+        parametri.put("cognome",cognome);
+        parametri.put("cf",cf);
+        parametri.put("dataNascita",datanascita);
+        parametri.put("luogoNascita",luogoNascita);
+        parametri.put("residenza",residenza);
+        parametri.put("numeroTelefono",telefono);
+        parametri.put("cellulare",cellulare);
+        parametri.put("email",email);
+        parametri.put("password",psw);
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-            }
+        Log.v("LOG","parametri "+ parametri);
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                //raccolgo i dati inseriti dall'utente
-                HashMap<String,String> parametri = new HashMap<String, String>();
+        //richiesta di connessione al server
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlRegistrazione, parametri, new Response.Listener<JSONObject>() {
 
-                parametri.put("matricola",matricola);
-                parametri.put("nome",nome);
-                parametri.put("cognome",cognome);
-                parametri.put("cf",cf);
-                parametri.put("dataNascita",datanascita);
-                parametri.put("luogoNascita",luogoNascita);
-                parametri.put("residenza",residenza);
-                parametri.put("numeroTelefono",telefono);
-                parametri.put("cellulare",cellulare);
-                parametri.put("email",email);
-                parametri.put("password",psw);
+        @Override
+        public void onResponse(JSONObject response) {
+            String c ="";
+            Log.v("LOG","ris "+ response.toString());
+            try {
+                c  = response.getString("risposta");
+            } catch (JSONException e) {
+                 e.printStackTrace();
+             }
+             if(c!=""){
+                 Log.v("LOG","sono qui");
+                 Intent vaiLogin = new Intent(Registrazione.this,Login.class);
+                 startActivity(vaiLogin);
+                 Toast toast = Toast.makeText(getApplicationContext(),c,Toast.LENGTH_LONG);
+                 toast.show();
 
-                Log.v("LOG","parametri "+ parametri);
+             }else if(c=="") {
+                 infoAlert.setTitle("Errore");
+                 infoAlert.setMessage("Errore");
+                 AlertDialog alert = infoAlert.create();
+                 alert.show();
+             }
+        }
+        }, new Response.ErrorListener() {
 
-                //richiesta di connessione al server
-                JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlRegistrazione, parametri, new Response.Listener<JSONObject>() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.v("LOG","errore "+ error.toString());
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        String c ="";
-                        Log.v("LOG","ris "+ response.toString());
-                        try {
-                            c  = response.getString("risposta");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        if(c!=""){
-                            Log.v("LOG","sono qui");
-                            Intent vaiLogin = new Intent(Registrazione.this,Login.class);
-                            startActivity(vaiLogin);
-                            Toast toast = Toast.makeText(getApplicationContext(),c,Toast.LENGTH_LONG);
-                            toast.show();
-
-                        }else if(c=="") {
-                            infoAlert.setTitle("Errore");
-                            infoAlert.setMessage("Errore");
-                            AlertDialog alert = infoAlert.create();
-                            alert.show();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.v("LOG","errore "+ error.toString());
-
-                        infoAlert.setTitle("Errore di connessione");
-                        infoAlert.setMessage("Controllare connessione internet e riprovare.");
-                        AlertDialog alert = infoAlert.create();
-                        alert.show();
-                    }
-                });
-                requestQueue.add(richiesta);
-                return null;
-            }
-
-        }.execute();
-
+            infoAlert.setTitle("Errore di connessione");
+            infoAlert.setMessage("Controllare connessione internet e riprovare.");
+            AlertDialog alert = infoAlert.create();
+            alert.show();
+        }
+        });
+        requestQueue.add(richiesta);
     }
 
 }
