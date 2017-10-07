@@ -41,4 +41,6 @@ public class Alunno {
     public void setCf(String cf) {
         this.cf = cf;
     }
+
+
 }

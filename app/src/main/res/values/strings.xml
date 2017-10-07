@@ -7,7 +7,7 @@
     <string name="action_settings">Settings</string>
 
     <string name="usernameTxt">Inserisci username</string>
-    <string name="passwordTxt">Inserisci password</string>
+    <string name="passwordTxt">Inserisci password*</string>
     <string name="docente">Docente</string>
     <string name="alunno">Alunno</string>
     <string name="conferma">Conferma</string>
@@ -30,15 +30,15 @@
     <string name="listaClassi">Elenco classi</string>
 
     <!-- form aggiungi alunno -->
-    <string name="cf">Codice fiscale</string>
-    <string name="nome">Nome</string>
-    <string name="cognome">Cognome</string>
-    <string name="dataNascita">Data di nascita (AAAA-MM-GG)</string>
-    <string name="luogoNascita">Luogo di nascita</string>
-    <string name="residenza">Residenza</string>
-    <string name="email">E-mail</string>
-    <string name="telefono">Numero di telefono</string>
-    <string name="Cellulare">Cellulare</string>
+    <string name="cf">Codice fiscale*</string>
+    <string name="nome">Nome*</string>
+    <string name="cognome">Cognome*</string>
+    <string name="dataNascita">Data di nascita (AAAA-MM-GG)*</string>
+    <string name="luogoNascita">Luogo di nascita*</string>
+    <string name="residenza">Residenza*</string>
+    <string name="email">E-mail*</string>
+    <string name="telefono">Numero di telefono*</string>
+    <string name="Cellulare">Cellulare*</string>
     <string name="opzDsa">DSA</string>
     <string name="inserisci">Inserisci...</string>
     <string name="aggungiClasse">Aggiungi classe</string>
@@ -49,11 +49,11 @@
     <string name="infoAccesso">Informazioni per l accesso al sistema</string>
     <string name="infoClasse">Informazioni classe</string>
     <string name="modifica">Modifica</string>
-    <string name="matricola">Matricola</string>
-    <string name="confermaPsw">Conferma la password</string>
+    <string name="matricola">Matricola*</string>
+    <string name="confermaPsw">Conferma la password*</string>
     <string name="infoMatricola">N.B. La matricola verrà usata come username al momento dell accesso al sistema.</string>
     <string name="erroreCorrispondenza">Le password non corrispondono.</string>
-    <string name="erroreCampiVuoti">E obbligatorio compilare tutti i campi.</string>
+    <string name="erroreCampiVuoti">*E obbligatorio compilare tutti i campi.</string>
     <string name="regitrazione">Registrati</string>
     <string name="homeClasse">Vai a home classe</string>
     <string name="nuovoAlunno">Nuovo alunno</string>
