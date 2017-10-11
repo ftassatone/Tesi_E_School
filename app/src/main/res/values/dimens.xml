@@ -17,6 +17,7 @@
     <!-- margini -->
     <dimen name="margineBordi">100dp</dimen>
     <dimen name="marginetop">20dp</dimen>
+    <dimen name="minimoMwarginetop">5dp</dimen>
 
     <!-- lunghezze -->
     <integer name="lunghezzaCf">16</integer>
