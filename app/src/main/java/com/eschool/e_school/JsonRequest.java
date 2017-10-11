@@ -26,6 +26,13 @@ public class JsonRequest  extends Request {
         this.listener = responseListener;
     }
 
+    public JsonRequest(int requestMethod, String url,
+                       Response.Listener responseListener, Response.ErrorListener errorListener) {
+
+        super(requestMethod, url, errorListener);
+        this.listener = responseListener;
+    }
+
     @Override
     protected void deliverResponse(Object response) {
         listener.onResponse(response);
