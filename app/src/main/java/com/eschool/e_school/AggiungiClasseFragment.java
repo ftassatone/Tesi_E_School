@@ -39,7 +39,7 @@ public class AggiungiClasseFragment extends Fragment {
     private CheckBox opzDsaAlunno;
     private String classeTxt, sezioneTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, cfAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt,
             telefonoAlunnoTxt, cellulareAlunnoTxt, emailAlunnoTxt;
-
+    private boolean opzioneDsa =false;
     public AggiungiClasseFragment() {
         // Required empty public constructor
     }
@@ -153,24 +153,17 @@ public class AggiungiClasseFragment extends Fragment {
         telefonoAlunnoTxt = telefonoAlunno.getText().toString();
         cellulareAlunnoTxt = cellulareAlunno.getText().toString();
         emailAlunnoTxt = emailAlunno.getText().toString();
+        if(opzDsaAlunno.isChecked()) {
+            opzioneDsa = true;
+        }
+
 
     }
 
     public void aggiungiNuovoAlunno(){
         //raccolgo i dati inseriti dall'utente
-        HashMap<String, String> parametri = new HashMap<String, String>();
-
-        parametri.put("cf", cfAlunnoTxt);
-        parametri.put("nome", nomeAlunnoTxt);
-        parametri.put("cognome", cognomeAlunnoTxt);
-        parametri.put("dataNascita", dataNascitaAlunnoTxt);
-        parametri.put("luogoNascita", luogoNascitaAlunnoTxt);
-        parametri.put("residenza", residenzaAlunnoTxt);
-        parametri.put("numeroTelefono", telefonoAlunnoTxt);
-        parametri.put("cellulare", cellulareAlunnoTxt);
-        parametri.put("email", emailAlunnoTxt);
-        //dsa
-        parametri.put("nomeClasse", classeTxt+sezioneTxt);
+       //Alunno a = new Alunno(cfAlunnoTxt,nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt,luogoNascitaAlunnoTxt,
+              // residenzaAlunnoTxt,telefonoAlunnoTxt,cellulareAlunnoTxt,emailAlunnoTxt,opzioneDsa,)
     }
 
 

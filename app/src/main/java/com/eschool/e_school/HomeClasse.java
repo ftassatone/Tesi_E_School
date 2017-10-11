@@ -122,5 +122,9 @@ public class HomeClasse extends AppCompatActivity
         return true;
     }
 
+    public void connessione(){
+
+    }
+
 
 }

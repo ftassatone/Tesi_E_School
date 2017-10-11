@@ -1,9 +1,12 @@
 package com.eschool.e_school;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +28,7 @@ public class Login extends AppCompatActivity{
 
     private EditText usernameTxt,passwordTxt;
     private Button btConfermaLogin;
-    private TextView pswDimenticata,linkNuovoDoc;
+    private TextView pswDimenticata,linkNuovoDoc, txtCredenzialiErrate;
     private String urlLogin = "http://www.eschooldb.altervista.org/PHP/login.php";
     private String matricolaDoc, pswDoc;
     private RequestQueue requestQueue;
@@ -41,6 +44,7 @@ public class Login extends AppCompatActivity{
         btConfermaLogin = (Button) findViewById(R.id.btConfermaLogin);
         pswDimenticata = (TextView) findViewById(R.id.linkPswDimenticata);
         linkNuovoDoc = (TextView) findViewById(R.id.linkNuovoDoc);
+        txtCredenzialiErrate = (TextView) findViewById(R.id.txtCredenzialiErrate);
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         infoAlert = new AlertDialog.Builder(Login.this);
@@ -60,10 +64,49 @@ public class Login extends AppCompatActivity{
         btConfermaLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                matricolaDoc = usernameTxt.getText().toString();
-                pswDoc = passwordTxt.getText().toString();
+                if(usernameTxt.getText().toString().trim().length()!= 0 || passwordTxt.getText().toString().trim().length() != 0){
+                    matricolaDoc = usernameTxt.getText().toString().trim();
+                    pswDoc = passwordTxt.getText().toString().trim();
+                    login();
+                }else{
+                    usernameTxt.setError("Inserire username");
+                    usernameTxt.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            usernameTxt.setTextColor(Color.BLACK);
+                            usernameTxt.setError(null);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
+                    passwordTxt.setError("Inserire password");
+                    passwordTxt.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            passwordTxt.setTextColor(Color.BLACK);
+                            passwordTxt.setError(null);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
+                }
                 Log.v("LOG","par "+matricolaDoc +", "+ pswDoc);
-                login();
 
             }
         });
@@ -105,11 +148,50 @@ public class Login extends AppCompatActivity{
                     Intent vai = new Intent(getApplicationContext(),Home.class);
                     vai.putExtra("username",matricolaDoc);
                     startActivity(vai);
+                    finish();
                 }else if(c=="false") {
-                    infoAlert.setTitle("Credenziali errate");
+                    /*infoAlert.setTitle("Credenziali errate");
                     infoAlert.setMessage("Username o password errati, riprovare.");
                     AlertDialog alert = infoAlert.create();
-                    alert.show();
+                    alert.show();*/
+                    txtCredenzialiErrate.setVisibility(View.VISIBLE);
+                    usernameTxt.setTextColor(Color.RED);
+                    usernameTxt.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            usernameTxt.setTextColor(Color.BLACK);
+                            usernameTxt.setError(null);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
+
+                    passwordTxt.setTextColor(Color.RED);
+                    passwordTxt.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            passwordTxt.setTextColor(Color.BLACK);
+                            passwordTxt.setError(null);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
                 }
             }
         }, new Response.ErrorListener() {
@@ -125,6 +207,11 @@ public class Login extends AppCompatActivity{
             }
         });
         requestQueue.add(richiesta);
+
+    }
+
+    @Override
+    public void onBackPressed() {
 
     }
 
