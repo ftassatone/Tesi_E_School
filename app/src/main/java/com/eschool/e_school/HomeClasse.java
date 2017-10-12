@@ -1,5 +1,6 @@
 package com.eschool.e_school;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HomeClasse extends AppCompatActivity
@@ -32,6 +34,8 @@ public class HomeClasse extends AppCompatActivity
 
     private ListView listViewElencoClassi, listViewProgramma;
     private String materia, classe;
+    private String url = "http://www.eschooldb.altervista.org/PHP/homeClasse.php";
+    private ArrayList elencoAlunni,programma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +45,6 @@ public class HomeClasse extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                Intent i = new Intent(HomeClasse.this, Registro.class);
-                startActivity(i);
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -59,6 +53,9 @@ public class HomeClasse extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        listViewElencoClassi = (ListView) findViewById(R.id.listViewElencoClasse);
+        listViewProgramma = (ListView) findViewById(R.id.listViewProgramma);
 
         materia = getIntent().getStringExtra("Materia");
         classe = getIntent().getStringExtra("Classe");
@@ -123,7 +120,35 @@ public class HomeClasse extends AppCompatActivity
     }
 
     public void connessione(){
+        HashMap<String, String> parametri = new HashMap<String, String>();
+        parametri.put("materia", materia);
+        parametri.put("nomeClasse",classe);
 
+        //richiesta di connessione al server
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                elencoAlunni = new ArrayList();
+                programma = new ArrayList();
+                try {
+                    JSONArray elenco = response.getJSONArray("elenco");
+                    for(int i =0; i < elenco.length(); i++){
+                        elencoAlunni.add(elenco.getJSONObject(i).getString(""));
+
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
     }
 
 
