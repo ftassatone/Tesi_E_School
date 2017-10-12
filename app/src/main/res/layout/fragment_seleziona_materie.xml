@@ -2,20 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.eschool.e_school.SelezionaMateria">
+    tools:context="com.eschool.e_school.SelezionaMaterie">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
+        android:id="@+id/linearMaterie"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/frameMaterie">
-
-        </FrameLayout>
+        android:orientation="vertical">
     </LinearLayout>
 
 </FrameLayout>

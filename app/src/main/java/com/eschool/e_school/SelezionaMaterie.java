@@ -4,11 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,22 +25,23 @@ import org.json.JSONObject;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SelezionaMateria.OnFragmentInteractionListener} interface
+ * {@link SelezionaMaterie.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SelezionaMateria#newInstance} factory method to
+ * Use the {@link SelezionaMaterie#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SelezionaMateria extends Fragment {
+public class SelezionaMaterie extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private CheckBox[] materia;
-    private RequestQueue requestQueue;
-    private String url = "http://www.eschooldb.altervista.org/PHP/getMaterieClassi.php";
-    private FrameLayout frameMaterie;
+    // TODO: Rename and change types of parameters
 
+    private String urlMteria = "http://www.eschooldb.altervista.org/PHP/getMaterieClassi.php";
+    private RequestQueue requestQueue;
+    private CheckBox[] mat;
+    private LinearLayout linearMaterie;
     private OnFragmentInteractionListener mListener;
 
-    public SelezionaMateria() {
+    public SelezionaMaterie() {
         // Required empty public constructor
     }
 
@@ -49,12 +51,11 @@ public class SelezionaMateria extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SelezionaMateria.
+     * @return A new instance of fragment SelezionaMaterie.
      */
     // TODO: Rename and change types and number of parameters
-    public static SelezionaMateria newInstance(String param1, String param2) {
-        SelezionaMateria fragment = new SelezionaMateria();
-
+    public static SelezionaMaterie newInstance(String param1, String param2) {
+        SelezionaMaterie fragment = new SelezionaMaterie();
 
         return fragment;
     }
@@ -69,9 +70,10 @@ public class SelezionaMateria extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_seleziona_materia, container, false);
+        View view = inflater.inflate(R.layout.fragment_seleziona_materie, container, false);
+
+        linearMaterie = (LinearLayout) view.findViewById(R.id.linearMaterie);
         requestQueue = Volley.newRequestQueue(getContext());
-        frameMaterie = (FrameLayout) view.findViewById(R.id.frameMaterie);
 
         connessione();
         return view;
@@ -101,31 +103,6 @@ public class SelezionaMateria extends Fragment {
         mListener = null;
     }
 
-    public void connessione(){
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-
-                    JSONArray materie = response.getJSONArray("materie");
-                    for(int i=0; i<materie.length(); i++){
-                        materia[i] = new CheckBox(getContext());
-                        materia[i].setText(materie.getJSONObject(i).getString("nomeMateria"));
-                        //frameMaterie.
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        requestQueue.add(richiesta);
-    }
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -139,5 +116,33 @@ public class SelezionaMateria extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void connessione(){
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlMteria, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray materie = response.getJSONArray("materie");
+                    Log.v("LOG", "nomeMateria" +materie);
+                    mat = new CheckBox[materie.length()];
+
+                    for(int i=0; i<materie.length(); i++){
+                        mat[i] = new CheckBox(getContext());
+                        mat[i].setText(materie.getJSONObject(i).getString("nomeMateria"));
+                        linearMaterie.addView(mat[i]);
+                    }
+                } catch (JSONException e) {
+                    Log.v("LOG", "e"+e.toString());
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.v("LOG", "error"+error.toString());
+            }
+        });
+        requestQueue.add(richiesta);
     }
 }

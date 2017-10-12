@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,15 +36,16 @@ import java.util.HashMap;
 public class Registrazione extends AppCompatActivity {
     private EditText nomeDoc,cognomeDoc,dataNascitaDoc,luogoNascitaDoc,residenzaDoc,cfDoc,cellulareDoc, telefonoDoc, emailDoc;
     private EditText matricolaDoc,pswDoc,confermaPswDoc;
-    private Button btConfermaRegistrazione, btSelezionaMateria, btSelezionaClasse;
+    private Button btConfermaRegistrazione, btSelezionaMaterie, btSelezionaClassi;
     private String nome, cognome, datanascita, luogoNascita, residenza, cf, cellulare, telefono, email, matricola, psw, confermaPsw;
     private TextView txtErrore, txtCf;
     private String urlRegistrazione = "http://www.eschooldb.altervista.org/PHP/registrazione.php";
-    private String urlSpinner = "http://www.eschooldb.altervista.org/PHP/getMaterieClassi.php";
-    private AlertDialog seleziona;
+    private String urlMteriaClasse = "http://www.eschooldb.altervista.org/PHP/getMaterieClassi.php";
+    private AlertDialog alertDialog;
     private AlertDialog.Builder infoAlert, builder;
     private RequestQueue requestQueue;
-    //private Spinner spinnerMaterie, spinnerClassi;
+    private FrameLayout frameMaterie, frameClassi;
+    private LinearLayout linearMaterie, linearClassi;
     private CheckBox[] mat, clas;
 
 
@@ -67,14 +70,16 @@ public class Registrazione extends AppCompatActivity {
         txtErrore = (TextView) findViewById(R.id.txtErrore);
         btConfermaRegistrazione = (Button) findViewById(R.id.btConfermaRegistrazione);
         infoAlert = new AlertDialog.Builder(Registrazione.this);
+        builder = new AlertDialog.Builder(Registrazione.this);
         txtCf = (TextView) findViewById(R.id.txtCf);
-        //spinnerMaterie = (Spinner) findViewById(R.id.spinnerMaterie);
-        //spinnerClassi = (Spinner) findViewById(R.id.spinnerClassi);
-        btSelezionaMateria = (Button) findViewById(R.id.btSelezionaMateria);
-        btSelezionaClasse = (Button) findViewById(R.id.btSelezionaClasse);
+        linearMaterie = (LinearLayout) findViewById(R.id.linearMaterie);
+        linearClassi = (LinearLayout) findViewById(R.id.linearClassi);
+        //btSelezionaMaterie = (Button) findViewById(R.id.btSelezionaMaterie);
+        //btSelezionaClassi = (Button) findViewById(R.id.btSelezionaClassi);
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        //riempiSpinner();
+        riempiLinearMaterie();
+        riempiLinearClassi();
 
         btConfermaRegistrazione.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,19 +91,16 @@ public class Registrazione extends AppCompatActivity {
             }
         });
 
-        btSelezionaMateria.setOnClickListener(new View.OnClickListener() {
+        /*btSelezionaMaterie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(seleziona !=null && seleziona.isShowing())
-                    seleziona.dismiss();
-                builder = new AlertDialog.Builder(Registrazione.this);
-                builder.setView(R.layout.fragment_seleziona_materia);
-                builder.setPositiveButton("Conferma", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
+                Log.v("LOG", "sono in button");
+                if(alertDialog !=null && alertDialog.isShowing())
+                    alertDialog.dismiss();
+                Log.v("LOG", "creo l'alert");
+                View v = getLayoutInflater().inflate(R.layout.fragment_seleziona_materie, null);
+                builder.setView(v);
+                Log.v("LOG", "associato");
                 builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -106,10 +108,11 @@ public class Registrazione extends AppCompatActivity {
                     }
                 });
                 builder.setTitle("Seleziona materie");
-                seleziona = builder.create();
-                seleziona.show();
+                alertDialog = builder.create();
+                alertDialog.show();
+                Log.v("LOG", "creato");
             }
-        });
+        });*/
 
     }
 
@@ -182,44 +185,60 @@ public class Registrazione extends AppCompatActivity {
     }
 
 
-
-    /*public void riempiSpinner(){
-        Log.v("LOG", "sono in riempiSpinner");
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlSpinner, new Response.Listener<JSONObject>() {
+    public void riempiLinearMaterie(){
+        Log.v("LOG", "sono in riempiFrameMaterie");
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlMteriaClasse, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.v("LOG", "response" +response.toString());
                 try {
                     JSONArray materie = response.getJSONArray("materie");
+                    Log.v("LOG", "nomeMateria" +materie);
                     mat = new CheckBox[materie.length()];
+
                     for(int i=0; i<materie.length(); i++){
                         mat[i] = new CheckBox(getApplicationContext());
                         mat[i].setText(materie.getJSONObject(i).getString("nomeMateria"));
-                        spinnerMaterie.addView(mat[i]);
+                        linearMaterie.addView(mat[i]);
                     }
-                    Log.v("LOG", "sono uscito dal for");
-
-                    JSONArray classi = response.getJSONArray("classi");
-                    clas = new CheckBox[classi.length()];
-                    for(int i=0; i<classi.length(); i++){
-                        clas[i] = new CheckBox(getApplicationContext());
-                        clas[i].setText(classi.getJSONObject(i).getString("nomeClasse"));
-                        spinnerClassi.addView(clas[i]);
-                    }
-
                 } catch (JSONException e) {
-                    Log.v("LOG", "errore "+ e.getMessage());
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v("LOG", "errore"+error.toString());
+
             }
         });
         requestQueue.add(richiesta);
-    }*/
+    }
+
+    public void riempiLinearClassi(){
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlMteriaClasse, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray classi = response.getJSONArray("classi");
+                    clas = new CheckBox[classi.length()];
+
+                    for(int i=0; i<classi.length(); i++){
+                        clas[i] = new CheckBox(getApplicationContext());
+                        clas[i].setText(classi.getJSONObject(i).getString("nomeClasse"));
+                        linearClassi.addView(clas[i]);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(richiesta);
+    }
+
 
     public void registrazione(){
         //raccolgo i dati inseriti dall'utente

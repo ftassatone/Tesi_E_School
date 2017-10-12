@@ -46,6 +46,7 @@
     <string name="sezione">Sezione</string>
     <string name="infoAlunno">Informazioni alunno</string>
     <string name="infoGenerali">Informazioni generali</string>
+    <string name="infoDocenza">Seleziona le materie e le classi</string>
     <string name="infoAccesso">Informazioni per l accesso al sistema</string>
     <string name="infoClasse">Informazioni classe</string>
     <string name="modifica">Modifica</string>

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/infoGenerali"
                 android:layout_marginLeft="@dimen/marginetop"
-                android:textStyle="bold|italic"/>
+                android:textStyle="bold|italic" />
         </TableRow>
 
         <TableRow>
@@ -23,21 +28,21 @@
                 android:layout_height="wrap_content"
                 android:text="@string/nome"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cognome"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dataNascita"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
         </TableRow>
 
         <TableRow>
@@ -71,24 +76,20 @@
 
         </TableRow>
 
-        <View
-            android:layout_height="2dip"
-            android:background="#FF909090" />
-
         <TableRow>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/luogoNascita"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/residenza"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
 
             <TextView
                 android:id="@+id/txtCf"
@@ -96,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/cf"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
         </TableRow>
 
         <TableRow>
@@ -128,31 +129,27 @@
 
         </TableRow>
 
-        <View
-            android:layout_height="2dip"
-            android:background="#FF909090" />
-
         <TableRow>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/telefono"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Cellulare"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
         </TableRow>
 
         <TableRow>
@@ -186,30 +183,50 @@
         </TableRow>
 
         <TableRow>
-            <Button
-                android:id="@+id/btSelezionaMateria"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/infoDocenza"
+                android:layout_marginLeft="@dimen/marginetop"
+                android:textStyle="bold|italic"/>
+        </TableRow>
+
+        <TableRow>
+
+            <LinearLayout
+                android:id="@+id/linearMaterie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/marginetop">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearClassi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/marginetop">
+            </LinearLayout>
+
+            <!--Button
+                android:id="@+id/btSelezionaMaterie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Seleziona materie"
                 android:textAllCaps="false"
-                android:background="#00000000"
-                android:layout_marginLeft="@dimen/marginetop"
-                android:onClick="vaiScegliMaterie" />
+                android:layout_marginLeft="@dimen/marginetop"/>
 
             <Button
-                android:id="@+id/btSelezionaClasse"
+                android:id="@+id/btSelezionaClassi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Seleziona classi"
                 android:textAllCaps="false"
-                android:background="#00000000"
-                android:layout_marginLeft="@dimen/marginetop"
-                android:onClick="vaiScegliClasse" />
+                android:layout_marginLeft="@dimen/marginetop"/-->
+
         </TableRow>
 
-        <View
-            android:layout_height="2dip"
-            android:background="#FF909090" />
     </TableLayout>
 
 
@@ -234,21 +251,21 @@
                 android:layout_height="wrap_content"
                 android:text="@string/matricola"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/passwordTxt"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/confermaPsw"
                 android:layout_marginLeft="@dimen/margineBordi"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
         </TableRow>
 
         <TableRow>
@@ -305,3 +322,4 @@
         android:layout_marginRight="@dimen/marginetop"/>
 
 </LinearLayout>
+</ScrollView>
