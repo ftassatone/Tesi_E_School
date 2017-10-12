@@ -4,15 +4,22 @@
     android:layout_height="match_parent"
     tools:context="com.eschool.e_school.HomeDocenteFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:id="@+id/relativeContenitore"
-            android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linearTestata"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginetop">
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/txtBenvenuto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/minimoMarginetop"
+                android:layout_marginLeft="@dimen/marginetop"
+                android:layout_marginBottom="@dimen/marginetop"/>
 
             <TextView
                 android:id="@+id/txtAiuto"
@@ -21,11 +28,21 @@
                 android:layout_marginLeft="@dimen/marginetop"
                 android:layout_marginBottom="@dimen/marginetop"
                 android:text="Selezionare materia e classe in cui insegnare."/>
+        </LinearLayout>
+
+        <LinearLayout
+        android:id="@+id/linearContenitore"
+        android:layout_below="@id/linearTestata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/linearMaterie"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_marginLeft="@dimen/marginetop"
                 android:layout_below="@id/txtAiuto"
@@ -47,6 +64,7 @@
                 android:id="@+id/linearClassi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_toRightOf="@id/linearMaterie"
                 android:layout_below="@id/txtAiuto"
@@ -66,31 +84,23 @@
 
             </LinearLayout>
 
-            <RelativeLayout
+            <Button
+                android:id="@+id/btVaiClasse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/linearClassi"
-                android:layout_below="@id/txtAiuto"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true">
-
-                <Button
-                    android:id="@+id/btVaiClasse"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@android:drawable/ic_menu_edit"
-                    android:background="#00000000"
-                    android:text="@string/homeClasse"
-                    android:textSize="@dimen/textSizeButton"
-                    android:textAllCaps="false"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true" />
-            </RelativeLayout>
-
-        </RelativeLayout>
+                android:layout_weight="0"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:drawableTop="@android:drawable/ic_menu_edit"
+                android:background="#00000000"
+                android:text="@string/homeClasse"
+                android:textSize="@dimen/textSizeButton"
+                android:textAllCaps="false"/>
+        </LinearLayout>
 
         <View
+            android:id="@+id/separatore"
+            android:layout_below="@id/linearContenitore"
             android:layout_height="2dip"
             android:background="#FF909090"
             android:layout_width="wrap_content"
@@ -99,6 +109,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/separatore"
             android:layout_marginTop="@dimen/marginetop">
 
             <TextView
@@ -110,6 +121,7 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+
+    </RelativeLayout>
 
 </FrameLayout>

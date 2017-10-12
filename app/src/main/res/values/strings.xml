@@ -1,35 +1,31 @@
 <resources>
+    <!-- titolo app -->
     <string name="app_name">E_School</string>
+    <string name="title_activity_home">Home</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-
-    <string name="usernameTxt">Inserisci username</string>
-    <string name="passwordTxt">Inserisci password*</string>
+    <!-- utenti -->
     <string name="docente">Docente</string>
     <string name="alunno">Alunno</string>
-    <string name="conferma">Conferma</string>
-    <string name="accedi">Accedi</string>
-    <string name="livello">Scegli la classe che frequenti:</string>
+
+    <!-- livelli -->
     <string name="prima">Prima</string>
     <string name="seconda">Seconda</string>
     <string name="terza">Terza</string>
     <string name="quarta">Quarta</string>
     <string name="quinta">Quinta</string>
-    <string name="pswdimenticata"><a href="https://stackoverflow.com/questions/9204303/android-is-it-possible-to-add-a-clickable-link-into-a-string-resource">Password dimeticata?</a></string>
-    <string name="registraDocente"><a href="https://stackoverflow.com/questions/9204303/android-is-it-possible-to-add-a-clickable-link-into-a-string-resource">Sei un nuovo docente? Registrati.</a></string>
-    <string name="parteDiagnostica">Parte diagnostica</string>
-    <string name="materie">Lista materie</string>
-    <string name="scegliClasse">Scegli livello:</string>
-    <string name="elencoClasse">Elenco:</string>
-    <string name="programma">Programma</string>
-    <string name="datiAlunno">Dati alunno</string>
-    <string name="registro">Registro</string>
-    <string name="listaClassi">Elenco classi</string>
 
-    <!-- form aggiungi alunno -->
+    <!-- titoli sezioni form -->
+    <string name="datiAlunno">Dati alunno</string>
+    <string name="infoDocenza">Seleziona le materie e le classi</string>
+    <string name="infoAlunno">Informazioni alunno</string>
+    <string name="infoGenerali">Informazioni generali</string>
+    <string name="infoAccesso">Informazioni per l accesso al sistema</string>
+    <string name="infoClasse">Informazioni classe</string>
+
+    <!-- form  -->
     <string name="cf">Codice fiscale*</string>
     <string name="nome">Nome*</string>
     <string name="cognome">Cognome*</string>
@@ -40,33 +36,28 @@
     <string name="telefono">Numero di telefono*</string>
     <string name="Cellulare">Cellulare*</string>
     <string name="opzDsa">DSA</string>
-    <string name="inserisci">Inserisci...</string>
-    <string name="aggungiClasse">Aggiungi classe</string>
-    <string name="classe">Classe</string>
-    <string name="sezione">Sezione</string>
-    <string name="infoAlunno">Informazioni alunno</string>
-    <string name="infoGenerali">Informazioni generali</string>
-    <string name="infoDocenza">Seleziona le materie e le classi</string>
-    <string name="infoAccesso">Informazioni per l accesso al sistema</string>
-    <string name="infoClasse">Informazioni classe</string>
-    <string name="modifica">Modifica</string>
     <string name="matricola">Matricola*</string>
-    <string name="confermaPsw">Conferma la password*</string>
+    <string name="passwordTxt">Password*</string>
+    <string name="confermaPsw">Conferma password*</string>
+
+    <!-- messaggi di errore o informativi -->
+    <string name="benvenuto">Benvenuto </string>
     <string name="infoMatricola">N.B. La matricola verrà usata come username al momento dell accesso al sistema.</string>
     <string name="erroreCorrispondenza">Le password non corrispondono.</string>
-    <string name="erroreCampiVuoti">*E obbligatorio compilare tutti i campi.</string>
+    <string name="erroreCampiVuoti">* E obbligatorio compilare tutti i campi.</string>
+
+    <!-- button -->
+    <string name="conferma">Conferma</string>
+    <string name="accedi">Accedi</string>
+    <string name="modifica">Modifica</string>
     <string name="regitrazione">Registrati</string>
+    <string name="fine">Fine</string>
+    <string name="logout">Logout</string>
     <string name="homeClasse">Vai a home classe</string>
     <string name="nuovoAlunno">Nuovo alunno</string>
-    <string name="Conferma">Fine</string>
-    <string name="Informazioni">Informazini</string>
 
-
-    <string name="logout">Logout</string>
-    <string name="impostazioni">Impostazioni</string>
-    <string name="home">Home principale</string>
-    <string name="esercizi">Esercizi svolti</string>
-
+    <!-- sezione diagnostica -->
+    <string name="parteDiagnostica">Parte diagnostica</string>
     <string name="sezioneTest">Test</string>
     <string name="testDiagnostico">Test diagnostico (cartaceo)</string>
     <string name="testDiagnosticoErrori">Test errori da compilare</string>
@@ -76,8 +67,27 @@
     <string name="livello2">Livello 2</string>
     <string name="livello3">Livello 3</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_home">Home</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <!-- nomi sezioni -->
+    <string name="registro">Registro</string>
+    <string name="aggungiClasse">Aggiungi classe</string>
+    <string name="home">Home principale</string>
+
+    <!-- sezione login -->
+    <string name="pswdimenticata"><a href="https://stackoverflow.com/questions/9204303/android-is-it-possible-to-add-a-clickable-link-into-a-string-resource">Password dimeticata?</a></string>
+    <string name="registraDocente"><a href="https://stackoverflow.com/questions/9204303/android-is-it-possible-to-add-a-clickable-link-into-a-string-resource">Sei un nuovo docente? Registrati.</a></string>
+
+
+    <string name="livello">Scegli la classe che frequenti</string>
+    <string name="listaClassi">Elenco classi</string>
+    <string name="materie">Lista materie</string>
+    <string name="scegliClasse">Scegli livello</string>
+    <string name="elencoClasse">Elenco</string>
+    <string name="programma">Programma</string>
+    <string name="inserisci">Inserisci...</string>
+    <string name="classe">Classe</string>
+    <string name="sezione">Sezione</string>
+    <string name="informazioni">Informazioni</string>
+    <string name="impostazioni">Impostazioni</string>
+    <string name="esercizi">Esercizi svolti</string>
+
 </resources>

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -50,6 +51,7 @@ public class HomeDocenteFragment extends Fragment {
     private RadioGroup rgClassi, rgMaterie;
     private Button btVaiClasse;
     private RadioButton[] rbMat,rbCl;
+    private TextView txtBenvenuto;
 
     //private OnFragmentInteractionListener mListener;
 
@@ -92,8 +94,13 @@ public class HomeDocenteFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_home_docente, container, false);
 
         requestQueue = Volley.newRequestQueue(getContext());
+
         infoAlert = new AlertDialog.Builder(getContext());
+
         connessione();
+
+        txtBenvenuto = (TextView) view.findViewById(R.id.txtBenvenuto);
+
         rgMaterie =(RadioGroup) view.findViewById(R.id.rgMaterie);
         rgClassi =(RadioGroup) view.findViewById(R.id.rgClassi);
         btVaiClasse = (Button) view.findViewById(R.id.btVaiClasse);
@@ -191,6 +198,9 @@ public class HomeDocenteFragment extends Fragment {
                         rbCl[i].setText(classi.getJSONObject(i).getString("nomeClasse"));
                         rgClassi.addView(rbCl[i]);
                     }
+
+                    JSONArray nomeDocente = response.getJSONArray("cognomeDoc");
+                    txtBenvenuto.setText(getResources().getString(R.string.benvenuto)+" "+ nomeDocente.getJSONObject(0).getString("cognome"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

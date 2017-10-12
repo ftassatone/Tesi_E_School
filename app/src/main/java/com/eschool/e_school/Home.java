@@ -1,6 +1,8 @@
 package com.eschool.e_school;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ScrollingView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +33,7 @@ public class Home extends AppCompatActivity {
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private String docente;
+    private PagerTabStrip pager_header;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -47,6 +50,9 @@ public class Home extends AppCompatActivity {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        pager_header = (PagerTabStrip) findViewById(R.id.pager_header);
+        pager_header.setTabIndicatorColor(getResources().getColor(R.color.colorPrimaryDark));
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
