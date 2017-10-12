@@ -1,375 +1,363 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- hhh -->
-<ScrollView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <FrameLayout
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.eschool.e_school.AggiungiClasseFragment">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TableLayout
-                android:layout_marginTop="@dimen/minimoMarginetop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:stretchColumns="0,1">
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/infoClasse"
-                        android:layout_marginLeft="@dimen/minimoMarginetop"
-                        android:textStyle="bold|italic"/>
-                </TableRow>
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/classe"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sezione"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-                </TableRow>
-
-                <TableRow>
-                    <EditText
-                        android:id="@+id/classe"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="1"
-                        android:inputType="number"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                    <EditText
-                        android:id="@+id/sezione"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="@integer/numeroRighe"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-                </TableRow>
-
-                <View
-                    android:layout_height="2dip"
-                    android:background="#FF909090" />
-            </TableLayout>
-
-
-
-            <TableLayout
-                android:layout_marginTop="@dimen/minimoMarginetop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:stretchColumns="0,1,2">
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/infoAlunno"
-                        android:layout_marginLeft="@dimen/minimoMarginetop"
-                        android:textStyle="bold|italic"/>
-                </TableRow>
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/nome"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cognome"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dataNascita"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-                </TableRow>
-
-                <TableRow>
-                    <EditText
-                        android:id="@+id/nomeAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="@integer/numeroRighe"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                    <EditText
-                        android:id="@+id/cognomeAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="@integer/numeroRighe"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                    <EditText
-                        android:id="@+id/dataNascitaAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="@integer/numeroRighe"
-                        android:inputType="date"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                </TableRow>
-
-                <View
-                    android:layout_height="2dip"
-                    android:background="#FF909090" />
-
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/cf"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/luogoNascita"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/residenza"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-
-
-                </TableRow>
-
-                <TableRow>
-                    <EditText
-                        android:id="@+id/cfAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="@integer/numeroRighe"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                    <EditText
-                        android:id="@+id/luogoNascitaAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="@integer/numeroRighe"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                    <EditText
-                        android:id="@+id/residenzaAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="@integer/numeroRighe"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-
-
-                </TableRow>
-
-                <View
-                    android:layout_height="2dip"
-                    android:background="#FF909090" />
-
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/telefono"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/Cellulare"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/email"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-
-
-                </TableRow>
-                <TableRow>
-                    <EditText
-                        android:id="@+id/telefonoAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="@integer/numeroRighe"
-                        android:inputType="number"
-                        android:maxLength="@integer/lunghezzaNumero"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                    <EditText
-                        android:id="@+id/cellulareAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="@integer/numeroRighe"
-                        android:inputType="number"
-                        android:maxLength="@integer/lunghezzaNumero"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                    <EditText
-                        android:id="@+id/emailAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="@integer/numeroRighe"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                </TableRow>
-                <View
-                    android:layout_height="2dip"
-                    android:background="#FF909090" />
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/opzDsa"
-                        android:layout_marginLeft="@dimen/margineBordi"
-                        android:layout_marginTop="@dimen/minimoMarginetop"/>
-
-                </TableRow>
-
-                <TableRow>
-                    <CheckBox
-                        android:id="@+id/opzDsaAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                </TableRow>
-            </TableLayout>
-            <View
-                android:layout_height="2dip"
-                android:background="#FF909090"
-                android:layout_width="match_parent" />
-            <TableLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:stretchColumns="0,1,2">
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Informazioni credenziali"
-                        android:layout_marginTop="@dimen/minimoMarginetop"
-                        android:layout_marginLeft="@dimen/minimoMarginetop"
-                        android:textStyle="bold|italic"/>
-                </TableRow>
-                <TableRow>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/usernameTxt"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/passwordTxt"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/confermaPsw"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-                </TableRow>
-
-                <TableRow>
-                    <EditText
-                        android:id="@+id/userAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="1"
-                        android:inputType="number"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                    <EditText
-                        android:id="@+id/pswAlunno"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/inserisci"
-                        android:maxLines="@integer/numeroRighe"
-                        android:layout_marginLeft="@dimen/margineBordi"/>
-
-                    <EditText
-                    android:id="@+id/confermaPswAlunno"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/inserisci"
-                    android:maxLines="@integer/numeroRighe"
-                    android:layout_marginLeft="@dimen/margineBordi"/>
-                </TableRow>
-            </TableLayout>
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.eschool.e_school.AggiungiClasseFragment">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_marginBottom="200dp"
-                android:layout_gravity="bottom|end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/txtError"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/btConfermaAlunno"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TableLayout
+                    android:layout_marginTop="@dimen/marginetop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#00000000"
-                    android:textAllCaps="false"
-                    android:drawableTop="@android:drawable/ic_input_add"
-                    android:text="@string/nuovoAlunno"
-                    android:clickable="true"
-                    android:textStyle="italic"/>
+                    android:stretchColumns="0,1">
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/infoClasse"
+                            android:layout_marginLeft="@dimen/minimoMarginetop"
+                            android:textStyle="bold|italic"/>
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/classe"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
 
-                <Button
-                    android:id="@+id/btFine"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sezione"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginBottom="@dimen/minimoMarginetop">
+                        <EditText
+                            android:id="@+id/classe"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="1"
+                            android:inputType="number"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                        <EditText
+                            android:id="@+id/sezione"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="@integer/numeroRighe"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+                    </TableRow>
+
+                    <View
+                        android:layout_height="2dip"
+                        android:background="#FF909090" />
+                </TableLayout>
+
+                <TableLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#00000000"
-                    android:textAllCaps="false"
-                    android:drawableTop="@android:drawable/checkbox_on_background"
-                    android:layout_marginLeft="@dimen/minimoMarginetop"
-                    android:text="@string/conferma"
-                    android:clickable="true"
-                    android:textStyle="italic"/>
+                    android:stretchColumns="0,1,2">
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/infoAlunno"
+                            android:layout_marginLeft="@dimen/minimoMarginetop"
+                            android:layout_marginTop="@dimen/minimoMarginetop"
+                            android:textStyle="bold|italic"/>
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/nome"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cognome"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dataNascita"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+                    </TableRow>
+
+                    <TableRow>
+                        <EditText
+                            android:id="@+id/nomeAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="@integer/numeroRighe"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                        <EditText
+                            android:id="@+id/cognomeAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="@integer/numeroRighe"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                        <EditText
+                            android:id="@+id/dataNascitaAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="@integer/numeroRighe"
+                            android:inputType="date"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cf"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/luogoNascita"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/residenza"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+
+
+                    </TableRow>
+
+                    <TableRow>
+                        <EditText
+                            android:id="@+id/cfAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="@integer/numeroRighe"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                        <EditText
+                            android:id="@+id/luogoNascitaAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="@integer/numeroRighe"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                        <EditText
+                            android:id="@+id/residenzaAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="@integer/numeroRighe"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/telefono"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Cellulare"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/email"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+
+                    </TableRow>
+                    <TableRow>
+                        <EditText
+                            android:id="@+id/telefonoAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="@integer/numeroRighe"
+                            android:inputType="number"
+                            android:maxLength="@integer/lunghezzaNumero"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                        <EditText
+                            android:id="@+id/cellulareAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="@integer/numeroRighe"
+                            android:inputType="number"
+                            android:maxLength="@integer/lunghezzaNumero"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                        <EditText
+                            android:id="@+id/emailAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="@integer/numeroRighe"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/opzDsa"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginBottom="@dimen/minimoMarginetop">
+                        <CheckBox
+                            android:id="@+id/opzDsaAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+                    </TableRow>
+                </TableLayout>
+                <View
+                    android:layout_height="2dip"
+                    android:background="#FF909090"
+                    android:layout_width="match_parent" />
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="0,1,2">
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Informazioni credenziali"
+                            android:layout_marginTop="@dimen/minimoMarginetop"
+                            android:layout_marginLeft="@dimen/minimoMarginetop"
+                            android:textStyle="bold|italic"/>
+                    </TableRow>
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/usernameTxt"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/passwordTxt"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/confermaPsw"
+                            android:layout_marginLeft="@dimen/marginetop"
+                            android:layout_marginTop="@dimen/marginetop"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_marginBottom="@dimen/minimoMarginetop">
+                        <EditText
+                            android:id="@+id/userAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="1"
+                            android:inputType="number"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                        <EditText
+                            android:id="@+id/pswAlunno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/inserisci"
+                            android:maxLines="@integer/numeroRighe"
+                            android:layout_marginLeft="@dimen/marginetop"/>
+
+                        <EditText
+                        android:id="@+id/confermaPswAlunno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/inserisci"
+                        android:maxLines="@integer/numeroRighe"
+                        android:layout_marginLeft="@dimen/marginetop"/>
+                    </TableRow>
+                </TableLayout>
+
+                <LinearLayout
+                    android:layout_gravity="bottom|end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/txtError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <Button
+                        android:id="@+id/btConfermaAlunno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:textAllCaps="false"
+                        android:drawableTop="@android:drawable/ic_input_add"
+                        android:text="@string/nuovoAlunno"
+                        android:clickable="true"
+                        android:textStyle="italic"/>
+
+                    <Button
+                        android:id="@+id/btFine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:textAllCaps="false"
+                        android:drawableTop="@android:drawable/checkbox_on_background"
+                        android:layout_marginLeft="@dimen/marginetop"
+                        android:layout_marginRight="@dimen/marginetop"
+                        android:text="@string/conferma"
+                        android:clickable="true"
+                        android:textStyle="italic"/>
+
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-
-    </FrameLayout>
-</ScrollView>
+    </ScrollView>
+</FrameLayout>
