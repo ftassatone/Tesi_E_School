@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
 import java.util.HashMap;
 
@@ -40,6 +41,7 @@ public class AggiungiClasseFragment extends Fragment {
     private String classeTxt, sezioneTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, cfAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt,
             telefonoAlunnoTxt, cellulareAlunnoTxt, emailAlunnoTxt;
     private boolean opzioneDsa =false;
+
     public AggiungiClasseFragment() {
         // Required empty public constructor
     }

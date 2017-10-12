@@ -1,5 +1,7 @@
 package com.eschool.e_school;
 
+import android.content.Intent;
+import android.support.v4.view.ScrollingView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -76,6 +78,7 @@ public class Home extends AppCompatActivity {
         if (id == R.id.action_impostazioni) {
             return true;
         }else if (id == R.id.action_logout) {
+            startActivity(new Intent(getApplicationContext(),PreLogin.class));
             return true;
         }
 

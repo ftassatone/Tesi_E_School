@@ -32,9 +32,9 @@
 
     <EditText
         android:id="@+id/usernameTxt"
-        android:layout_width="wrap_content"
+        android:layout_width="200sp"
         android:layout_height="wrap_content"
-        android:hint="@string/usernameTxt"
+        android:hint="@string/inserisci"
         android:layout_gravity="center"/>
 
     <TextView
@@ -47,10 +47,9 @@
 
     <EditText
         android:id="@+id/passwordTxt"
-        android:layout_width="wrap_content"
+        android:layout_width="200sp"
         android:layout_height="wrap_content"
-        android:hint="@string/passwordTxt"
-        android:password="true"
+        android:hint="@string/inserisci"
         android:layout_gravity="center"/>
 
     <TextView
