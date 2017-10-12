@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
 <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -72,9 +68,6 @@
                 android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/marginetop"
                 android:layout_marginRight="@dimen/marginetop"/>
-
-
-
         </TableRow>
 
         <TableRow>
@@ -127,7 +120,6 @@
                 android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/marginetop"
                 android:layout_marginRight="@dimen/marginetop"/>
-
         </TableRow>
 
         <TableRow>
@@ -182,59 +174,119 @@
                 android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/marginetop"/>
         </TableRow>
-
         <View
             android:layout_height="2dip"
             android:background="#FF909090" />
-
-        <TableRow>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/infoDocenza"
-                android:layout_marginTop="@dimen/minimoMarginetop"
-                android:layout_marginLeft="@dimen/minimoMarginetop"
-                android:textStyle="bold|italic"/>
-        </TableRow>
-
-        <TableRow>
-
-            <LinearLayout
-                android:id="@+id/linearMaterie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/marginetop">
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearClassi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/marginetop">
-            </LinearLayout>
-
-            <!--Button
-                android:id="@+id/btSelezionaMaterie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Seleziona materie"
-                android:textAllCaps="false"
-                android:layout_marginLeft="@dimen/marginetop"/>
-
-            <Button
-                android:id="@+id/btSelezionaClassi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Seleziona classi"
-                android:textAllCaps="false"
-                android:layout_marginLeft="@dimen/marginetop"/-->
-
-        </TableRow>
-
     </TableLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/infoDocenza"
+        android:textStyle="bold|italic"
+        android:layout_marginLeft="@dimen/minimoMarginetop"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/marginetop"
+            android:text="@string/materie"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/prima"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/seconda"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/terza"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/quarta"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/quinta"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/linearMaterie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/marginetop"
+            android:orientation="vertical">
+
+        </LinearLayout>
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:id="@+id/linearPrima"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/linearSeconda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearTerza"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearQuarta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearQuinta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <TableLayout
         android:layout_marginTop="@dimen/marginetop"
@@ -306,7 +358,6 @@
                 android:layout_marginRight="@dimen/marginetop"/>
 
         </TableRow>
-
     </TableLayout>
 
     <TextView
@@ -317,22 +368,27 @@
         android:layout_marginTop="@dimen/minimoMarginetop"
         android:layout_marginLeft="@dimen/marginetop"/>
 
-    <TextView
-        android:id="@+id/txtErrore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/erroreCampiVuoti"
-        android:layout_marginTop="@dimen/marginetop"
-        android:layout_marginLeft="@dimen/minimoMarginetop"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txtErrore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/erroreCampiVuoti"
+            android:layout_marginTop="@dimen/marginetop"
+            android:layout_marginLeft="@dimen/minimoMarginetop"/>
 
-    <Button
-        android:id="@+id/btConfermaRegistrazione"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/conferma"
-        android:textAllCaps="false"
-        android:layout_gravity="end"
-        android:layout_marginRight="@dimen/marginetop"/>
+        <Button
+            android:id="@+id/btConfermaRegistrazione"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/conferma"
+            android:textAllCaps="false"
+            android:layout_toRightOf="@id/txtErrore"
+            android:layout_marginRight="@dimen/marginetop" />
+
+
+    </RelativeLayout>
 
 </LinearLayout>
-</ScrollView>
