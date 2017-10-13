@@ -100,19 +100,19 @@ public class HomeClasse extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-      /*  if (id == R.id.nav_camera) {
+        if (id == R.id.registro) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.eserciziSvolti) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.homePrincipale) {
+           //startActivity(new Intent(getApplicationContext(),Home.class));
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.impostazioni) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.logout) {
+            startActivity(new Intent(getApplicationContext(),PreLogin.class));
 
-        } else if (id == R.id.nav_send) {
-
-        }*/
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

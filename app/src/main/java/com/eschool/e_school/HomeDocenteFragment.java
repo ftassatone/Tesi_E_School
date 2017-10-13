@@ -199,8 +199,8 @@ public class HomeDocenteFragment extends Fragment {
                         rgClassi.addView(rbCl[i]);
                     }
 
-                    JSONArray nomeDocente = response.getJSONArray("cognomeDoc");
-                    txtBenvenuto.setText(getResources().getString(R.string.benvenuto)+" "+ nomeDocente.getJSONObject(0).getString("cognome"));
+                    JSONObject nomeDocente = response.getJSONObject("cognomeDoc");
+                    txtBenvenuto.setText(getResources().getString(R.string.benvenuto)+" "+ nomeDocente.getString("cognome"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -33,10 +33,6 @@
     <item android:title="Torna a:">
         <menu>
             <item
-                android:id="@+id/elencoClassi"
-                android:icon="@android:drawable/ic_menu_sort_by_size"
-                android:title="@string/listaClassi" />
-            <item
                 android:id="@+id/homePrincipale"
                 android:icon="@mipmap/home"
                 android:title="@string/home" />

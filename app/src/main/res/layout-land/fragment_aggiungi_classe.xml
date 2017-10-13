@@ -275,7 +275,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/usernameTxt"
+                            android:text="@string/matricola"
                             android:layout_marginLeft="@dimen/marginetop"
                             android:layout_marginTop="@dimen/marginetop"/>
 

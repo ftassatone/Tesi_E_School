@@ -1,9 +1,7 @@
 package com.eschool.e_school;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,19 +20,21 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Registrazione extends AppCompatActivity {
+
     private EditText nomeDoc,cognomeDoc,dataNascitaDoc,luogoNascitaDoc,residenzaDoc,cfDoc,cellulareDoc, telefonoDoc, emailDoc;
     private EditText matricolaDoc,pswDoc,confermaPswDoc;
-    private Button btConfermaRegistrazione, btSelezionaMaterie, btSelezionaClassi;
+    private Button btConfermaRegistrazione;
     private String nome, cognome, datanascita, luogoNascita, residenza, cf, cellulare, telefono, email, matricola, psw, confermaPsw;
     private TextView txtErrore, txtCf;
     private String urlRegistrazione = "http://www.eschooldb.altervista.org/PHP/registrazione.php";
@@ -45,13 +43,13 @@ public class Registrazione extends AppCompatActivity {
     private RequestQueue requestQueue;
     private LinearLayout linearMaterie, linearPrima, linearSeconda, linearTerza, linearQuarta, linearQuinta;
     private CheckBox[] mat, clas;
+    private ArrayList<String> materie, classi;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registrazione);
-
 
         nomeDoc = (EditText) findViewById(R.id.nomeDoc);
         cognomeDoc = (EditText) findViewById(R.id.cognomeDoc);
@@ -76,6 +74,9 @@ public class Registrazione extends AppCompatActivity {
         linearQuarta = (LinearLayout) findViewById(R.id.linearQuarta);
         linearQuinta = (LinearLayout) findViewById(R.id.linearQuinta);
 
+        materie = new ArrayList<String>();
+        classi = new ArrayList<String>();
+
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         riempiLinearMaterie();
         riempiLinearClassi();
@@ -86,6 +87,18 @@ public class Registrazione extends AppCompatActivity {
             public void onClick(View view) {
                 aquisiszioneDati();
                 if(controllo()){
+                    if(mat.length != 0 || clas.length!=0) {
+                        for (int i = 0; i < mat.length; i++) {
+                            if (mat[i].isChecked()) {
+                                materie.add(mat[i].getText().toString());
+                            }
+                        }
+                        for (int i = 0; i < clas.length; i++) {
+                            if (clas[i].isChecked()) {
+                                classi.add(clas[i].getText().toString());
+                            }
+                        }
+                    }
                     registrazione();
                 }
             }
@@ -113,6 +126,8 @@ public class Registrazione extends AppCompatActivity {
             txtErrore.setTextColor(Color.RED);
             return false;
         }
+       /*String[] a = datanascita.split("-");
+        if()*/
 
         if(!psw.equals(confermaPsw) ){
             pswDoc.setTextColor(Color.RED);
@@ -277,6 +292,8 @@ public class Registrazione extends AppCompatActivity {
         parametri.put("cellulare",cellulare);
         parametri.put("email",email);
         parametri.put("password",psw);
+        //parametri.put("arrayMaterie",materie);
+        //parametri.put("arrayClassi",classi);
 
         Log.v("LOG","parametri "+ parametri);
 
