@@ -143,7 +143,7 @@ public class HomeClasse extends AppCompatActivity
                 programma = new ArrayList();
                 String nome, cognome, nomeCognome;
                 try {
-
+//j
                     JSONArray elenco = response.getJSONArray("elenco");
                     for(int i =0; i < elenco.length(); i++){
                         nome = elenco.getJSONObject(i).getString("nome");
