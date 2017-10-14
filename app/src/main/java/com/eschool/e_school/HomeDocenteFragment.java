@@ -110,14 +110,14 @@ public class HomeDocenteFragment extends Fragment {
             public void onClick(View view) {
                 for(int i = 0; i < rbMat.length; i++){
                     if(rbMat[i].isChecked()){
-                        radioMateria = rbMat[i].toString();
+                        radioMateria = rbMat[i].getText().toString();
                         Log.v("LOG","mat "+ rbMat[i]);
                     }
                 }
 
                 for(int i = 0; i < rbCl.length; i++){
                     if(rbCl[i].isChecked()){
-                        radioClasse = rbCl[i].toString();
+                        radioClasse = rbCl[i].getText().toString();
                     }
                 }
 
