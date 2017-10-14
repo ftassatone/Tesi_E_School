@@ -28,7 +28,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public class Registrazione extends AppCompatActivity {
 
@@ -44,6 +43,7 @@ public class Registrazione extends AppCompatActivity {
     private LinearLayout linearMaterie, linearPrima, linearSeconda, linearTerza, linearQuarta, linearQuinta;
     private CheckBox[] mat, clas;
     private ArrayList<String> materie, classi;
+    String listaMaterie, listaClassi;
 
 
     @Override
@@ -81,7 +81,6 @@ public class Registrazione extends AppCompatActivity {
         riempiLinearMaterie();
         riempiLinearClassi();
 
-
         btConfermaRegistrazione.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +98,11 @@ public class Registrazione extends AppCompatActivity {
                             }
                         }
                     }
-                    registrazione();
+                    try {
+                        registrazione();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -126,8 +129,6 @@ public class Registrazione extends AppCompatActivity {
             txtErrore.setTextColor(Color.RED);
             return false;
         }
-       /*String[] a = datanascita.split("-");
-        if()*/
 
         if(!psw.equals(confermaPsw) ){
             pswDoc.setTextColor(Color.RED);
@@ -174,7 +175,6 @@ public class Registrazione extends AppCompatActivity {
 
         return true;
     }
-
 
     public void riempiLinearMaterie(){
         JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlMteriaClasse, new Response.Listener<JSONObject>() {
@@ -250,34 +250,8 @@ public class Registrazione extends AppCompatActivity {
         requestQueue.add(richiesta);
     }
 
-    /*public void riempiLinearClassi(){
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlMteriaClasse, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray classi = response.getJSONArray("classi");
-                    clas = new CheckBox[classi.length()];
+    public void registrazione() throws JSONException {
 
-                    for(int i=0; i<classi.length(); i++){
-                        clas[i] = new CheckBox(getApplicationContext());
-                        clas[i].setText(classi.getJSONObject(i).getString("nomeClasse"));
-                        linearClassi.addView(clas[i]);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        requestQueue.add(richiesta);
-    }*/
-
-
-    public void registrazione(){
         //raccolgo i dati inseriti dall'utente
         HashMap<String,String> parametri = new HashMap<String, String>();
 
@@ -292,13 +266,30 @@ public class Registrazione extends AppCompatActivity {
         parametri.put("cellulare",cellulare);
         parametri.put("email",email);
         parametri.put("password",psw);
-        //parametri.put("arrayMaterie",materie);
-        //parametri.put("arrayClassi",classi);
 
-        Log.v("LOG","parametri "+ parametri);
+        listaMaterie = "[{";
+        for(int i =0; i< materie.size();i++) {
+            if(i!=(materie.size()-1))
+                listaMaterie +="\"nomeMateria\": \""+materie.get(i)+"\"},{";
+            else
+                listaMaterie +="\"nomeMateria\": \""+materie.get(i)+"\"";
+        }
+        listaMaterie += "}]";
+
+        listaClassi = "[{";
+        for(int i =0; i< classi.size();i++) {
+            if(i!=(classi.size()-1))
+                listaClassi +="\"nomeClasse\": \""+classi.get(i)+"\"},{";
+            else
+                listaClassi +="\"nomeClasse\": \""+classi.get(i)+"\"";
+        }
+        listaClassi += "}]";
+
+        parametri.put("jsonMaterie",listaMaterie);
+        parametri.put("jsonClassi",listaClassi);
 
         //richiesta di connessione al server
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlRegistrazione, parametri, new Response.Listener<JSONObject>() {
+       JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlRegistrazione, parametri, new Response.Listener<JSONObject>() {
 
         @Override
         public void onResponse(JSONObject response) {
@@ -335,12 +326,11 @@ public class Registrazione extends AppCompatActivity {
             alert.show();
         }
         });
-                requestQueue.add(richiesta);
+        requestQueue.add(richiesta);
     }
 
     @Override
     public void onBackPressed() {
 
     }
-
 }
