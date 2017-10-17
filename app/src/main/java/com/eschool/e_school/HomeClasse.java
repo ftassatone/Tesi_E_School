@@ -1,11 +1,9 @@
 package com.eschool.e_school;
 
-import android.app.DownloadManager;
 import android.content.Intent;
-import android.os.AsyncTask;
+import com.google.gson.Gson;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
+
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -15,9 +13,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.RadioButton;
+
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -69,6 +68,13 @@ public class HomeClasse extends AppCompatActivity
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         connessione();
+
+        listViewElencoAlunni.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
 
     }
 
@@ -133,23 +139,25 @@ public class HomeClasse extends AppCompatActivity
         HashMap<String, String> parametri = new HashMap<String, String>();
         parametri.put("materia", materia);
         parametri.put("nomeClasse",classe);
-
-        Log.v("LOG", "ciààà");
+        Gson gson = new Gson();
         //richiesta di connessione al server
         JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 elencoAlunni = new ArrayList();
                 programma = new ArrayList();
-                String nome, cognome, nomeCognome;
+
                 try {
-//j
                     JSONArray elenco = response.getJSONArray("elenco");
                     for(int i =0; i < elenco.length(); i++){
-                        nome = elenco.getJSONObject(i).getString("nome");
-                        cognome = elenco.getJSONObject(i).getString("cognome");
-                        nomeCognome = nome+ " " +cognome;
-                        elencoAlunni.add(nomeCognome);
+                        Alunno alunno = new Alunno(elenco.getJSONObject(i).getString("cf"),  elenco.getJSONObject(i).getString("nome"), elenco.getJSONObject(i).getString("cognome"),
+                                elenco.getJSONObject(i).getString("dataNascita"), elenco.getJSONObject(i).getString("luogoNascita"), elenco.getJSONObject(i).getString("residenza"),
+                                elenco.getJSONObject(i).getString("numeroTelefono"), elenco.getJSONObject(i).getString("cellulare"), elenco.getJSONObject(i).getString("email"),
+                                elenco.getJSONObject(i).getBoolean("DSA"), elenco.getJSONObject(i).getString("username"), elenco.getJSONObject(i).getString("password"),
+                                elenco.getJSONObject(i).getString("nomeClasse"));
+                        
+                        //nomeCognome = nome+ " " +cognome;
+                        //elencoAlunni.add(nomeCognome);
                     }
                     adapterAlunni = new ArrayAdapter<String>(getApplicationContext(), R.layout.riga_lista_alunni, elencoAlunni);
                     listViewElencoAlunni.setAdapter(adapterAlunni);
@@ -176,6 +184,8 @@ public class HomeClasse extends AppCompatActivity
         });
         requestQueue.add(richiesta);
     }
+
+
 
 
 }

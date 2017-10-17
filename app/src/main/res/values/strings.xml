@@ -55,6 +55,8 @@
     <string name="logout">Logout</string>
     <string name="homeClasse">Vai a home classe</string>
     <string name="nuovoAlunno">Nuovo alunno</string>
+    <string name="opzioniDSA">Opzioni DSA</string>
+
 
     <!-- sezione diagnostica -->
     <string name="parteDiagnostica">Parte diagnostica</string>
