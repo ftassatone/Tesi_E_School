@@ -13,7 +13,7 @@ public class Alunno {
     Boolean dsa;
     String username;
     String password;
-    //foto
+    //foto da caricare
     String nomeClasse;
 
     public Alunno(String cf, String nome, String cognome, String dataNascita, String luogoNascita,
