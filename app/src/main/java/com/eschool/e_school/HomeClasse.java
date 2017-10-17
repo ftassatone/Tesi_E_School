@@ -37,10 +37,11 @@ public class HomeClasse extends AppCompatActivity
     private ListView listViewElencoAlunni, listViewProgramma;
     private String materia, classe;
     private String url = "http://www.eschooldb.altervista.org/PHP/homeClasse.php";
-    private ArrayList elencoAlunni,programma;
+    private ArrayList elencoAlunni,programma, datiAlunni;
     private ArrayAdapter<String> adapterAlunni;
     private ArrayAdapter<String> adapterProgramma;
     private RequestQueue requestQueue;
+    private Alunno alunno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,21 +146,33 @@ public class HomeClasse extends AppCompatActivity
             @Override
             public void onResponse(JSONObject response) {
                 elencoAlunni = new ArrayList();
+                datiAlunni = new ArrayList();
                 programma = new ArrayList();
+                Boolean dsa = null;
 
                 try {
                     JSONArray elenco = response.getJSONArray("elenco");
                     for(int i =0; i < elenco.length(); i++){
-                        Alunno alunno = new Alunno(elenco.getJSONObject(i).getString("cf"),  elenco.getJSONObject(i).getString("nome"), elenco.getJSONObject(i).getString("cognome"),
+                        Log.v("LOG", "sono dentro");
+                        Log.v("LOG", "bool "+elenco.getJSONObject(i).getString("dsa"));
+
+                        if(elenco.getJSONObject(i).getString("dsa").equals(1)){
+                            dsa = true;
+                        }else{
+                            dsa = false;
+                        }
+
+                        alunno = new Alunno(elenco.getJSONObject(i).getString("cf"),  elenco.getJSONObject(i).getString("nome"), elenco.getJSONObject(i).getString("cognome"),
                                 elenco.getJSONObject(i).getString("dataNascita"), elenco.getJSONObject(i).getString("luogoNascita"), elenco.getJSONObject(i).getString("residenza"),
                                 elenco.getJSONObject(i).getString("numeroTelefono"), elenco.getJSONObject(i).getString("cellulare"), elenco.getJSONObject(i).getString("email"),
-                                elenco.getJSONObject(i).getBoolean("DSA"), elenco.getJSONObject(i).getString("username"), elenco.getJSONObject(i).getString("password"),
+                                dsa, elenco.getJSONObject(i).getString("username"), elenco.getJSONObject(i).getString("password"),
                                 elenco.getJSONObject(i).getString("nomeClasse"));
-                        
-                        //nomeCognome = nome+ " " +cognome;
-                        //elencoAlunni.add(nomeCognome);
+                        elencoAlunni.add(alunno);
+                        Log.v("LOG", "elenco "+elencoAlunni);
+                        datiAlunni.add(alunno.getNome() + " " + alunno.getCognome());
+                        Log.v("LOG","dati "+datiAlunni);
                     }
-                    adapterAlunni = new ArrayAdapter<String>(getApplicationContext(), R.layout.riga_lista_alunni, elencoAlunni);
+                    adapterAlunni = new ArrayAdapter<String>(getApplicationContext(), R.layout.riga_lista_alunni, datiAlunni);
                     listViewElencoAlunni.setAdapter(adapterAlunni);
 
                     JSONArray elencoProgramma = response.getJSONArray("programma");
