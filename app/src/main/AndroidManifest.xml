@@ -45,6 +45,11 @@
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity
+            android:name=".Registro"
+            android:label="@string/registro"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>

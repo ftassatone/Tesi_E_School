@@ -54,10 +54,15 @@
                     android:text="@string/materie"
                     android:textStyle="bold|italic"/>
 
-                <RadioGroup
-                    android:id="@+id/rgMaterie"
+                <ScrollView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+                    <RadioGroup
+                        android:id="@+id/rgMaterie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </ScrollView>
             </LinearLayout>
 
             <LinearLayout
@@ -77,10 +82,14 @@
                     android:text="@string/elencoClasse"
                     android:textStyle="bold|italic"/>
 
-                <RadioGroup
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RadioGroup
                     android:id="@+id/rgClassi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+                </ScrollView>
 
             </LinearLayout>
 
@@ -110,6 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/separatore"
+            android:orientation="vertical"
             android:layout_marginTop="@dimen/marginetop">
 
             <TextView
@@ -119,8 +129,12 @@
                 android:textStyle="bold|italic"
                 android:layout_marginLeft="@dimen/marginetop"/>
 
-        </LinearLayout>
+            <ListView
+                android:id="@+id/listViewArgomenti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></ListView>
 
+        </LinearLayout>
 
     </RelativeLayout>
 

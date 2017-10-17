@@ -11,48 +11,50 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.eschool.e_school.HomeClasse"
     tools:showIn="@layout/app_bar_home_classe">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/elencoClasse"
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/marginetop"/>
+            <ListView
+                android:id="@+id/listViewElencoAlunni"
+                android:layout_marginTop="@dimen/marginetop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </ListView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/marginetop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/programma"
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/marginetop"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ListView
-                android:id="@+id/listViewElencoAlunni"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-            </ListView>
-
             <ListView
                 android:id="@+id/listViewProgramma"
+                android:layout_marginTop="@dimen/marginetop"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_height="wrap_content">
             </ListView>
         </LinearLayout>
 

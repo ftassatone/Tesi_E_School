@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -121,10 +122,14 @@ public class HomeDocenteFragment extends Fragment {
                     }
                 }
 
-                Intent vaiHomeClasse = new Intent(getContext(), HomeClasse.class);
-                vaiHomeClasse.putExtra("Materia",radioMateria);
-                vaiHomeClasse.putExtra("Classe",radioClasse);
-                startActivity(vaiHomeClasse);
+                if(radioClasse != null || radioMateria != null) {
+                    Intent vaiHomeClasse = new Intent(getContext(), HomeClasse.class);
+                    vaiHomeClasse.putExtra("Materia", radioMateria);
+                    vaiHomeClasse.putExtra("Classe", radioClasse);
+                    startActivity(vaiHomeClasse);
+                }else{
+                    Toast.makeText(getContext(),"Selezionare materie e classe", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

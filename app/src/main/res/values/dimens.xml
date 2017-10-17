@@ -13,6 +13,7 @@
     <dimen name="textSizeButton">22sp</dimen>
     <dimen name="textSize">20sp</dimen>
     <dimen name="textInfo">15sp</dimen>
+    <dimen name="textList">15.5sp</dimen>
 
     <!-- margini -->
     <dimen name="margineBordi">100dp</dimen>

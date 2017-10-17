@@ -1,17 +1,24 @@
 package com.eschool.e_school;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ScrollView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -33,14 +40,18 @@ public class AggiungiClasseFragment extends Fragment {
     private String mParam2;*/
 
     //private OnFragmentInteractionListener mListener;
+    private String url = "http://www.eschooldb.altervista.org/PHP/aggiungi.php";
 
     private EditText classe, sezione, nomeAlunno, cognomeAlunno, dataNascitaAlunno, cfAlunno, luogoNascitaAlunno, residenzaAlunno, telefonoAlunno,
-            cellulareAlunno, emailAlunno, txtError;
-    private Button btConfermaAlunno, btFine;
+            cellulareAlunno, emailAlunno, txtError, username, password, confermaPsw;
+    private Button btNuovoAlunno, btFine;
     private CheckBox opzDsaAlunno;
-    private String classeTxt, sezioneTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, cfAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt,
-            telefonoAlunnoTxt, cellulareAlunnoTxt, emailAlunnoTxt;
+    private String classeTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, cfAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt,
+            telefonoAlunnoTxt, cellulareAlunnoTxt, emailAlunnoTxt, usernameTxt, passwordTxt;
     private boolean opzioneDsa =false;
+    private ArrayList<Alunno> listaAlunni;
+    private Classe cl;
+    private int i=1,c=1;
 
     public AggiungiClasseFragment() {
         // Required empty public constructor
@@ -89,18 +100,34 @@ public class AggiungiClasseFragment extends Fragment {
         telefonoAlunno = (EditText) view.findViewById(R.id.telefonoAlunno);
         cellulareAlunno = (EditText) view.findViewById(R.id.cellulareAlunno);
         emailAlunno = (EditText) view.findViewById(R.id.emailAlunno);
-        btConfermaAlunno = (Button) view.findViewById(R.id.btConfermaAlunno);
+        btNuovoAlunno = (Button) view.findViewById(R.id.btNuovoAlunno);
         btFine = (Button) view.findViewById(R.id.btFine);
         opzDsaAlunno = (CheckBox) view.findViewById(R.id.opzDsaAlunno);
         txtError = (EditText) view.findViewById(R.id.txtError);
+        username = (EditText) view.findViewById(R.id.userAlunno);
+        password = (EditText) view.findViewById(R.id.pswAlunno);
+        confermaPsw = (EditText) view.findViewById(R.id.confermaPswAlunno);
 
-        btConfermaAlunno.setOnClickListener(new View.OnClickListener() {
+        listaAlunni = new ArrayList<>();
+
+        btNuovoAlunno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 acquisizioneDati();
+                Gson lista = new Gson();
+                Gson classe = new Gson();
+                Log.v("LOG", "jsonAlunni: "+lista.toJson(listaAlunni));
+                Log.v("LOG", "jsonClasse: "+classe.toJson(cl));
 
             }
         });
+        btFine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         return view;
     }
 
@@ -144,29 +171,86 @@ public class AggiungiClasseFragment extends Fragment {
     }*/
 
     private void acquisizioneDati(){
-        classeTxt = classe.getText().toString();
-        sezioneTxt = sezione.getText().toString();
-        nomeAlunnoTxt = nomeAlunno.getText().toString();
-        cognomeAlunnoTxt = cognomeAlunno.getText().toString();
-        dataNascitaAlunnoTxt = dataNascitaAlunno.getText().toString();
-        cfAlunnoTxt = cfAlunno.getText().toString();
-        luogoNascitaAlunnoTxt = luogoNascitaAlunno.getText().toString();
-        residenzaAlunnoTxt = residenzaAlunno.getText().toString();
-        telefonoAlunnoTxt = telefonoAlunno.getText().toString();
-        cellulareAlunnoTxt = cellulareAlunno.getText().toString();
-        emailAlunnoTxt = emailAlunno.getText().toString();
-        if(opzDsaAlunno.isChecked()) {
-            opzioneDsa = true;
+
+        //per il primo inserimento mi salvo la classe
+        if(classe.getText() != null || sezione.getText() != null){
+            Log.v("LOG","sono entrato: "+i++);
+            classeTxt = classe.getText().toString()+sezione.getText().toString();
+
+            cl = new Classe(classeTxt);
+        }
+
+        if(nomeAlunno.getText() != null  || cognomeAlunno.getText() != null || dataNascitaAlunno.getText() != null
+                || cfAlunno.getText() != null || luogoNascitaAlunno.getText() != null || residenzaAlunno.getText() != null || telefonoAlunno.getText() != null
+                || cellulareAlunno.getText() != null || emailAlunno.getText() != null){
+            Log.v("LOG","sono entrato: "+c++);
+            nomeAlunnoTxt = nomeAlunno.getText().toString();
+            cognomeAlunnoTxt = cognomeAlunno.getText().toString();
+            dataNascitaAlunnoTxt = dataNascitaAlunno.getText().toString();
+            cfAlunnoTxt = cfAlunno.getText().toString();
+            luogoNascitaAlunnoTxt = luogoNascitaAlunno.getText().toString();
+            residenzaAlunnoTxt = residenzaAlunno.getText().toString();
+            telefonoAlunnoTxt = telefonoAlunno.getText().toString();
+            cellulareAlunnoTxt = cellulareAlunno.getText().toString();
+            emailAlunnoTxt = emailAlunno.getText().toString();
+            if(opzDsaAlunno.isChecked()) {
+                opzioneDsa = true;
+            }
+            usernameTxt = username.getText().toString();
+            if(password.getText().equals(confermaPsw.getText())){
+                passwordTxt = password.getText().toString();
+            }else{
+                Toast.makeText(getContext(),"Le password non coincidono.", Toast.LENGTH_SHORT).show();
+            }
+
+            //TODO si devono acquisire anche username, password e foto
+            Alunno al = new Alunno(cfAlunnoTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt, telefonoAlunnoTxt,
+                    cellulareAlunnoTxt, emailAlunnoTxt,opzioneDsa, usernameTxt, passwordTxt,classeTxt);
+
+            listaAlunni.add(al);
+
+            pulizia();
+
+        }else{
+            //TODO messaggio di errore
         }
 
 
+
+
     }
 
-    public void aggiungiNuovoAlunno(){
-        //raccolgo i dati inseriti dall'utente
-       //Alunno a = new Alunno(cfAlunnoTxt,nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt,luogoNascitaAlunnoTxt,
-              // residenzaAlunnoTxt,telefonoAlunnoTxt,cellulareAlunnoTxt,emailAlunnoTxt,opzioneDsa,)
+    public void aggiungiSetAlunni() {
+        HashMap<String, String> parametri = new HashMap<>();
+
+        Gson lista = new Gson();
+        Gson classe = new Gson();
+        parametri.put("arrayAlunni", lista.toJson(listaAlunni));
+        parametri.put("classe", classe.toJson(cl));
+
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
     }
 
+    private void pulizia(){
+        nomeAlunno.setText("");
+        cognomeAlunno.setText("");
+        dataNascitaAlunno.setText("");
+        cfAlunno.setText("");
+        luogoNascitaAlunno.setText("");
+        residenzaAlunno.setText("");
+        telefonoAlunno.setText("");
+        cellulareAlunno.setText("");
+        emailAlunno.setText("");
+    }
 
 }

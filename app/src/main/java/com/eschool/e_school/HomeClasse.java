@@ -1,13 +1,8 @@
 package com.eschool.e_school;
 
-import android.app.DownloadManager;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.RadioButton;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -115,7 +109,6 @@ public class HomeClasse extends AppCompatActivity
         } else if (id == R.id.eserciziSvolti) {
 
         } else if (id == R.id.homePrincipale) {
-           //startActivity(new Intent(getApplicationContext(),Home.class));
 
         } else if (id == R.id.impostazioni) {
 
@@ -143,7 +136,6 @@ public class HomeClasse extends AppCompatActivity
                 programma = new ArrayList();
                 String nome, cognome, nomeCognome;
                 try {
-//j
                     JSONArray elenco = response.getJSONArray("elenco");
                     for(int i =0; i < elenco.length(); i++){
                         nome = elenco.getJSONObject(i).getString("nome");
