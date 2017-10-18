@@ -1,6 +1,9 @@
 package com.eschool.e_school;
 
-public class Alunno {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Alunno implements Parcelable{
     String cf;
     String nome;
     String cognome;
@@ -33,6 +36,7 @@ public class Alunno {
         this.password = password;
         this.nomeClasse = nomeClasse;
     }
+
 
     public String getCf() {
         return cf;
@@ -137,4 +141,58 @@ public class Alunno {
     public void setUsername(String username) {
         this.username = username;
     }
+
+
+
+    private Alunno(Parcel in){
+        readFromParcel(in);
+    }
+
+    public void readFromParcel(Parcel in) {
+        cf = in.readString();
+        nome = in.readString();
+        cognome = in.readString();
+        dataNascita = in.readString();
+        luogoNascita = in.readString();
+        residenza = in.readString();
+        numeroTelefono = in.readString();
+        cellulare = in.readString();
+        email = in.readString();
+        dsa  = Boolean.valueOf(in.readString());
+        username = in.readString();
+        password = in.readString();
+        nomeClasse = in.readString();
+    }
+
+    public static final Parcelable.Creator<Alunno> CREATOR = new Creator<Alunno>() {
+        @Override
+        public Alunno createFromParcel(Parcel parcel) {
+            return new Alunno(parcel);
+        }
+        @Override
+        public Alunno[] newArray(int i) {
+            return new Alunno[i];
+        }
+    };
+
+    public void writeToParcel(Parcel out, int flags){
+        out.writeString(cf);
+        out.writeString(nome);
+        out.writeString(cognome);
+        out.writeString(dataNascita);
+        out.writeString(luogoNascita);
+        out.writeString(residenza);
+        out.writeString(numeroTelefono);
+        out.writeString(cellulare);
+        out.writeString(email);
+        out.writeString(String.valueOf(dsa));
+        out.writeString(username);
+        out.writeString(password);
+        out.writeString(nomeClasse);
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
 }

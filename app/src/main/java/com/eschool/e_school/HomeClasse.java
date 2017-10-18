@@ -72,8 +72,14 @@ public class HomeClasse extends AppCompatActivity
 
         listViewElencoAlunni.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+            public void onItemClick(AdapterView<?> adapterAlunni, View view, int i, long l) {
+                Intent vaiSchedaAlunno = new Intent(getApplicationContext(), SchedaAlunno.class);
+                Bundle bundle = new Bundle();
+                int x = adapterAlunni.getPositionForView(view);
+                Alunno al = (Alunno) elencoAlunni.get(x);
+                bundle.putParcelable("Alunno", al);
+                vaiSchedaAlunno.putExtras(bundle);
+                startActivity(vaiSchedaAlunno);
             }
         });
 
@@ -122,7 +128,7 @@ public class HomeClasse extends AppCompatActivity
         } else if (id == R.id.eserciziSvolti) {
 
         } else if (id == R.id.homePrincipale) {
-           //startActivity(new Intent(getApplicationContext(),Home.class));
+            //startActivity(new Intent(getApplicationContext(),Home.class));
 
         } else if (id == R.id.impostazioni) {
 
@@ -148,29 +154,24 @@ public class HomeClasse extends AppCompatActivity
                 elencoAlunni = new ArrayList();
                 datiAlunni = new ArrayList();
                 programma = new ArrayList();
-                Boolean dsa = null;
+                Boolean dsa = false;
 
                 try {
                     JSONArray elenco = response.getJSONArray("elenco");
                     for(int i =0; i < elenco.length(); i++){
-                        Log.v("LOG", "sono dentro");
-                        Log.v("LOG", "bool "+elenco.getJSONObject(i).getString("dsa"));
-
                         if(elenco.getJSONObject(i).getString("dsa").equals(1)){
                             dsa = true;
                         }else{
                             dsa = false;
                         }
-
                         alunno = new Alunno(elenco.getJSONObject(i).getString("cf"),  elenco.getJSONObject(i).getString("nome"), elenco.getJSONObject(i).getString("cognome"),
                                 elenco.getJSONObject(i).getString("dataNascita"), elenco.getJSONObject(i).getString("luogoNascita"), elenco.getJSONObject(i).getString("residenza"),
                                 elenco.getJSONObject(i).getString("numeroTelefono"), elenco.getJSONObject(i).getString("cellulare"), elenco.getJSONObject(i).getString("email"),
                                 dsa, elenco.getJSONObject(i).getString("username"), elenco.getJSONObject(i).getString("password"),
                                 elenco.getJSONObject(i).getString("nomeClasse"));
+                        Log.v("LOG", "dsa "+dsa);
                         elencoAlunni.add(alunno);
-                        Log.v("LOG", "elenco "+elencoAlunni);
                         datiAlunni.add(alunno.getNome() + " " + alunno.getCognome());
-                        Log.v("LOG","dati "+datiAlunni);
                     }
                     adapterAlunni = new ArrayAdapter<String>(getApplicationContext(), R.layout.riga_lista_alunni, datiAlunni);
                     listViewElencoAlunni.setAdapter(adapterAlunni);

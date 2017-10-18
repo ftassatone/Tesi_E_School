@@ -80,6 +80,14 @@
                 android:background="#FF909090" />
 
             <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cf"
+                    android:layout_marginLeft="@dimen/margineBordi"
+                    android:layout_marginTop="@dimen/marginetop"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -94,15 +102,17 @@
                     android:layout_marginLeft="@dimen/margineBordi"
                     android:layout_marginTop="@dimen/marginetop"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/cf"
-                    android:layout_marginLeft="@dimen/margineBordi"
-                    android:layout_marginTop="@dimen/marginetop"/>
             </TableRow>
 
             <TableRow>
+
+                <EditText
+                    android:id="@+id/codiceFiscaleAlunno"
+                    android:enabled="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margineBordi"/>
+
                 <EditText
                     android:id="@+id/luogoNascitaAlunno"
                     android:enabled="false"
@@ -117,12 +127,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margineBordi"/>
 
-                <EditText
-                    android:id="@+id/codiceFiscaleAlunno"
-                    android:enabled="false"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margineBordi"/>
 
             </TableRow>
 
@@ -162,7 +166,7 @@
                     android:layout_marginLeft="@dimen/margineBordi"/>
 
                 <EditText
-                    android:id="@+id/ceAlunno"
+                    android:id="@+id/celAlunno"
                     android:enabled="false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
