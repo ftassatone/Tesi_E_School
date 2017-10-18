@@ -155,7 +155,7 @@ public class HomeClasse extends AppCompatActivity
                 datiAlunni = new ArrayList();
                 programma = new ArrayList();
                 Boolean dsa = false;
-
+                //ciao
                 try {
                     JSONArray elenco = response.getJSONArray("elenco");
                     for(int i =0; i < elenco.length(); i++){
