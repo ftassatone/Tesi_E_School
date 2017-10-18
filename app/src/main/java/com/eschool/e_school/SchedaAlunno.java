@@ -6,18 +6,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SchedaAlunno extends AppCompatActivity {
 
-    private Alunno alunno;
-        private EditText nomeAlunno, cognomeAlunnno, dataNascitaAlunno, codiceFiscaleAlunno, luogoNascitaAlunno, residenzaAlunno, telefonoAlunno, celAlunno, emailAlunno;
-        private CheckBox opzDsaAlunno;
-        private ArrayList datiAlunno;
-        private Boolean dsa;
+    private Alunno alunno, alunnoMod;
+    private EditText nomeAlunno, cognomeAlunnno, dataNascitaAlunno, codiceFiscaleAlunno, luogoNascitaAlunno, residenzaAlunno,
+            telefonoAlunno, celAlunno, emailAlunno, usernameAlunno, passwordAlunno, classeTxt;
+    private CheckBox opzDsaAlunno;
+    private ArrayList datiAlunno;
+    private Boolean dsa, getdsa;
+    private Button btmodificaDatiAlunno;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +39,11 @@ public class SchedaAlunno extends AppCompatActivity {
         telefonoAlunno = (EditText) findViewById(R.id.telefonoAlunno);
         celAlunno = (EditText) findViewById(R.id.celAlunno);
         emailAlunno = (EditText) findViewById(R.id.emailAlunno);
+        usernameAlunno = (EditText) findViewById(R.id.usernameAlunno);
+        passwordAlunno = (EditText) findViewById(R.id.passwordAlunno);
+        classeTxt = (EditText) findViewById(R.id.classeTxt);
         opzDsaAlunno = (CheckBox) findViewById(R.id.opzDsaAlunno);
+        btmodificaDatiAlunno = (Button) findViewById(R.id.btmodificaDatiAlunno);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -41,6 +52,26 @@ public class SchedaAlunno extends AppCompatActivity {
         }
 
         riempiScheda();
+
+        btmodificaDatiAlunno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nomeAlunno.setEnabled(true);
+                cognomeAlunnno.setEnabled(true);
+                dataNascitaAlunno.setEnabled(true);
+                codiceFiscaleAlunno.setEnabled(true);
+                luogoNascitaAlunno.setEnabled(true);
+                residenzaAlunno.setEnabled(true);
+                telefonoAlunno.setEnabled(true);
+                celAlunno.setEnabled(true);
+                emailAlunno.setEnabled(true);
+                opzDsaAlunno.setEnabled(true);
+                usernameAlunno.setEnabled(true);
+                passwordAlunno.setEnabled(true);
+
+                modifica();
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,7 +98,7 @@ public class SchedaAlunno extends AppCompatActivity {
     public void riempiScheda(){
         datiAlunno = new ArrayList();
         datiAlunno.add(alunno);
-        for(int i=0; i<datiAlunno.size(); i++){
+        for(int i=0; i<datiAlunno.size(); i++) {
             nomeAlunno.setText(alunno.getNome());
             cognomeAlunnno.setText(alunno.getCognome());
             dataNascitaAlunno.setText(alunno.getDataNascita());
@@ -77,17 +108,39 @@ public class SchedaAlunno extends AppCompatActivity {
             telefonoAlunno.setText(alunno.getNumeroTelefono());
             celAlunno.setText(alunno.getCellulare());
             emailAlunno.setText(alunno.getEmail());
+            usernameAlunno.setText(alunno.getUsername());
+            passwordAlunno.setText(alunno.getPassword());
+            classeTxt.setText(alunno.getNomeClasse());
             dsa = alunno.getDsa();
-            Log.v("LOG", "dsa "+dsa);
-            if(dsa.equals(1)) {
+            if (dsa.equals(true)) {
                 opzDsaAlunno.setChecked(true);
-            }else {
+            } else {
                 opzDsaAlunno.setChecked(false);
             }
-            if(opzDsaAlunno.isChecked())
-                Log.v("LOG", "sono dislessico");
         }
     }
+
+    public void modifica(){
+        if(opzDsaAlunno.isChecked())
+            getdsa = true;
+        else
+            getdsa = false;
+        alunnoMod = new Alunno(nomeAlunno.getText().toString(), cognomeAlunnno.getText().toString(), dataNascitaAlunno.getText().toString(),
+                codiceFiscaleAlunno.getText().toString(), luogoNascitaAlunno.getText().toString(),residenzaAlunno.getText().toString(),
+                telefonoAlunno.getText().toString(), celAlunno.getText().toString(), emailAlunno.getText().toString(), getdsa,
+                usernameAlunno.getText().toString(), passwordAlunno.getText().toString(),classeTxt.getText().toString());
+        HashMap<String, String> parametri = new HashMap<String, String>();
+        String datiAlunno = new Gson().toJson(alunnoMod);
+        parametri.put("alunno", datiAlunno);
+        connessione();
+    }
+
+    public void connessione(){
+
+    }
+
+
+
 
     @Override
     public void onBackPressed() {

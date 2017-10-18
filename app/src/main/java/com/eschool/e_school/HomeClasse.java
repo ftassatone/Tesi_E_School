@@ -1,7 +1,6 @@
 package com.eschool.e_school;
 
 import android.content.Intent;
-import com.google.gson.Gson;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -146,7 +145,6 @@ public class HomeClasse extends AppCompatActivity
         HashMap<String, String> parametri = new HashMap<String, String>();
         parametri.put("materia", materia);
         parametri.put("nomeClasse",classe);
-        Gson gson = new Gson();
         //richiesta di connessione al server
         JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
             @Override
@@ -154,12 +152,11 @@ public class HomeClasse extends AppCompatActivity
                 elencoAlunni = new ArrayList();
                 datiAlunni = new ArrayList();
                 programma = new ArrayList();
-                Boolean dsa = false;
-                //ciao
+                Boolean dsa;
                 try {
                     JSONArray elenco = response.getJSONArray("elenco");
                     for(int i =0; i < elenco.length(); i++){
-                        if(elenco.getJSONObject(i).getString("dsa").equals(1)){
+                        if(elenco.getJSONObject(i).getString("dsa").equals("1")){
                             dsa = true;
                         }else{
                             dsa = false;
@@ -169,7 +166,6 @@ public class HomeClasse extends AppCompatActivity
                                 elenco.getJSONObject(i).getString("numeroTelefono"), elenco.getJSONObject(i).getString("cellulare"), elenco.getJSONObject(i).getString("email"),
                                 dsa, elenco.getJSONObject(i).getString("username"), elenco.getJSONObject(i).getString("password"),
                                 elenco.getJSONObject(i).getString("nomeClasse"));
-                        Log.v("LOG", "dsa "+dsa);
                         elencoAlunni.add(alunno);
                         datiAlunni.add(alunno.getNome() + " " + alunno.getCognome());
                     }
