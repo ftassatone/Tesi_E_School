@@ -1,10 +1,14 @@
 package com.eschool.e_school;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +21,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +48,7 @@ public class AggiungiClasseFragment extends Fragment {
     private String mParam2;*/
 
     //private OnFragmentInteractionListener mListener;
-    private String url = "http://www.eschooldb.altervista.org/PHP/aggiungi.php";
+    private String url = "http://www.eschooldb.altervista.org/PHP/aggiungiClasse.php";
 
     private EditText classe, sezione, nomeAlunno, cognomeAlunno, dataNascitaAlunno, cfAlunno, luogoNascitaAlunno, residenzaAlunno, telefonoAlunno,
             cellulareAlunno, emailAlunno, txtError, username, password, confermaPsw;
@@ -51,7 +59,7 @@ public class AggiungiClasseFragment extends Fragment {
     private boolean opzioneDsa =false;
     private ArrayList<Alunno> listaAlunni;
     private Classe cl;
-    private int i=1,c=1;
+    private RequestQueue requestQueue;
 
     public AggiungiClasseFragment() {
         // Required empty public constructor
@@ -89,6 +97,8 @@ public class AggiungiClasseFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_aggiungi_classe, container, false);
 
+        requestQueue = Volley.newRequestQueue(getContext());
+
         classe = (EditText) view.findViewById(R.id.classe);
         sezione = (EditText) view.findViewById(R.id.sezione);
         nomeAlunno = (EditText) view.findViewById(R.id.nomeAlunno);
@@ -114,10 +124,7 @@ public class AggiungiClasseFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 acquisizioneDati();
-                Gson lista = new Gson();
-                Gson classe = new Gson();
-                Log.v("LOG", "jsonAlunni: "+lista.toJson(listaAlunni));
-                Log.v("LOG", "jsonClasse: "+classe.toJson(cl));
+
 
             }
         });
@@ -171,10 +178,9 @@ public class AggiungiClasseFragment extends Fragment {
     }*/
 
     private void acquisizioneDati(){
-
+        Log.v("LOG", "sono in acquisizioneDati");
         //per il primo inserimento mi salvo la classe
         if(classe.getText() != null || sezione.getText() != null){
-            Log.v("LOG","sono entrato: "+i++);
             classeTxt = classe.getText().toString()+sezione.getText().toString();
 
             cl = new Classe(classeTxt);
@@ -183,7 +189,7 @@ public class AggiungiClasseFragment extends Fragment {
         if(nomeAlunno.getText() != null  || cognomeAlunno.getText() != null || dataNascitaAlunno.getText() != null
                 || cfAlunno.getText() != null || luogoNascitaAlunno.getText() != null || residenzaAlunno.getText() != null || telefonoAlunno.getText() != null
                 || cellulareAlunno.getText() != null || emailAlunno.getText() != null){
-            Log.v("LOG","sono entrato: "+c++);
+
             nomeAlunnoTxt = nomeAlunno.getText().toString();
             cognomeAlunnoTxt = cognomeAlunno.getText().toString();
             dataNascitaAlunnoTxt = dataNascitaAlunno.getText().toString();
@@ -193,34 +199,37 @@ public class AggiungiClasseFragment extends Fragment {
             telefonoAlunnoTxt = telefonoAlunno.getText().toString();
             cellulareAlunnoTxt = cellulareAlunno.getText().toString();
             emailAlunnoTxt = emailAlunno.getText().toString();
+
             if(opzDsaAlunno.isChecked()) {
                 opzioneDsa = true;
             }
+
             usernameTxt = username.getText().toString();
-            if(password.getText().equals(confermaPsw.getText())){
+
+            if(password.getText().toString().equals(confermaPsw.getText().toString())){
                 passwordTxt = password.getText().toString();
             }else{
-                Toast.makeText(getContext(),"Le password non coincidono.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Le password non coincidono.", Toast.LENGTH_LONG).show();
             }
 
-            //TODO si devono acquisire anche username, password e foto
+            //TODO si deve acquisire anche foto
             Alunno al = new Alunno(cfAlunnoTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt, telefonoAlunnoTxt,
                     cellulareAlunnoTxt, emailAlunnoTxt,opzioneDsa, usernameTxt, passwordTxt,classeTxt);
-
+            Log.v("LOG", "alunno: "+al.toString());
             listaAlunni.add(al);
 
             pulizia();
 
+            //invia i dati
+            aggiungiSetAlunni();
+
         }else{
-            //TODO messaggio di errore
+            Toast.makeText(getContext(), "Inserire i campi obbligatori.", Toast.LENGTH_LONG).show();
         }
-
-
-
-
     }
 
     public void aggiungiSetAlunni() {
+        Log.v("LOG", "sono in aggiungi");
         HashMap<String, String> parametri = new HashMap<>();
 
         Gson lista = new Gson();
@@ -228,17 +237,25 @@ public class AggiungiClasseFragment extends Fragment {
         parametri.put("arrayAlunni", lista.toJson(listaAlunni));
         parametri.put("classe", classe.toJson(cl));
 
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
+        Log.v("LOG", "arrayAlunno-"+lista.toJson(listaAlunni));
+        Log.v("LOG", "classe-"+classe.toJson(cl));
 
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    Toast.makeText(getContext(),response.getString("messaggio") , Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.v("LOG","errore-"+error.toString());
             }
         });
+        requestQueue.add(richiesta);
     }
 
     private void pulizia(){
@@ -251,6 +268,9 @@ public class AggiungiClasseFragment extends Fragment {
         telefonoAlunno.setText("");
         cellulareAlunno.setText("");
         emailAlunno.setText("");
+        password.setText("");
+        username.setText("");
+        confermaPsw.setText("");
     }
 
 }

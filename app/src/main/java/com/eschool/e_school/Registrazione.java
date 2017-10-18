@@ -21,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,18 +87,7 @@ public class Registrazione extends AppCompatActivity {
             public void onClick(View view) {
                 aquisiszioneDati();
                 if(controllo()){
-                    if(mat.length != 0 || clas.length!=0) {
-                        for (int i = 0; i < mat.length; i++) {
-                            if (mat[i].isChecked()) {
-                                materie.add(mat[i].getText().toString());
-                            }
-                        }
-                        for (int i = 0; i < clas.length; i++) {
-                            if (clas[i].isChecked()) {
-                                classi.add(clas[i].getText().toString());
-                            }
-                        }
-                    }
+
                     try {
                         registrazione();
                     } catch (JSONException e) {
@@ -108,6 +98,7 @@ public class Registrazione extends AppCompatActivity {
         });
     }
 
+    //metodo che mi permette di acquisire i dati dalle editText
     private void aquisiszioneDati(){
         nome = nomeDoc.getText().toString().trim();
         cognome = cognomeDoc.getText().toString().trim();
@@ -121,8 +112,22 @@ public class Registrazione extends AppCompatActivity {
         matricola = matricolaDoc.getText().toString().trim();
         psw = pswDoc.getText().toString().trim();
         confermaPsw = confermaPswDoc.getText().toString().trim();
+
+        if(mat.length != 0 || clas.length !=0) {
+            for (int i = 0; i < mat.length; i++) {
+                if (mat[i].isChecked()) {
+                    materie.add(mat[i].getText().toString());
+                }
+            }
+            for (int i = 0; i < clas.length; i++) {
+                if (clas[i].isChecked()) {
+                    classi.add(clas[i].getText().toString());
+                }
+            }
+        }
     }
 
+    //metodo che controlla che l'inserimento dei valori sia giusto, in caso negativo mostra messaggi o dà segnali di errore
     public boolean controllo(){
         if(nome.equals("") || cognome.equals("") || datanascita.equals("")|| luogoNascita.equals("") || cf.equals("") || residenza.equals("")
                 || telefono.equals("") || cellulare.equals("") || email.equals("") || matricola.equals("") || psw.equals("")){
@@ -238,18 +243,19 @@ public class Registrazione extends AppCompatActivity {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.v("LOG", e.toString());
+                    Log.d("LOG", e.toString());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v("LOG", error.toString());
+                Log.d("LOG", error.toString());
             }
         });
         requestQueue.add(richiesta);
     }
 
+    //invia al db i dati inseriti dall'utente
     public void registrazione() throws JSONException {
 
         //raccolgo i dati inseriti dall'utente
@@ -267,26 +273,30 @@ public class Registrazione extends AppCompatActivity {
         parametri.put("email",email);
         parametri.put("password",psw);
 
-        listaMaterie = "[{";
+        Gson classe = new Gson();
+        Gson materia = new Gson();
+
+
+        /*listaMaterie = "[{";
         for(int i =0; i< materie.size();i++) {
             if(i!=(materie.size()-1))
                 listaMaterie +="\"nomeMateria\": \""+materie.get(i)+"\"},{";
             else
                 listaMaterie +="\"nomeMateria\": \""+materie.get(i)+"\"";
         }
-        listaMaterie += "}]";
+        listaMaterie += "}]";*/
 
-        listaClassi = "[{";
+        /*listaClassi = "[{";
         for(int i =0; i< classi.size();i++) {
             if(i!=(classi.size()-1))
                 listaClassi +="\"nomeClasse\": \""+classi.get(i)+"\"},{";
             else
                 listaClassi +="\"nomeClasse\": \""+classi.get(i)+"\"";
         }
-        listaClassi += "}]";
+        listaClassi += "}]";*/
 
-        parametri.put("jsonMaterie",listaMaterie);
-        parametri.put("jsonClassi",listaClassi);
+        parametri.put("jsonMaterie",materia.toJson(materie));
+        parametri.put("jsonClassi",classe.toJson(classi));
 
         //richiesta di connessione al server
        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlRegistrazione, parametri, new Response.Listener<JSONObject>() {
@@ -294,14 +304,14 @@ public class Registrazione extends AppCompatActivity {
         @Override
         public void onResponse(JSONObject response) {
             String c ="";
-            Log.v("LOG","ris "+ response.toString());
+            Log.d("LOG","ris "+ response.toString());
             try {
                 c  = response.getString("risposta");
             } catch (JSONException e) {
                  e.printStackTrace();
              }
              if(c!=""){
-                 Log.v("LOG","sono qui");
+                 Log.d("LOG","sono qui");
                  Intent vaiLogin = new Intent(Registrazione.this,Login.class);
                  startActivity(vaiLogin);
                  Toast toast = Toast.makeText(getApplicationContext(),c,Toast.LENGTH_LONG);
@@ -318,7 +328,7 @@ public class Registrazione extends AppCompatActivity {
 
         @Override
         public void onErrorResponse(VolleyError error) {
-            Log.v("LOG","errore "+ error.toString());
+            Log.d("LOG","errore "+ error.toString());
 
             infoAlert.setTitle("Errore di connessione");
             infoAlert.setMessage("Controllare connessione internet e riprovare.");
