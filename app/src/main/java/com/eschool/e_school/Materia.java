@@ -1,8 +1,8 @@
 package com.eschool.e_school;
 
 public class Materia {
-    String codiceMateria;
-    String desctizione;
+    private String codiceMateria;
+    private String desctizione;
 
     public Materia(String codiceMateria,String desctizione){
         this.codiceMateria = codiceMateria;
@@ -15,5 +15,13 @@ public class Materia {
 
     public void setCodiceMateria(String codiceMateria) {
         this.codiceMateria = codiceMateria;
+    }
+
+    public String getDesctizione() {
+        return desctizione;
+    }
+
+    public void setDesctizione(String desctizione) {
+        this.desctizione = desctizione;
     }
 }
