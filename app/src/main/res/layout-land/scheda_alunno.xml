@@ -184,6 +184,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/margineBordi"/>
+
                 </TableRow>
 
                 <View
@@ -228,6 +229,13 @@
                         android:enabled="false"
                         android:layout_marginLeft="@dimen/margineBordi"/>
 
+                    <Button
+                        android:id="@+id/btConfermaModifica"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/conferma"
+                        android:textAllCaps="false"
+                        android:visibility="invisible"/>
                 </TableRow>
                 <View
                     android:layout_height="2dip"
