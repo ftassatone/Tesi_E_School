@@ -6,18 +6,34 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SchedaAlunno extends AppCompatActivity {
 
-    private Alunno alunno;
-        private EditText nomeAlunno, cognomeAlunnno, dataNascitaAlunno, codiceFiscaleAlunno, luogoNascitaAlunno, residenzaAlunno, telefonoAlunno, celAlunno, emailAlunno;
-        private CheckBox opzDsaAlunno;
-        private ArrayList datiAlunno;
-        private Boolean dsa;
+    private Alunno alunno, alunnoMod;
+    private EditText nomeAlunno, cognomeAlunnno, dataNascitaAlunno, codiceFiscaleAlunno, luogoNascitaAlunno, residenzaAlunno,
+            telefonoAlunno, celAlunno, emailAlunno, usernameAlunno, passwordAlunno, classeTxt;
+    private CheckBox opzDsaAlunno;
+    private ArrayList datiAlunno;
+    private Boolean dsa, getdsa;
+    private Button btmodificaDatiAlunno, btConfermaModifica;
+    private String url = "http://www.eschooldb.altervista.org/PHP/modificaDatiAlunni.php";
+    private RequestQueue requestQueue;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +48,14 @@ public class SchedaAlunno extends AppCompatActivity {
         telefonoAlunno = (EditText) findViewById(R.id.telefonoAlunno);
         celAlunno = (EditText) findViewById(R.id.celAlunno);
         emailAlunno = (EditText) findViewById(R.id.emailAlunno);
+        usernameAlunno = (EditText) findViewById(R.id.usernameAlunno);
+        passwordAlunno = (EditText) findViewById(R.id.passwordAlunno);
+        classeTxt = (EditText) findViewById(R.id.classeTxt);
         opzDsaAlunno = (CheckBox) findViewById(R.id.opzDsaAlunno);
+        btmodificaDatiAlunno = (Button) findViewById(R.id.btmodificaDatiAlunno);
+        btConfermaModifica = (Button) findViewById(R.id.btConfermaModifica);
+
+        requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -40,7 +63,36 @@ public class SchedaAlunno extends AppCompatActivity {
             alunno = (Alunno) bundle.getParcelable("Alunno");
         }
 
+
+
         riempiScheda();
+
+        btmodificaDatiAlunno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btConfermaModifica.setVisibility(View.VISIBLE);
+
+                nomeAlunno.setEnabled(true);
+                cognomeAlunnno.setEnabled(true);
+                dataNascitaAlunno.setEnabled(true);
+                codiceFiscaleAlunno.setEnabled(true);
+                luogoNascitaAlunno.setEnabled(true);
+                residenzaAlunno.setEnabled(true);
+                telefonoAlunno.setEnabled(true);
+                celAlunno.setEnabled(true);
+                emailAlunno.setEnabled(true);
+                opzDsaAlunno.setEnabled(true);
+                usernameAlunno.setEnabled(true);
+                passwordAlunno.setEnabled(true);
+            }
+        });
+
+        btConfermaModifica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modifica();
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,27 +119,57 @@ public class SchedaAlunno extends AppCompatActivity {
     public void riempiScheda(){
         datiAlunno = new ArrayList();
         datiAlunno.add(alunno);
-        for(int i=0; i<datiAlunno.size(); i++){
-            nomeAlunno.setText(alunno.getNome());
-            cognomeAlunnno.setText(alunno.getCognome());
-            dataNascitaAlunno.setText(alunno.getDataNascita());
-            codiceFiscaleAlunno.setText(alunno.getCf());
-            luogoNascitaAlunno.setText(alunno.getLuogoNascita());
-            residenzaAlunno.setText(alunno.getResidenza());
-            telefonoAlunno.setText(alunno.getNumeroTelefono());
-            celAlunno.setText(alunno.getCellulare());
-            emailAlunno.setText(alunno.getEmail());
+        for(int i=0; i<datiAlunno.size(); i++) {
+            nomeAlunno.setText(alunno.getNome().trim());
+            cognomeAlunnno.setText(alunno.getCognome().trim());
+            dataNascitaAlunno.setText(alunno.getDataNascita().trim());
+            codiceFiscaleAlunno.setText(alunno.getCf().trim());
+            luogoNascitaAlunno.setText(alunno.getLuogoNascita().trim());
+            residenzaAlunno.setText(alunno.getResidenza().trim());
+            telefonoAlunno.setText(alunno.getNumeroTelefono().trim());
+            celAlunno.setText(alunno.getCellulare().trim());
+            emailAlunno.setText(alunno.getEmail().trim());
+            usernameAlunno.setText(alunno.getUsername().trim());
+            passwordAlunno.setText(alunno.getPassword().trim());
+            classeTxt.setText(alunno.getNomeClasse().trim());
             dsa = alunno.getDsa();
-            Log.v("LOG", "dsa "+dsa);
-            if(dsa.equals(1)) {
+            if (dsa.equals(true)) {
                 opzDsaAlunno.setChecked(true);
-            }else {
+            } else {
                 opzDsaAlunno.setChecked(false);
             }
-            if(opzDsaAlunno.isChecked())
-                Log.v("LOG", "sono dislessico");
         }
     }
+
+    public void modifica(){
+
+        if(opzDsaAlunno.isChecked())
+            getdsa = true;
+        else
+            getdsa = false;
+        alunnoMod = new Alunno(nomeAlunno.getText().toString(), cognomeAlunnno.getText().toString(), dataNascitaAlunno.getText().toString(),
+                codiceFiscaleAlunno.getText().toString(), luogoNascitaAlunno.getText().toString(),residenzaAlunno.getText().toString(),
+                telefonoAlunno.getText().toString(), celAlunno.getText().toString(), emailAlunno.getText().toString(), getdsa,
+                usernameAlunno.getText().toString(), passwordAlunno.getText().toString(),classeTxt.getText().toString());
+        HashMap<String, String> parametri = new HashMap<String, String>();
+        String datiAlunno = new Gson().toJson(alunnoMod);
+        parametri.put("alunno", datiAlunno);
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener() {
+            @Override
+            public void onResponse(Object response) {
+                Toast.makeText(getApplicationContext(), "Modifica avvenuta con successo", Toast.LENGTH_LONG).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(richiesta);
+    }
+
+
+
 
     @Override
     public void onBackPressed() {
