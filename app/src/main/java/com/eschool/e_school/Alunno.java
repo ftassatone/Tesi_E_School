@@ -4,20 +4,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Alunno implements Parcelable{
-    String cf;
-    String nome;
-    String cognome;
-    String dataNascita;
-    String luogoNascita;
-    String residenza;
-    String numeroTelefono;
-    String cellulare;
-    String email;
-    Boolean dsa;
-    String username;
-    String password;
-    //foto da caricare..
-    String nomeClasse;
+    private String cf;
+    private String nome;
+    private String cognome;
+    private String dataNascita;
+    private String luogoNascita;
+    private String residenza;
+    private String numeroTelefono;
+    private String cellulare;
+    private String email;
+    private Boolean dsa;
+    private String username;
+    private String password;
+    //foto
+    private String nomeClasse;
 
     public Alunno(String cf, String nome, String cognome, String dataNascita, String luogoNascita,
                   String residenza, String numeroTelefono, String cellulare, String email,
@@ -142,7 +142,24 @@ public class Alunno implements Parcelable{
         this.username = username;
     }
 
-
+    @Override
+    public String toString() {
+        return "Alunno{" +
+                "cf='" + cf + '\'' +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", dataNascita='" + dataNascita + '\'' +
+                ", luogoNascita='" + luogoNascita + '\'' +
+                ", residenza='" + residenza + '\'' +
+                ", numeroTelefono='" + numeroTelefono + '\'' +
+                ", cellulare='" + cellulare + '\'' +
+                ", email='" + email + '\'' +
+                ", dsa=" + dsa +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", nomeClasse='" + nomeClasse + '\'' +
+                '}';
+    }
 
     private Alunno(Parcel in){
         readFromParcel(in);

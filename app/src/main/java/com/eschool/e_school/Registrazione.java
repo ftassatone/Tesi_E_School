@@ -44,7 +44,7 @@ public class Registrazione extends AppCompatActivity {
     private LinearLayout linearMaterie, linearPrima, linearSeconda, linearTerza, linearQuarta, linearQuinta;
     private CheckBox[] mat, clas;
     private ArrayList<String> materie, classi;
-    String listaMaterie, listaClassi;
+    private Docente doc;
 
 
     @Override
@@ -87,7 +87,7 @@ public class Registrazione extends AppCompatActivity {
             public void onClick(View view) {
                 aquisiszioneDati();
                 if(controllo()){
-
+                    doc = new Docente(matricola,nome,cognome,cf,datanascita,luogoNascita,residenza,telefono,cellulare,email,psw);
                     try {
                         registrazione();
                     } catch (JSONException e) {
@@ -261,42 +261,14 @@ public class Registrazione extends AppCompatActivity {
         //raccolgo i dati inseriti dall'utente
         HashMap<String,String> parametri = new HashMap<String, String>();
 
-        parametri.put("matricola",matricola);
-        parametri.put("nome",nome);
-        parametri.put("cognome",cognome);
-        parametri.put("cf",cf);
-        parametri.put("dataNascita",datanascita);
-        parametri.put("luogoNascita",luogoNascita);
-        parametri.put("residenza",residenza);
-        parametri.put("numeroTelefono",telefono);
-        parametri.put("cellulare",cellulare);
-        parametri.put("email",email);
-        parametri.put("password",psw);
-
         Gson classe = new Gson();
         Gson materia = new Gson();
+        Gson docente = new Gson();
 
-
-        /*listaMaterie = "[{";
-        for(int i =0; i< materie.size();i++) {
-            if(i!=(materie.size()-1))
-                listaMaterie +="\"nomeMateria\": \""+materie.get(i)+"\"},{";
-            else
-                listaMaterie +="\"nomeMateria\": \""+materie.get(i)+"\"";
-        }
-        listaMaterie += "}]";*/
-
-        /*listaClassi = "[{";
-        for(int i =0; i< classi.size();i++) {
-            if(i!=(classi.size()-1))
-                listaClassi +="\"nomeClasse\": \""+classi.get(i)+"\"},{";
-            else
-                listaClassi +="\"nomeClasse\": \""+classi.get(i)+"\"";
-        }
-        listaClassi += "}]";*/
-
+        parametri.put("jsonDocente",docente.toJson(doc));
         parametri.put("jsonMaterie",materia.toJson(materie));
         parametri.put("jsonClassi",classe.toJson(classi));
+
 
         //richiesta di connessione al server
        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlRegistrazione, parametri, new Response.Listener<JSONObject>() {
@@ -304,14 +276,13 @@ public class Registrazione extends AppCompatActivity {
         @Override
         public void onResponse(JSONObject response) {
             String c ="";
-            Log.d("LOG","ris "+ response.toString());
             try {
+
                 c  = response.getString("risposta");
             } catch (JSONException e) {
                  e.printStackTrace();
              }
              if(c!=""){
-                 Log.d("LOG","sono qui");
                  Intent vaiLogin = new Intent(Registrazione.this,Login.class);
                  startActivity(vaiLogin);
                  Toast toast = Toast.makeText(getApplicationContext(),c,Toast.LENGTH_LONG);
@@ -328,8 +299,6 @@ public class Registrazione extends AppCompatActivity {
 
         @Override
         public void onErrorResponse(VolleyError error) {
-            Log.d("LOG","errore "+ error.toString());
-
             infoAlert.setTitle("Errore di connessione");
             infoAlert.setMessage("Controllare connessione internet e riprovare.");
             AlertDialog alert = infoAlert.create();

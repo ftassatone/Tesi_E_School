@@ -24,4 +24,12 @@ public class Materia {
     public void setDesctizione(String desctizione) {
         this.desctizione = desctizione;
     }
+
+    @Override
+    public String toString() {
+        return "Materia{" +
+                "codiceMateria='" + codiceMateria + '\'' +
+                ", desctizione='" + desctizione + '\'' +
+                '}';
+    }
 }

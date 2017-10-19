@@ -1,17 +1,17 @@
 package com.eschool.e_school;
 
 public class Docente {
-    String matricola;
-    String nome;
-    String cognome;
-    String cf;
-    String dataNascita;
-    String luogoNascita;
-    String residenza;
-    String numeroTelefono;
-    String cellulare;
-    String email;
-    String password;
+    private String matricola;
+    private String nome;
+    private String cognome;
+    private String cf;
+    private String dataNascita;
+    private String luogoNascita;
+    private String residenza;
+    private String numeroTelefono;
+    private String cellulare;
+    private String email;
+    private String password;
 
     public Docente (String matricola,String nome,String cognome, String cf, String dataNascita, String luogoNascita,
                     String residenza,String numeroTelefono, String cellulare, String email, String password){
@@ -34,5 +34,22 @@ public class Docente {
 
     public void setMatricola(String matricola) {
         this.matricola = matricola;
+    }
+
+    @Override
+    public String toString() {
+        return "Docente{" +
+                "matricola='" + matricola + '\'' +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", cf='" + cf + '\'' +
+                ", dataNascita='" + dataNascita + '\'' +
+                ", luogoNascita='" + luogoNascita + '\'' +
+                ", residenza='" + residenza + '\'' +
+                ", numeroTelefono='" + numeroTelefono + '\'' +
+                ", cellulare='" + cellulare + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

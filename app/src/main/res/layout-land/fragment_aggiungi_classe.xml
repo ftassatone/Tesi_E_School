@@ -164,6 +164,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/inserisci"
                             android:maxLines="@integer/numeroRighe"
+                            android:maxLength="@integer/lunghezzaCf"
                             android:layout_marginLeft="@dimen/marginetop"/>
 
                         <EditText

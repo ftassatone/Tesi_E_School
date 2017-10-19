@@ -92,6 +92,10 @@
     <string name="scegliAl">Scegli alunno:</string>
     <string name="assenza">assente</string>
 
+    <!-- sezione login -->
+    <string name="teoria">Lezioni di teoria</string>
+    <string name="esercizi">Esercizi</string>
+
     <string name="livello">Scegli la classe che frequenti</string>
     <string name="listaClassi">Elenco classi</string>
     <string name="materie">Lista materie</string>
@@ -103,6 +107,6 @@
     <string name="sezione">Sezione</string>
     <string name="informazioni">Informazioni</string>
     <string name="impostazioni">Impostazioni</string>
-    <string name="esercizi">Esercizi svolti</string>
+    <string name="eserciziSvolti">Esercizi svolti</string>
 
 </resources>

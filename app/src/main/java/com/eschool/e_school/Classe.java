@@ -2,7 +2,7 @@ package com.eschool.e_school;
 
 public class Classe {
 
-    String nomeClasse;
+    private String nomeClasse;
 
     public Classe (String nomeClasse){
         this.nomeClasse = nomeClasse;
@@ -14,6 +14,13 @@ public class Classe {
 
     public void setNomeClasse(String nomeClasse) {
         this.nomeClasse = nomeClasse;
+    }
+
+    @Override
+    public String toString() {
+        return "Classe{" +
+                "nomeClasse='" + nomeClasse + '\'' +
+                '}';
     }
 }
 
