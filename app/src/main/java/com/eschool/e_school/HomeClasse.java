@@ -127,7 +127,10 @@ public class HomeClasse extends AppCompatActivity
         } else if (id == R.id.eserciziSvolti) {
 
         } else if (id == R.id.homePrincipale) {
-            //startActivity(new Intent(getApplicationContext(),Home.class));
+           Intent home = new Intent(getApplicationContext(),Home.class);
+            Log.d("LOG",Home.DOC);
+            home.putExtra("username",Home.DOC);
+            startActivity(home);
 
         } else if (id == R.id.impostazioni) {
 

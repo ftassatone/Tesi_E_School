@@ -27,8 +27,9 @@
     <string name="infoDocenza">Seleziona le materie e le classi</string>
     <string name="infoAlunno">Informazioni alunno</string>
     <string name="infoGenerali">Informazioni generali</string>
-    <string name="infoAccesso">Informazioni per l accesso al sistema</string>
+    <string name="infoAccesso">Informazioni per l\'accesso al sistema</string>
     <string name="infoClasse">Informazioni classe</string>
+    <string name="infoAndamento">Informazioni andamento</string>
 
     <!-- form  -->
     <string name="cf">Codice fiscale*</string>
@@ -44,13 +45,19 @@
     <string name="matricola">Matricola*</string>
     <string name="passwordTxt">Password*</string>
     <string name="confermaPsw">Conferma password*</string>
+
+
+    <!-- form  -->
     <string name="username">Username</string>
+    <string name="pswAlunno">Password</string>
 
     <!-- messaggi di errore o informativi -->
     <string name="benvenuto">Benvenuto </string>
-    <string name="infoMatricola">N.B. La matricola verrà usata come username al momento dell accesso al sistema.</string>
+    <string name="infoMatricola">N.B. La matricola verrà usata come username al momento dell\'accesso al sistema.</string>
     <string name="erroreCorrispondenza">Le password non corrispondono.</string>
-    <string name="erroreCampiVuoti">*E obbligatorio compilare tutti i campi.</string>
+    <string name="erroreCampiVuoti">*E\' obbligatorio compilare tutti i campi.</string>
+    <string name="infoElenco">Seleziona l\'alunno per visualizzarne i dati.</string>
+    <string name="infoProgramma">Seleziona l\'argomento per visualizzare esercizi e teoria associati.</string>
 
     <!-- button -->
     <string name="conferma">Conferma</string>
@@ -62,6 +69,7 @@
     <string name="homeClasse">Vai a home classe</string>
     <string name="nuovoAlunno">Nuovo alunno</string>
     <string name="opzioniDSA">Opzioni DSA</string>
+    <string name="annulla">Annulla</string>
 
 
     <!-- sezione diagnostica -->

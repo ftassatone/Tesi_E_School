@@ -32,7 +32,8 @@ public class Home extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private String docente;
+    //private String docente;
+    static String DOC = null;
     private PagerTabStrip pager_header;
 
     /**
@@ -59,8 +60,10 @@ public class Home extends AppCompatActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         Bundle dato = getIntent().getExtras();
-        docente = dato.getString("username");
-        Log.v("LOG","nome doc"+docente);
+        //docente = dato.getString("username");
+        DOC = dato.getString("username");
+        //DOC = docente;
+        //Log.v("LOG","nome doc"+docente);
 
     }
 
@@ -107,7 +110,8 @@ public class Home extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return HomeDocenteFragment.newInstance(docente);
+                   //return HomeDocenteFragment.newInstance(docente);
+                    return HomeDocenteFragment.newInstance(DOC);
                 case 1:
                     return AggiungiClasseFragment.newInstance();
                 case 2:

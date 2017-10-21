@@ -122,7 +122,7 @@ public class HomeDocenteFragment extends Fragment {
                     }
                 }
 
-                if(radioClasse != null || radioMateria != null) {
+                if(radioClasse != null && radioMateria != null) {
                     Intent vaiHomeClasse = new Intent(getContext(), HomeClasse.class);
                     vaiHomeClasse.putExtra("Materia", radioMateria);
                     vaiHomeClasse.putExtra("Classe", radioClasse);

@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,6 +21,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,13 +31,16 @@ public class SchedaAlunno extends AppCompatActivity {
 
     private Alunno alunno, alunnoMod;
     private EditText nomeAlunno, cognomeAlunnno, dataNascitaAlunno, codiceFiscaleAlunno, luogoNascitaAlunno, residenzaAlunno,
-            telefonoAlunno, celAlunno, emailAlunno, usernameAlunno, passwordAlunno, classeTxt;
+            telefonoAlunno, celAlunno, emailAlunno, usernameAlunno, passwordAlunno, classeTxt,confPswAlunno;
     private CheckBox opzDsaAlunno;
     private ArrayList datiAlunno;
-    private Boolean dsa, getdsa;
-    private Button btmodificaDatiAlunno, btConfermaModifica;
-    private String url = "http://www.eschooldb.altervista.org/PHP/modificaDatiAlunni.php";
+    private Boolean dsa;
+    private String getdsa;
+    private Button btConfermaModificaCred, btConfermaModificaDati, btAnnullaCred, btAnnullaDati;
+    private ImageButton btModificaDati, btModificaCredenziali;
+    private String url = "http://www.eschooldb.altervista.org/PHP/modificaDatiAlunno.php";
     private RequestQueue requestQueue;
+    private TextView txtConfPsw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +60,14 @@ public class SchedaAlunno extends AppCompatActivity {
         passwordAlunno = (EditText) findViewById(R.id.passwordAlunno);
         classeTxt = (EditText) findViewById(R.id.classeTxt);
         opzDsaAlunno = (CheckBox) findViewById(R.id.opzDsaAlunno);
-        btmodificaDatiAlunno = (Button) findViewById(R.id.btmodificaDatiAlunno);
-        btConfermaModifica = (Button) findViewById(R.id.btConfermaModifica);
+        btModificaDati = (ImageButton) findViewById(R.id.btModificaDati);
+        btModificaCredenziali = (ImageButton) findViewById(R.id.btModificaCredenziali);
+        btConfermaModificaCred = (Button) findViewById(R.id.btConfermaModificaCred);
+        btConfermaModificaDati = (Button) findViewById(R.id.btConfermaModificaDati);
+        btAnnullaDati = (Button) findViewById(R.id.btAnnullaDati);
+        btAnnullaCred = (Button) findViewById(R.id.btAnnullaCred);
+        txtConfPsw = (TextView) findViewById(R.id.txtConfPsw);
+        confPswAlunno = (EditText) findViewById(R.id.confPasswordAlunno);
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
@@ -63,34 +77,49 @@ public class SchedaAlunno extends AppCompatActivity {
             alunno = (Alunno) bundle.getParcelable("Alunno");
         }
 
-
-
         riempiScheda();
 
-        btmodificaDatiAlunno.setOnClickListener(new View.OnClickListener() {
+        btModificaDati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btConfermaModifica.setVisibility(View.VISIBLE);
-
-                nomeAlunno.setEnabled(true);
-                cognomeAlunnno.setEnabled(true);
-                dataNascitaAlunno.setEnabled(true);
-                codiceFiscaleAlunno.setEnabled(true);
-                luogoNascitaAlunno.setEnabled(true);
-                residenzaAlunno.setEnabled(true);
-                telefonoAlunno.setEnabled(true);
-                celAlunno.setEnabled(true);
-                emailAlunno.setEnabled(true);
-                opzDsaAlunno.setEnabled(true);
-                usernameAlunno.setEnabled(true);
-                passwordAlunno.setEnabled(true);
+                setEditDati(true);
             }
         });
 
-        btConfermaModifica.setOnClickListener(new View.OnClickListener() {
+        btAnnullaDati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modifica();
+                setEditDati(false);
+            }
+        });
+
+        btConfermaModificaDati.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modifica("dati");
+                setEditDati(false);
+            }
+        });
+
+        btModificaCredenziali.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setEditCred(true);
+            }
+        });
+
+        btAnnullaCred.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setEditCred(false);
+            }
+        });
+
+        btConfermaModificaCred.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modifica("credenziali");
+                setEditCred(false);
             }
         });
     }
@@ -141,23 +170,58 @@ public class SchedaAlunno extends AppCompatActivity {
         }
     }
 
-    public void modifica(){
+    public void modifica(String op){
+        //TODO potrebbe essere utileinviare solo i dati che si modificano (dati o credenziali)
+        HashMap<String, String> parametri = new HashMap<String, String>();
 
-        if(opzDsaAlunno.isChecked())
-            getdsa = true;
+        parametri.put("opzione",op);
+        parametri.put("cf",codiceFiscaleAlunno.getText().toString());
+
+        if(op.equals("dati")){
+            parametri.put("nome",nomeAlunno.getText().toString());
+            parametri.put("cognome",cognomeAlunnno.getText().toString());
+            parametri.put("luogoNascita",luogoNascitaAlunno.getText().toString());
+            parametri.put("dataNascita",dataNascitaAlunno.getText().toString());
+            parametri.put("residenza",residenzaAlunno.getText().toString());
+            parametri.put("numeroTelefono",telefonoAlunno.getText().toString());
+            parametri.put("cellulare", celAlunno.getText().toString());
+            parametri.put("email",emailAlunno.getText().toString());
+            if(opzDsaAlunno.isChecked())
+                getdsa = "1";
+            else
+                getdsa = "0";
+            parametri.put("dsa", getdsa);
+        }else if(op.equals("cred")){
+            parametri.put("username",usernameAlunno.getText().toString());
+            if(passwordAlunno.getText().toString().equals(confPswAlunno.getText().toString())){
+                parametri.put("password",passwordAlunno.getText().toString());
+            }else{
+                Toast.makeText(getApplicationContext(), "Le password non coincidono.", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+       /* if(opzDsaAlunno.isChecked())
+            getdsa = "1";
         else
-            getdsa = false;
-        alunnoMod = new Alunno(nomeAlunno.getText().toString(), cognomeAlunnno.getText().toString(), dataNascitaAlunno.getText().toString(),
-                codiceFiscaleAlunno.getText().toString(), luogoNascitaAlunno.getText().toString(),residenzaAlunno.getText().toString(),
+            getdsa = "0";
+
+        alunnoMod = new Alunno(codiceFiscaleAlunno.getText().toString(),nomeAlunno.getText().toString(), cognomeAlunnno.getText().toString(), dataNascitaAlunno.getText().toString(),
+                 luogoNascitaAlunno.getText().toString(),residenzaAlunno.getText().toString(),
                 telefonoAlunno.getText().toString(), celAlunno.getText().toString(), emailAlunno.getText().toString(), getdsa,
                 usernameAlunno.getText().toString(), passwordAlunno.getText().toString(),classeTxt.getText().toString());
-        HashMap<String, String> parametri = new HashMap<String, String>();
+
         String datiAlunno = new Gson().toJson(alunnoMod);
-        parametri.put("alunno", datiAlunno);
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener() {
+        parametri.put("alunno", datiAlunno);*/
+
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(Object response) {
-                Toast.makeText(getApplicationContext(), "Modifica avvenuta con successo", Toast.LENGTH_LONG).show();
+            public void onResponse(JSONObject response) {
+                try {
+                    Log.d("LOG","ris "+response.getString("risposta"));
+                    Toast.makeText(getApplicationContext(), response.getString("risposta"), Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -168,6 +232,44 @@ public class SchedaAlunno extends AppCompatActivity {
         requestQueue.add(richiesta);
     }
 
+    //metodo che mi permette di abilitare o diabilitare le editText
+    private void setEditDati(boolean b){
+        nomeAlunno.setEnabled(b);
+        cognomeAlunnno.setEnabled(b);
+        dataNascitaAlunno.setEnabled(b);
+        codiceFiscaleAlunno.setEnabled(b);
+        luogoNascitaAlunno.setEnabled(b);
+        residenzaAlunno.setEnabled(b);
+        telefonoAlunno.setEnabled(b);
+        celAlunno.setEnabled(b);
+        emailAlunno.setEnabled(b);
+        opzDsaAlunno.setEnabled(b);
+        if(b){
+            btConfermaModificaDati.setVisibility(View.VISIBLE);
+            btAnnullaDati.setVisibility(View.VISIBLE);
+
+        }else{
+            btConfermaModificaDati.setVisibility(View.INVISIBLE);
+            btAnnullaDati.setVisibility(View.INVISIBLE);
+
+        }
+    }
+
+    private void setEditCred(Boolean b){
+        usernameAlunno.setEnabled(b);
+        passwordAlunno.setEnabled(b);
+        if(b){
+            btConfermaModificaCred.setVisibility(View.VISIBLE);
+            btAnnullaCred.setVisibility(View.VISIBLE);
+            txtConfPsw.setVisibility(View.VISIBLE);
+            confPswAlunno.setVisibility(View.VISIBLE);
+        }else{
+            btConfermaModificaCred.setVisibility(View.INVISIBLE);
+            btAnnullaCred.setVisibility(View.INVISIBLE);
+            txtConfPsw.setVisibility(View.INVISIBLE);
+            confPswAlunno.setVisibility(View.INVISIBLE);
+        }
+    }
 
 
 

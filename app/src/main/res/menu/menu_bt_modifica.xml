@@ -5,8 +5,7 @@
     <item
         android:id="@+id/action_modifica_info"
         android:orderInCategory="100"
-        android:icon="@mipmap/modifica"
-        android:title="@string/modifica"
+        android:title="@string/opzioniDSA"
         app:showAsAction="ifRoom" />
 
 </menu>

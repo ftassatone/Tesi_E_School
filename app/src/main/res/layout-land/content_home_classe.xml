@@ -22,12 +22,18 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/elencoClasse"
                 android:textStyle="bold"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textInfo"
+                android:text="@string/infoElenco"/>
             <ListView
                 android:id="@+id/listViewElencoAlunni"
                 android:layout_marginTop="@dimen/marginetop"
@@ -49,7 +55,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/programma"
                 android:textStyle="bold"
-                android:layout_marginTop="@dimen/marginetop"/>
+                android:layout_marginTop="@dimen/minimoMarginetop"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/textInfo"
+                android:text="@string/infoProgramma"/>
             <ListView
                 android:id="@+id/listViewProgramma"
                 android:layout_marginTop="@dimen/marginetop"
