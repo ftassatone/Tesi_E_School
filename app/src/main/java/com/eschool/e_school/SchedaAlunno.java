@@ -31,16 +31,15 @@ public class SchedaAlunno extends AppCompatActivity {
 
     private Alunno alunno, alunnoMod;
     private EditText nomeAlunno, cognomeAlunnno, dataNascitaAlunno, codiceFiscaleAlunno, luogoNascitaAlunno, residenzaAlunno,
-            telefonoAlunno, celAlunno, emailAlunno, usernameAlunno, passwordAlunno, classeTxt,confPswAlunno;
+            telefonoAlunno, celAlunno, emailAlunno, usernameAlunno, passwordAlunno, classeTxt;
     private CheckBox opzDsaAlunno;
     private ArrayList datiAlunno;
     private Boolean dsa;
-    private String getdsa;
-    private Button btConfermaModificaCred, btConfermaModificaDati, btAnnullaCred, btAnnullaDati;
-    private ImageButton btModificaDati, btModificaCredenziali;
+    private Boolean getdsa;
+    private Button btConfermaModificaDati, btAnnullaDati;
+    private ImageButton btModificaDati;
     private String url = "http://www.eschooldb.altervista.org/PHP/modificaDatiAlunno.php";
     private RequestQueue requestQueue;
-    private TextView txtConfPsw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +60,9 @@ public class SchedaAlunno extends AppCompatActivity {
         classeTxt = (EditText) findViewById(R.id.classeTxt);
         opzDsaAlunno = (CheckBox) findViewById(R.id.opzDsaAlunno);
         btModificaDati = (ImageButton) findViewById(R.id.btModificaDati);
-        btModificaCredenziali = (ImageButton) findViewById(R.id.btModificaCredenziali);
-        btConfermaModificaCred = (Button) findViewById(R.id.btConfermaModificaCred);
         btConfermaModificaDati = (Button) findViewById(R.id.btConfermaModificaDati);
         btAnnullaDati = (Button) findViewById(R.id.btAnnullaDati);
-        btAnnullaCred = (Button) findViewById(R.id.btAnnullaCred);
-        txtConfPsw = (TextView) findViewById(R.id.txtConfPsw);
-        confPswAlunno = (EditText) findViewById(R.id.confPasswordAlunno);
+
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
@@ -101,27 +96,7 @@ public class SchedaAlunno extends AppCompatActivity {
             }
         });
 
-        btModificaCredenziali.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setEditCred(true);
-            }
-        });
 
-        btAnnullaCred.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setEditCred(false);
-            }
-        });
-
-        btConfermaModificaCred.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                modifica("credenziali");
-                setEditCred(false);
-            }
-        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,36 +149,28 @@ public class SchedaAlunno extends AppCompatActivity {
         //TODO potrebbe essere utileinviare solo i dati che si modificano (dati o credenziali)
         HashMap<String, String> parametri = new HashMap<String, String>();
 
-        parametri.put("opzione",op);
-        parametri.put("cf",codiceFiscaleAlunno.getText().toString());
+        /*parametri.put("cf",codiceFiscaleAlunno.getText().toString());
 
-        if(op.equals("dati")){
-            parametri.put("nome",nomeAlunno.getText().toString());
-            parametri.put("cognome",cognomeAlunnno.getText().toString());
-            parametri.put("luogoNascita",luogoNascitaAlunno.getText().toString());
-            parametri.put("dataNascita",dataNascitaAlunno.getText().toString());
-            parametri.put("residenza",residenzaAlunno.getText().toString());
-            parametri.put("numeroTelefono",telefonoAlunno.getText().toString());
-            parametri.put("cellulare", celAlunno.getText().toString());
-            parametri.put("email",emailAlunno.getText().toString());
-            if(opzDsaAlunno.isChecked())
-                getdsa = "1";
-            else
-                getdsa = "0";
-            parametri.put("dsa", getdsa);
-        }else if(op.equals("cred")){
-            parametri.put("username",usernameAlunno.getText().toString());
-            if(passwordAlunno.getText().toString().equals(confPswAlunno.getText().toString())){
-                parametri.put("password",passwordAlunno.getText().toString());
-            }else{
-                Toast.makeText(getApplicationContext(), "Le password non coincidono.", Toast.LENGTH_SHORT).show();
-            }
 
-        }
-       /* if(opzDsaAlunno.isChecked())
+        parametri.put("nome",nomeAlunno.getText().toString());
+        parametri.put("cognome",cognomeAlunnno.getText().toString());
+        parametri.put("luogoNascita",luogoNascitaAlunno.getText().toString());
+        parametri.put("dataNascita",dataNascitaAlunno.getText().toString());
+        parametri.put("residenza",residenzaAlunno.getText().toString());
+        parametri.put("numeroTelefono",telefonoAlunno.getText().toString());
+        parametri.put("cellulare", celAlunno.getText().toString());
+        parametri.put("email",emailAlunno.getText().toString());
+        if(opzDsaAlunno.isChecked())
             getdsa = "1";
         else
             getdsa = "0";
+        parametri.put("dsa", getdsa);
+        }*/
+
+       if(opzDsaAlunno.isChecked())
+            getdsa = true;
+        else
+            getdsa = false;
 
         alunnoMod = new Alunno(codiceFiscaleAlunno.getText().toString(),nomeAlunno.getText().toString(), cognomeAlunnno.getText().toString(), dataNascitaAlunno.getText().toString(),
                  luogoNascitaAlunno.getText().toString(),residenzaAlunno.getText().toString(),
@@ -211,7 +178,7 @@ public class SchedaAlunno extends AppCompatActivity {
                 usernameAlunno.getText().toString(), passwordAlunno.getText().toString(),classeTxt.getText().toString());
 
         String datiAlunno = new Gson().toJson(alunnoMod);
-        parametri.put("alunno", datiAlunno);*/
+        parametri.put("alunno", datiAlunno);
 
         JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
             @Override
@@ -254,24 +221,6 @@ public class SchedaAlunno extends AppCompatActivity {
 
         }
     }
-
-    private void setEditCred(Boolean b){
-        usernameAlunno.setEnabled(b);
-        passwordAlunno.setEnabled(b);
-        if(b){
-            btConfermaModificaCred.setVisibility(View.VISIBLE);
-            btAnnullaCred.setVisibility(View.VISIBLE);
-            txtConfPsw.setVisibility(View.VISIBLE);
-            confPswAlunno.setVisibility(View.VISIBLE);
-        }else{
-            btConfermaModificaCred.setVisibility(View.INVISIBLE);
-            btAnnullaCred.setVisibility(View.INVISIBLE);
-            txtConfPsw.setVisibility(View.INVISIBLE);
-            confPswAlunno.setVisibility(View.INVISIBLE);
-        }
-    }
-
-
 
     @Override
     public void onBackPressed() {
