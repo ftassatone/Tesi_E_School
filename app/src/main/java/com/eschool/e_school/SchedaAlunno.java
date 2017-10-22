@@ -101,8 +101,11 @@ public class SchedaAlunno extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_bt_modifica, menu);
-        return true;
+        if(opzDsaAlunno.isChecked()) {
+            getMenuInflater().inflate(R.menu.menu_bt_modifica, menu);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -113,7 +116,7 @@ public class SchedaAlunno extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_modifica_info) {
+        if (id == R.id.action_opzioni_dsa) {
             // si renderanno editabili le editText
         }
 

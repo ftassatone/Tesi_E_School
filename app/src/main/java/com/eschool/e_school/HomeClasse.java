@@ -37,8 +37,8 @@ public class HomeClasse extends AppCompatActivity
     private String materia, classe;
     private String url = "http://www.eschooldb.altervista.org/PHP/homeClasse.php";
     private ArrayList elencoAlunni,programma, datiAlunni;
-    private ArrayAdapter<String> adapterAlunni;
-    private ArrayAdapter<String> adapterProgramma;
+    private static ArrayAdapter<String> adapterAlunni;
+    private static ArrayAdapter<String> adapterProgramma;
     private RequestQueue requestQueue;
     private Alunno alunno;
 
