@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ public class SelezionaMaterie extends Fragment {
     private CheckBox[] mat;
     private LinearLayout linearMaterie;
     private OnFragmentInteractionListener mListener;
+    private AlertDialog.Builder infoAlert;
 
     public SelezionaMaterie() {
         // Required empty public constructor
@@ -74,6 +76,7 @@ public class SelezionaMaterie extends Fragment {
 
         linearMaterie = (LinearLayout) view.findViewById(R.id.linearMaterie);
         requestQueue = Volley.newRequestQueue(getContext());
+        infoAlert = new AlertDialog.Builder(getContext());
 
         connessione();
         return view;
@@ -140,7 +143,10 @@ public class SelezionaMaterie extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v("LOG", "error"+error.toString());
+                infoAlert.setTitle("Errore di connessione");
+                infoAlert.setMessage("Controllare connessione internet e riprovare.");
+                AlertDialog alert = infoAlert.create();
+                alert.show();
             }
         });
         requestQueue.add(richiesta);

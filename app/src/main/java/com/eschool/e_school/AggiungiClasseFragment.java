@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,7 @@ public class AggiungiClasseFragment extends Fragment {
     private ArrayList<Alunno> listaAlunni;
     private Classe cl;
     private RequestQueue requestQueue;
+    private AlertDialog.Builder infoAlert;
 
     public AggiungiClasseFragment() {
         // Required empty public constructor
@@ -95,6 +97,7 @@ public class AggiungiClasseFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_aggiungi_classe, container, false);
 
         requestQueue = Volley.newRequestQueue(getContext());
+        infoAlert = new AlertDialog.Builder(getContext());
 
         classe = (EditText) view.findViewById(R.id.classe);
         sezione = (EditText) view.findViewById(R.id.sezione);
@@ -252,7 +255,10 @@ public class AggiungiClasseFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v("LOG","errore-"+error.toString());
+                infoAlert.setTitle("Errore di connessione");
+                infoAlert.setMessage("Controllare connessione internet e riprovare.");
+                AlertDialog alert = infoAlert.create();
+                alert.show();
             }
         });
         requestQueue.add(richiesta);

@@ -3,6 +3,7 @@ package com.eschool.e_school;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -41,6 +42,7 @@ public class HomeClasse extends AppCompatActivity
     private static ArrayAdapter<String> adapterProgramma;
     private RequestQueue requestQueue;
     private Alunno alunno;
+    private AlertDialog.Builder infoAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class HomeClasse extends AppCompatActivity
         classe = getIntent().getStringExtra("Classe");
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
+        infoAlert = new AlertDialog.Builder(getApplicationContext());
 
         connessione();
 
@@ -191,8 +194,10 @@ public class HomeClasse extends AppCompatActivity
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.v("LOG", "error "+error.toString());
-
+                infoAlert.setTitle("Errore di connessione");
+                infoAlert.setMessage("Controllare connessione internet e riprovare.");
+                AlertDialog alert = infoAlert.create();
+                alert.show();
             }
         });
         requestQueue.add(richiesta);
