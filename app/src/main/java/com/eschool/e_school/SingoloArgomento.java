@@ -7,7 +7,7 @@ import android.widget.ListView;
 
 public class SingoloArgomento extends AppCompatActivity {
     private ListView listViewEsercizi,listViewTeoria;
-
+    //djn
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
