@@ -132,8 +132,11 @@ public class HomeClasse extends AppCompatActivity
             home.putExtra("username",Home.DOC);
             startActivity(home);
 
-        } else if (id == R.id.impostazioni) {
-
+        } else if(id == R.id.sezOpzioniDsa){
+            //TODO passare alla sezione opzioni dsa
+            //startActivity(new Intent(getApplicationContext(),SezioneOpzDsa.class));
+        }else if (id == R.id.impostazioni) {
+            //TODO passare ad impostazioni
         } else if (id == R.id.logout) {
             startActivity(new Intent(getApplicationContext(),PreLogin.class));
 
