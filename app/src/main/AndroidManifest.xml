@@ -51,6 +51,12 @@
             android:label="@string/registro"
             android:screenOrientation="landscape">
         </activity>
+
+        <activity
+            android:name=".HomeAlunno"
+            android:label="@string/home"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>
