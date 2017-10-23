@@ -9,4 +9,5 @@
     <color name="colorPrimaryDark">#095575</color>
     <color name="colorAccent">#5cd2ce</color>
     <color name="coloreTesto">#000000</color>
+    <color name="trasparente">#00000000</color>
 </resources>

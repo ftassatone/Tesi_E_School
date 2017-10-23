@@ -40,6 +40,7 @@ public class SchedaAlunno extends AppCompatActivity {
     private Button btConfermaModificaDati, btAnnullaDati;
     private ImageButton btModificaDati;
     private String url = "http://www.eschooldb.altervista.org/PHP/modificaDatiAlunno.php";
+    private String cfVecchio;
     private RequestQueue requestQueue;
     private AlertDialog.Builder infoAlert;
 
@@ -66,8 +67,9 @@ public class SchedaAlunno extends AppCompatActivity {
         btAnnullaDati = (Button) findViewById(R.id.btAnnullaDati);
         infoAlert = new AlertDialog.Builder(getApplicationContext());
 
-
         requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        cfVecchio = codiceFiscaleAlunno.getText().toString();
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -120,7 +122,7 @@ public class SchedaAlunno extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_opzioni_dsa) {
-            // si renderanno editabili le editText
+            //TODO aprire l'alert
         }
 
         return super.onOptionsItemSelected(item);
@@ -185,6 +187,7 @@ public class SchedaAlunno extends AppCompatActivity {
 
         String datiAlunno = new Gson().toJson(alunnoMod);
         parametri.put("alunno", datiAlunno);
+        parametri.put("cfAlunno",cfVecchio);
 
         JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
             @Override
