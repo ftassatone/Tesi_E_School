@@ -2,7 +2,6 @@ package com.eschool.e_school;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -42,7 +41,6 @@ public class SchedaAlunno extends AppCompatActivity {
     private String url = "http://www.eschooldb.altervista.org/PHP/modificaDatiAlunno.php";
     private String cfVecchio;
     private RequestQueue requestQueue;
-    private AlertDialog.Builder infoAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +63,6 @@ public class SchedaAlunno extends AppCompatActivity {
         btModificaDati = (ImageButton) findViewById(R.id.btModificaDati);
         btConfermaModificaDati = (Button) findViewById(R.id.btConfermaModificaDati);
         btAnnullaDati = (Button) findViewById(R.id.btAnnullaDati);
-        infoAlert = new AlertDialog.Builder(getApplicationContext());
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
@@ -202,10 +199,7 @@ public class SchedaAlunno extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                infoAlert.setTitle("Errore di connessione");
-                infoAlert.setMessage("Controllare connessione internet e riprovare.");
-                AlertDialog alert = infoAlert.create();
-                alert.show();
+
             }
         });
         requestQueue.add(richiesta);
