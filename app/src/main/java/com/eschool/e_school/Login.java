@@ -266,11 +266,7 @@ public class Login extends AppCompatActivity {
                         if(!dati.equals(null)){
                             //TODO da decommentare (controllare nel php quando c'è un errore di connessione)
                             Intent homeAlunno = new Intent(getApplicationContext(),HomeAlunno.class);
-                            Log.d("LOG","dati-"+dati.getString("nome")+ " -- "+dati.getString("cognome"));
-                            homeAlunno.putExtra("nome", dati.getString("nome"));
-                            homeAlunno.putExtra("cognome", dati.getString("cognome"));
-                            //TODO da decommentare
-                            // homeAlunno.putExtra("foto", dati.getString("foto"));
+                            homeAlunno.putExtra("cf", dati.getString("cf"));
                             startActivity(homeAlunno);
                         }else{
                             Toast.makeText(getApplicationContext(), "Non esiste nessun alunno con le credendiali inserite.", Toast.LENGTH_LONG).show();
