@@ -32,8 +32,10 @@ public class HomeAlunno extends AppCompatActivity {
     private RequestQueue requestQueue;
     private AlertDialog.Builder infoAlert;
     private String url = "http://www.eschooldb.altervista.org/PHP/getMaterieAlunno.php";
+    private String alunno;
+    private String materia;
+    private ArrayList<String> arrayMaterie;
     private ArrayAdapter<String> adapterMaterie;
-    private Button[] btMaterie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class HomeAlunno extends AppCompatActivity {
         grigliaMaterie = (GridView) findViewById(R.id.grigliaMaterie);
         txtBenvenutoAlunno = (TextView) findViewById(R.id.txtBenvenutoAlunno);
         infoAlert = new AlertDialog.Builder(getApplicationContext());
-
+        alunno = getIntent().getStringExtra("cf");
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         connessione();
@@ -77,26 +79,22 @@ public class HomeAlunno extends AppCompatActivity {
 
     public void connessione(){
         HashMap<String, String> parametri = new HashMap<String, String>();
-        Log.v("LOG", "sono in connessione");
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, new Response.Listener<JSONObject>() {
+        parametri.put("cf", alunno);
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
 
                 try {
                     JSONArray materie = response.getJSONArray("nomeMaterie");
-                    Log.v("LOG", "materie "+materie.length());
-                    btMaterie = new Button[materie.length()];
+                    arrayMaterie = new ArrayList<>();
                     for(int i=0; i<materie.length(); i++){
-                        Log.v("LOG", "nome "+materie.getJSONObject(i).getString("nomeMateria"));
-                        btMaterie[i] = new Button(getApplicationContext());
-                        btMaterie[i].setText(materie.getJSONObject(i).getString("nomeMateria"));
-                        if(materie.getJSONObject(i).getString("nomeMateria").equals("italiano")){
-                            //TODO inserisci immagine in base alla materia. Conviene fare uno switch
-                        }
-                        grigliaMaterie.addView(btMaterie[i]);
+                        materia = materie.getJSONObject(i).getString("nomeMateria");
+                        arrayMaterie.add(materia);
 
                     }
+                    adapterMaterie = new ArrayAdapter<String>(getApplicationContext(), R.layout.cella_materia, arrayMaterie);
+                    grigliaMaterie.setAdapter(adapterMaterie);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.v("LOG", "e "+e.toString());
