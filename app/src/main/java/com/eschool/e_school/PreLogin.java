@@ -27,14 +27,13 @@ public class PreLogin extends AppCompatActivity {
         btConfermaUtente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent vaiLogin = new Intent(getApplicationContext(),Login.class);
                 if(radioDocente.isChecked()){
-                    Intent vaiLoginDoc = new Intent(PreLogin.this,Login.class);
-                    startActivity(vaiLoginDoc);
+                    vaiLogin.putExtra("utente",radioDocente.getText().toString());
+                    startActivity(vaiLogin);
                 }else if (radioAlunno.isChecked()){
-                    //TODO irporta alla prelogin alunno
-                   // Intent vaiLoginAl = new Intent(PreLogin.this,Login.class);
-                   // startActivity(vaiLoginAl);
+                    vaiLogin.putExtra("utente",radioAlunno.getText().toString());
+                    startActivity(vaiLogin);
                 }else{
                     Toast.makeText(getApplicationContext(), "Seleziona una tipologia di utente", Toast.LENGTH_SHORT).show();
                 }
