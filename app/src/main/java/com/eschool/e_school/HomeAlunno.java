@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeAlunno extends AppCompatActivity {
 
@@ -75,6 +76,7 @@ public class HomeAlunno extends AppCompatActivity {
     }
 
     public void connessione(){
+        HashMap<String, String> parametri = new HashMap<String, String>();
         Log.v("LOG", "sono in connessione");
         JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, new Response.Listener<JSONObject>() {
 
