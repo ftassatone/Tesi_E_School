@@ -39,6 +39,8 @@ public class HomeAlunno extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_alunno);
 
+
+
         grigliaMaterie = (GridView) findViewById(R.id.grigliaMaterie);
         txtBenvenutoAlunno = (TextView) findViewById(R.id.txtBenvenutoAlunno);
         infoAlert = new AlertDialog.Builder(getApplicationContext());

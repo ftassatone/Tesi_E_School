@@ -36,7 +36,6 @@ public class Login extends AppCompatActivity {
     private String username, psw;
     private RequestQueue requestQueue;
     private AlertDialog.Builder infoAlert;
-    private SharedPreferences credenziali;
     //nome del file
     private final static String CRED = "credenziali";
     private SharedPreferences.Editor edit;
@@ -90,12 +89,11 @@ public class Login extends AppCompatActivity {
             btConfermaLogin = (Button) findViewById(R.id.btConfermaLoginAl);
             cbRicorda = (CheckBox) findViewById(R.id.cbRicorda);
 
-            if (credenziali == null) {
-                credenziali = getSharedPreferences(CRED, MODE_PRIVATE);
-                edit = credenziali.edit();
-            } else {
-                usernameTxt.setText(credenziali.getString(CRED, "username"));
-                passwordTxt.setText(credenziali.getString(CRED, "password"));
+            SharedPreferences credenziali = getSharedPreferences(CRED, MODE_PRIVATE);
+            if(!credenziali.getString("username","").equals("") && !credenziali.getString("password","").equals("")){
+                usernameTxt.setText(credenziali.getString("username",""));
+                passwordTxt.setText(credenziali.getString("password",""));
+                cbRicorda.setChecked(true);
             }
         }
 
@@ -114,8 +112,12 @@ public class Login extends AppCompatActivity {
                     psw = passwordTxt.getText().toString().trim();
                     if (al) {
                         if (cbRicorda.isChecked()) {
+                            SharedPreferences credenziali = getSharedPreferences(CRED, MODE_PRIVATE);
+                            edit = credenziali.edit();
+                            //TODO cifrare la psw
                             edit.putString("username", username);
                             edit.putString("password", psw);
+                            edit.commit();
                         }
                     }
                     login();
@@ -258,14 +260,18 @@ public class Login extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
+                        Log.d("LOG","sono nella richiesta");
                         JSONObject dati = response.getJSONObject("datiAlunno");
+                        Log.d("LOG","risultato"+dati);
                         if(!dati.equals(null)){
                             //TODO da decommentare (controllare nel php quando c'è un errore di connessione)
-                        /*Intent homeAlunno = new Intent(getApplicationContext(),HomeAlunno.class);
-                        homeAlunno.putExtra("nome", dati.getString("nome"));
-                        homeAlunno.putExtra("cognome", dati.getString("cognome"));
-                        homeAlunno.putExtra("foto", dati.getString("foto"));
-                        startActivity(homeAlunno);*/
+                            Intent homeAlunno = new Intent(getApplicationContext(),HomeAlunno.class);
+                            Log.d("LOG","dati-"+dati.getString("nome")+ " -- "+dati.getString("cognome"));
+                            homeAlunno.putExtra("nome", dati.getString("nome"));
+                            homeAlunno.putExtra("cognome", dati.getString("cognome"));
+                            //TODO da decommentare
+                            // homeAlunno.putExtra("foto", dati.getString("foto"));
+                            startActivity(homeAlunno);
                         }else{
                             Toast.makeText(getApplicationContext(), "Non esiste nessun alunno con le credendiali inserite.", Toast.LENGTH_LONG).show();
                         }

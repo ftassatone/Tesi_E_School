@@ -57,6 +57,11 @@
             android:label="@string/home"
             android:screenOrientation="landscape">
         </activity>
+
+        <activity
+            android:name=".HomeMateria"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>
