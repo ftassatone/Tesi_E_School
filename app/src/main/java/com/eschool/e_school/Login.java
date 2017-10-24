@@ -172,7 +172,7 @@ public class Login extends AppCompatActivity {
     public void login(){
         //raccolgo i dati inseriti dall'utente
         HashMap<String,String> parametri = new HashMap<String, String>();
-        parametri.put("matricola",username);
+        parametri.put("username",username);
         parametri.put("password",psw);
 
         Log.v("LOG","parametri "+ parametri);

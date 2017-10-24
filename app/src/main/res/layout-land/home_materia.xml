@@ -11,6 +11,7 @@
 
         <Button
             android:id="@+id/btTeoriaMateria"
+            android:tag="esercizio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -21,6 +22,7 @@
 
         <Button
             android:id="@+id/btEserciziMateria"
+            android:tag="teoria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
