@@ -2,6 +2,8 @@ package com.eschool.e_school;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -39,7 +41,7 @@ public class SchedaAlunno extends AppCompatActivity {
     private Button btConfermaModificaDati, btAnnullaDati;
     private ImageButton btModificaDati;
     private String url = "http://www.eschooldb.altervista.org/PHP/modificaDatiAlunno.php";
-    private String cfVecchio, nomeArgomento;
+    private String cfVecchio;
     private RequestQueue requestQueue;
 
     @Override
@@ -120,6 +122,25 @@ public class SchedaAlunno extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_opzioni_dsa) {
             //TODO aprire l'alert
+        }else if(id == android.R.id.home){
+            Intent vaiHomeClasse = NavUtils.getParentActivityIntent(this);
+            vaiHomeClasse.putExtra("Materia",HomeClasse.materia);
+            vaiHomeClasse.putExtra("Classe",HomeClasse.classe);
+            //startActivity(vaiHomeClasse);
+            if (NavUtils.shouldUpRecreateTask(this, vaiHomeClasse)) {
+                // This activity is NOT part of this app's task, so create a new task
+                // when navigating up, with a synthesized back stack.
+                TaskStackBuilder.create(this)
+                        // Add all of this activity's parents to the back stack
+                        .addNextIntentWithParentStack(vaiHomeClasse)
+                        // Navigate up to the closest parent
+                        .startActivities();
+            } else {
+                // This activity is part of this app's task, so simply
+                // navigate up to the logical parent activity.
+                NavUtils.navigateUpTo(this, vaiHomeClasse);
+            }
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -153,24 +174,6 @@ public class SchedaAlunno extends AppCompatActivity {
     public void modifica(String op){
         //TODO potrebbe essere utileinviare solo i dati che si modificano (dati o credenziali)
         HashMap<String, String> parametri = new HashMap<String, String>();
-
-        /*parametri.put("cf",codiceFiscaleAlunno.getText().toString());
-
-
-        parametri.put("nome",nomeAlunno.getText().toString());
-        parametri.put("cognome",cognomeAlunnno.getText().toString());
-        parametri.put("luogoNascita",luogoNascitaAlunno.getText().toString());
-        parametri.put("dataNascita",dataNascitaAlunno.getText().toString());
-        parametri.put("residenza",residenzaAlunno.getText().toString());
-        parametri.put("numeroTelefono",telefonoAlunno.getText().toString());
-        parametri.put("cellulare", celAlunno.getText().toString());
-        parametri.put("email",emailAlunno.getText().toString());
-        if(opzDsaAlunno.isChecked())
-            getdsa = "1";
-        else
-            getdsa = "0";
-        parametri.put("dsa", getdsa);
-        }*/
 
        if(opzDsaAlunno.isChecked())
             getdsa = true;

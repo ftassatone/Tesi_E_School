@@ -35,11 +35,13 @@ public class HomeClasse extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listViewElencoAlunni, listViewProgramma;
-    private String materia, classe, nomeArgomento;
+    private String nomeArgomento;
+    static String materia;
+    static String classe;
     private String url = "http://www.eschooldb.altervista.org/PHP/homeClasse.php";
     private ArrayList elencoAlunni,programma, datiAlunni;
-    private static ArrayAdapter<String> adapterAlunni;
-    private static ArrayAdapter<String> adapterProgramma;
+    private ArrayAdapter<String> adapterAlunni;
+    private ArrayAdapter<String> adapterProgramma;
     private RequestQueue requestQueue;
     private Alunno alunno;
     private AlertDialog.Builder infoAlert;
