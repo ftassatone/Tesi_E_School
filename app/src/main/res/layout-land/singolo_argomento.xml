@@ -33,17 +33,17 @@
             android:layout_height="2dip"
             android:background="#FF909090"
             android:layout_width="match_parent" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginetop"
-            android:textStyle="bold"
-            android:text="@string/caricaFile"
-            android:paddingRight="@dimen/margineBordi"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/caricaFile"
+            android:paddingRight="@dimen/margineBordi"/>
+
 
             <Button
                 android:id="@+id/btCaricaFile"
@@ -90,34 +90,40 @@
             android:layout_height="2dip"
             android:background="#FF909090"
             android:layout_width="match_parent" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginetop"
-            android:layout_gravity="center_horizontal"
-            android:textStyle="bold"
-            android:text="@string/newEs"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btMultiple"
+            android:orientation="vertical">
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_marginTop="@dimen/marginetop"
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold"
+                android:text="@string/newEs"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btMultiple"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
-            <Button
-                android:id="@+id/btAperte"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/btAperte"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
-            <Button
-                android:id="@+id/btFile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/btFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

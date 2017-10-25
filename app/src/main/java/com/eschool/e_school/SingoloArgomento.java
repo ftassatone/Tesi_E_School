@@ -27,7 +27,7 @@ import java.util.HashMap;
 public class SingoloArgomento extends AppCompatActivity {
     private ListView listViewEsercizi,listViewTeoria;
     private Button btMultiple,btAperte,btFile,btCaricaFile;
-    private String argo, nomeArgomento;
+    private String argo;
     private  String url = "http://www.eschooldb.altervista.org/PHP/SingoloArgomento.php";
     private RequestQueue requestQueue;
     private ArrayList<Teoria> listaTeoria;

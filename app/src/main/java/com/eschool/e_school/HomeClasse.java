@@ -89,7 +89,8 @@ public class HomeClasse extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent vaiArgo = new Intent(getApplicationContext(),SingoloArgomento.class);
-                vaiArgo.putExtra("nomeArgomento", nomeArgomento);
+                vaiArgo.putExtra("argomento", nomeArgomento);
+                startActivity(vaiArgo);
             }
         });
 
