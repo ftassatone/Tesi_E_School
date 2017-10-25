@@ -97,4 +97,20 @@ public class Teoria {
     public void setRiscontroLettura(Boolean riscontroLettura) {
         this.riscontroLettura = riscontroLettura;
     }
+
+    @Override
+    public String toString() {
+        return "Teoria{" +
+                "codiceTeoria=" + codiceTeoria +
+                ", argomento='" + argomento + '\'' +
+                ", titolo='" + titolo + '\'' +
+                ", testo='" + testo + '\'' +
+                ", livello='" + livello + '\'' +
+                ", codiceMateria='" + codiceMateria + '\'' +
+                ", dataCreazione='" + dataCreazione + '\'' +
+                ", sintetizzatore=" + sintetizzatore +
+                ", microfono=" + microfono +
+                ", riscontroLettura=" + riscontroLettura +
+                '}';
+    }
 }

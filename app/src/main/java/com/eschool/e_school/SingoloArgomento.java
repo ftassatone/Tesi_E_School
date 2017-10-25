@@ -37,13 +37,14 @@ public class SingoloArgomento extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.singolo_argomento);
-        Log.d("LOG","entro");
+        listaTeoria = new ArrayList<>();
+        listaEsercizi = new ArrayList<>();
+        righeTeoria = new ArrayList<>();
+        righeEsercizi = new ArrayList<>();
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        //argo = getIntent().getStringExtra("argomento");
-        argo = "operazioni";
+        argo = getIntent().getStringExtra("argomento");
         connessione();
-        Log.d("LOG","es-"+righeEsercizi.size());
-        Log.d("LOG","teo-"+righeTeoria.size());
+
         listViewEsercizi = (ListView) findViewById(R.id.listViewEsercizi);
         ArrayAdapter adapterEsercizi = new ArrayAdapter(getApplicationContext(),R.layout.riga_lista_programma,righeEsercizi);
         listViewEsercizi.setAdapter(adapterEsercizi);
@@ -86,7 +87,6 @@ public class SingoloArgomento extends AppCompatActivity {
     }
 
     private void connessione(){
-        Log.d("LOG","entro in conn");
         HashMap<String,String> parametri = new HashMap<>();
         parametri.put("argomento",argo);
         final Gson gson = new Gson();
@@ -99,7 +99,6 @@ public class SingoloArgomento extends AppCompatActivity {
                     JSONArray arrayTeoria = response.getJSONArray("listaTeoria");
                     for(int i = 0; i<arrayTeoria.length();i++){
                         Teoria t = gson.fromJson(String.valueOf(arrayTeoria.getJSONObject(i)),Teoria.class);
-                        Log.d("LOG","list-"+righeTeoria);
                         righeTeoria.add(t.getTitolo());
                         listaTeoria.add(t);
                     }
@@ -107,7 +106,7 @@ public class SingoloArgomento extends AppCompatActivity {
                     JSONArray arrayEs = response.getJSONArray("listaEsercizi");
                     for(int i = 0; i<arrayEs.length();i++){
                         Esercizio ex = gson.fromJson(String.valueOf(arrayEs.getJSONObject(i)),Esercizio.class);
-                        righeTeoria.add(String.valueOf(ex.getCodiceEsercizio()));
+                        righeEsercizi.add(String.valueOf(ex.getCodiceEsercizio()));
                         listaEsercizi.add(ex);
                     }
                 } catch (JSONException e) {
