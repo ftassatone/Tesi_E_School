@@ -104,7 +104,6 @@ public class SchedaAlunno extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         if(opzDsaAlunno.isChecked()) {
             getMenuInflater().inflate(R.menu.menu_bt_modifica, menu);
             return true;
@@ -114,9 +113,7 @@ public class SchedaAlunno extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -126,18 +123,9 @@ public class SchedaAlunno extends AppCompatActivity {
             Intent vaiHomeClasse = NavUtils.getParentActivityIntent(this);
             vaiHomeClasse.putExtra("Materia",HomeClasse.materia);
             vaiHomeClasse.putExtra("Classe",HomeClasse.classe);
-            //startActivity(vaiHomeClasse);
             if (NavUtils.shouldUpRecreateTask(this, vaiHomeClasse)) {
-                // This activity is NOT part of this app's task, so create a new task
-                // when navigating up, with a synthesized back stack.
-                TaskStackBuilder.create(this)
-                        // Add all of this activity's parents to the back stack
-                        .addNextIntentWithParentStack(vaiHomeClasse)
-                        // Navigate up to the closest parent
-                        .startActivities();
+                TaskStackBuilder.create(this).addNextIntentWithParentStack(vaiHomeClasse).startActivities();
             } else {
-                // This activity is part of this app's task, so simply
-                // navigate up to the logical parent activity.
                 NavUtils.navigateUpTo(this, vaiHomeClasse);
             }
             return true;

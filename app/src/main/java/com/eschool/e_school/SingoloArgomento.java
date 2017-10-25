@@ -1,10 +1,14 @@
 package com.eschool.e_school;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -83,6 +87,26 @@ public class SingoloArgomento extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id == android.R.id.home){
+            Intent vaiHomeClasse = NavUtils.getParentActivityIntent(this);
+            vaiHomeClasse.putExtra("Materia",HomeClasse.materia);
+            vaiHomeClasse.putExtra("Classe",HomeClasse.classe);
+            if (NavUtils.shouldUpRecreateTask(this, vaiHomeClasse)) {
+                TaskStackBuilder.create(this).addNextIntentWithParentStack(vaiHomeClasse).startActivities();
+            } else {
+                NavUtils.navigateUpTo(this, vaiHomeClasse);
+            }
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void connessione(){

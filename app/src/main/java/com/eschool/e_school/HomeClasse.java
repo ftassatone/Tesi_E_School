@@ -36,10 +36,9 @@ public class HomeClasse extends AppCompatActivity
 
     private ListView listViewElencoAlunni, listViewProgramma;
     private String nomeArgomento;
-    static String materia;
-    static String classe;
+    static String materia, classe;
     private String url = "http://www.eschooldb.altervista.org/PHP/homeClasse.php";
-    private ArrayList elencoAlunni,programma, datiAlunni;
+    private ArrayList elencoAlunni, programma, datiAlunni;
     private ArrayAdapter<String> adapterAlunni;
     private ArrayAdapter<String> adapterProgramma;
     private RequestQueue requestQueue;
@@ -68,6 +67,9 @@ public class HomeClasse extends AppCompatActivity
 
         materia = getIntent().getStringExtra("Materia");
         classe = getIntent().getStringExtra("Classe");
+
+
+
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         infoAlert = new AlertDialog.Builder(getApplicationContext());
