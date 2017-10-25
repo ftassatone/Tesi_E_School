@@ -1,5 +1,6 @@
 package com.eschool.e_school;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 public class SingoloArgomento extends AppCompatActivity {
     private ListView listViewEsercizi,listViewTeoria;
     private Button btMultiple,btAperte,btFile,btCaricaFile;
-    private String argo;
+    private String argo, nomeArgomento;
     private  String url = "http://www.eschooldb.altervista.org/PHP/SingoloArgomento.php";
     private RequestQueue requestQueue;
     private ArrayList<Teoria> listaTeoria;
@@ -55,6 +56,9 @@ public class SingoloArgomento extends AppCompatActivity {
         btMultiple = (Button) findViewById(R.id.btMultiple);
         btCaricaFile = (Button) findViewById(R.id.btCaricaFile);
         btFile = (Button) findViewById(R.id.btFile);
+
+        Intent intent = getIntent();
+        nomeArgomento = intent.getStringExtra("nomeArgomento");
 
         btAperte.setOnClickListener(new View.OnClickListener() {
             @Override
