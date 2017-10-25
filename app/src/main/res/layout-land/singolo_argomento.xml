@@ -1,88 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="horizontal">
-        <LinearLayout
+        android:layout_marginLeft="@dimen/minimoMarginetop"
+        android:layout_marginTop="@dimen/minimoMarginetop"
+        android:orientation="vertical">
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/esercizi"/>
-            <ListView
-                android:id="@+id/listViewEsercizi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </ListView>
-
-        </LinearLayout>
-
-        <LinearLayout
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/teoria"/>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/teoria"/>
-            <ListView
-                android:id="@+id/listViewTeoria"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            android:textSize="@dimen/textInfo"
+            android:text="@string/infoTeoria"/>
 
-            </ListView>
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-            android:layout_weight="1"
-        android:orientation="horizontal">
-
-
-        <Button
-            android:id="@+id/btMultiple"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btAperte"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btFile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
-
-    </LinearLayout>
-        <LinearLayout
+        <ListView
+            android:id="@+id/listViewTeoria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2">
+
+        </ListView>
+        <View
+            android:layout_height="2dip"
+            android:background="#FF909090"
+            android:layout_width="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginetop"
+            android:textStyle="bold"
+            android:text="@string/caricaFile"
+            android:paddingRight="@dimen/margineBordi"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btCaricaFile"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/marginetop"
+                android:textAllCaps="false"
+                android:text="@string/btCaricaFile"
+                />
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="2dip" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/minimoMarginetop"
+        android:layout_marginTop="@dimen/minimoMarginetop"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/esercizi"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textInfo"
+            android:text="@string/infoEsercizi"/>
+
+        <ListView
+            android:id="@+id/listViewEsercizi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+        </ListView>
+        <View
+            android:layout_height="2dip"
+            android:background="#FF909090"
+            android:layout_width="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginetop"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:text="@string/newEs"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btMultiple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/btAperte"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/btFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>
+

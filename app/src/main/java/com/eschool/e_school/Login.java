@@ -120,6 +120,7 @@ public class Login extends AppCompatActivity {
                             edit.commit();
                         }
                     }
+                    Log.d("LOG","cred-"+username+"-"+psw);
                     login();
                 } else {
                     usernameTxt.setError("Inserire username");

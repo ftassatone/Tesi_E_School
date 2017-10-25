@@ -14,18 +14,22 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HomeMateria extends AppCompatActivity {
     private Button btTeoriaMateria,btEserciziMateria;
     private String url = "http://www.eschooldb.altervista.org/PHP/homeMateria.php";
-    private String materia;
+    private String materia,livello,tipologia;
     private RequestQueue requestQueue;
     private ListView listContenitore;
     private TextView titolo;
     private ArrayAdapter adapter;
-    private ArrayList lista;
+    private ArrayList<String> lista;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,34 +42,48 @@ public class HomeMateria extends AppCompatActivity {
         titolo = (TextView) findViewById(R.id.titolo);
 
         materia = getIntent().getStringExtra("materia");
+        livello = getIntent().getStringExtra("livello");
 
         btTeoriaMateria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rimpiLista(btTeoriaMateria.getTag().toString());
+                tipologia = btTeoriaMateria.getTag().toString();
+                rimpiLista(tipologia);
             }
         });
 
         btEserciziMateria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rimpiLista(btEserciziMateria.getTag().toString());
+                tipologia =btEserciziMateria.getTag().toString();
+                rimpiLista(tipologia);
             }
         });
-
-
     }
 
     private ArrayList connessione(String tipo){
-        ArrayList list = null;
+        final ArrayList list = null;
         HashMap<String,String> parametri = new HashMap();
         parametri.put("materia",materia);
         parametri.put("tipologia",tipo);
 
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener() {
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(Object response) {
-
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray array = response.getJSONArray("lista");
+                    if(tipologia.equalsIgnoreCase("teoria")){
+                        for(int i = 0; i<array.length();i++){
+                            list.add(array.getJSONObject(i).getString("titolo"));
+                        }
+                    }else if(tipologia.equalsIgnoreCase("esercizio")){
+                        for(int i = 0; i<array.length();i++){
+                            list.add(array.getJSONObject(i).getString("codice")+" - "+array.getJSONObject(i).getString("argomento"));
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override

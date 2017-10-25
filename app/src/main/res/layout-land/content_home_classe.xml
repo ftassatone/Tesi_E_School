@@ -42,6 +42,10 @@
             </ListView>
 
         </LinearLayout>
+        <View
+            android:layout_width="2dip"
+            android:background="@color/colorPrimaryDark"
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_marginLeft="@dimen/marginetop"

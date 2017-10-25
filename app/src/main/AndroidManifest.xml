@@ -62,6 +62,10 @@
             android:name=".HomeMateria"
             android:screenOrientation="landscape">
         </activity>
+        <activity
+            android:name=".SingoloArgomento"
+            android:screenOrientation="landscape">
+        </activity>
     </application>
 
 </manifest>

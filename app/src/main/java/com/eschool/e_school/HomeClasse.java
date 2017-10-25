@@ -85,6 +85,14 @@ public class HomeClasse extends AppCompatActivity
             }
         });
 
+        listViewProgramma.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent vaiArgo = new Intent(getApplicationContext(),SingoloArgomento.class);
+                //vaiArgo.putExtra();
+            }
+        });
+
     }
 
     @Override
@@ -138,6 +146,7 @@ public class HomeClasse extends AppCompatActivity
         } else if(id == R.id.sezOpzioniDsa){
             //TODO passare alla sezione opzioni dsa
             //startActivity(new Intent(getApplicationContext(),SezioneOpzDsa.class));
+            startActivity(new Intent(getApplicationContext(),SingoloArgomento.class));
         }else if (id == R.id.impostazioni) {
             //TODO passare ad impostazioni
         } else if (id == R.id.logout) {
@@ -183,7 +192,7 @@ public class HomeClasse extends AppCompatActivity
 
                     JSONArray elencoProgramma = response.getJSONArray("programma");
                     for(int j =0; j < elencoProgramma.length(); j++){
-                        programma.add(elencoProgramma.getJSONObject(j).getString("titolo"));
+                        programma.add(elencoProgramma.getJSONObject(j).getString("argomento"));
                     }
                     adapterProgramma = new ArrayAdapter<String>(getApplicationContext(), R.layout.riga_lista_programma, programma);
                     listViewProgramma.setAdapter(adapterProgramma);
