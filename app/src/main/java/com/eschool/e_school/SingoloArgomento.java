@@ -58,9 +58,6 @@ public class SingoloArgomento extends AppCompatActivity {
         btCaricaFile = (Button) findViewById(R.id.btCaricaFile);
         btFile = (Button) findViewById(R.id.btFile);
 
-        Intent intent = getIntent();
-        nomeArgomento = intent.getStringExtra("nomeArgomento");
-
         btAperte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
