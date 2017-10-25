@@ -39,7 +39,7 @@ public class SchedaAlunno extends AppCompatActivity {
     private Button btConfermaModificaDati, btAnnullaDati;
     private ImageButton btModificaDati;
     private String url = "http://www.eschooldb.altervista.org/PHP/modificaDatiAlunno.php";
-    private String cfVecchio;
+    private String cfVecchio, nomeArgomento;
     private RequestQueue requestQueue;
 
     @Override

@@ -35,7 +35,7 @@ public class HomeClasse extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listViewElencoAlunni, listViewProgramma;
-    private String materia, classe;
+    private String materia, classe, nomeArgomento;
     private String url = "http://www.eschooldb.altervista.org/PHP/homeClasse.php";
     private ArrayList elencoAlunni,programma, datiAlunni;
     private static ArrayAdapter<String> adapterAlunni;
@@ -89,7 +89,7 @@ public class HomeClasse extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent vaiArgo = new Intent(getApplicationContext(),SingoloArgomento.class);
-                //vaiArgo.putExtra();
+                vaiArgo.putExtra("nomeArgomento", nomeArgomento);
             }
         });
 
@@ -192,7 +192,8 @@ public class HomeClasse extends AppCompatActivity
 
                     JSONArray elencoProgramma = response.getJSONArray("programma");
                     for(int j =0; j < elencoProgramma.length(); j++){
-                        programma.add(elencoProgramma.getJSONObject(j).getString("argomento"));
+                        nomeArgomento = elencoProgramma.getJSONObject(j).getString("argomento");
+                        programma.add(nomeArgomento);
                     }
                     adapterProgramma = new ArrayAdapter<String>(getApplicationContext(), R.layout.riga_lista_programma, programma);
                     listViewProgramma.setAdapter(adapterProgramma);

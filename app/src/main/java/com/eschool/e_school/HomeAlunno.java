@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -32,8 +34,7 @@ public class HomeAlunno extends AppCompatActivity {
     private RequestQueue requestQueue;
     private AlertDialog.Builder infoAlert;
     private String url = "http://www.eschooldb.altervista.org/PHP/getMaterieAlunno.php";
-    private String alunno;
-    private String materia;
+    private String alunno, materia, livello;
     private ArrayList<String> arrayMaterie;
     private ArrayAdapter<String> adapterMaterie;
 
@@ -49,6 +50,16 @@ public class HomeAlunno extends AppCompatActivity {
         infoAlert = new AlertDialog.Builder(getApplicationContext());
         alunno = getIntent().getStringExtra("cf");
         requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        grigliaMaterie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent vaiSingoloArgomento = new Intent(getApplicationContext(), HomeMateria.class);
+                vaiSingoloArgomento.putExtra("materia", materia);
+                vaiSingoloArgomento.putExtra("livello", livello);
+                startActivity(vaiSingoloArgomento);
+            }
+        });
 
         connessione();
     }
@@ -90,6 +101,7 @@ public class HomeAlunno extends AppCompatActivity {
                     arrayMaterie = new ArrayList<>();
                     for(int i=0; i<materie.length(); i++){
                         materia = materie.getJSONObject(i).getString("nomeMateria");
+                        livello = materie.getJSONObject(i).getString("nomeClasse");
                         arrayMaterie.add(materia);
 
                     }
