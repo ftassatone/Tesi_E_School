@@ -3,6 +3,7 @@ package com.eschool.e_school;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,7 +25,8 @@ import java.util.HashMap;
 public class HomeMateria extends AppCompatActivity {
     private Button btTeoriaMateria,btEserciziMateria;
     private String url = "http://www.eschooldb.altervista.org/PHP/homeMateria.php";
-    private String materia,livello,tipologia;
+    private String materia,tipologia;
+    private String livello;
     private RequestQueue requestQueue;
     private ListView listContenitore;
     private TextView titolo;
@@ -41,8 +43,10 @@ public class HomeMateria extends AppCompatActivity {
         listContenitore = (ListView) findViewById(R.id.listViewTeoria);
         titolo = (TextView) findViewById(R.id.titolo);
 
-        /*materia = getIntent().getStringExtra("materia");
-        livello = getIntent().getStringExtra("livello");*/
+        materia = getIntent().getStringExtra("materia");
+
+        livello = getIntent().getStringExtra("livello");
+        Log.d("LOG","ricevo "+materia+"-"+livello);
 
         btTeoriaMateria.setOnClickListener(new View.OnClickListener() {
             @Override

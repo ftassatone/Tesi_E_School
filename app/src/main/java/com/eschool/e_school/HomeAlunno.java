@@ -34,9 +34,11 @@ public class HomeAlunno extends AppCompatActivity {
     private RequestQueue requestQueue;
     private AlertDialog.Builder infoAlert;
     private String url = "http://www.eschooldb.altervista.org/PHP/getMaterieAlunno.php";
-    private String alunno, materia, livello;
+    private String alunno, materia,livello;
     private ArrayList<String> arrayMaterie;
     private ArrayAdapter<String> adapterMaterie;
+    private ButtonAdapter adapter;
+    private ArrayList<Button> listaBt;
 
 
 
@@ -51,30 +53,8 @@ public class HomeAlunno extends AppCompatActivity {
         alunno = getIntent().getStringExtra("cf");
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-        /*grigliaMaterie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent vaiHomeMateria = new Intent(getApplicationContext(), HomeMateria.class);
-                        startActivity(vaiHomeMateria);
-                    }
-                });
-            }
-        });*/
-
         connessione();
     }
-
-    /*public void metodo(View view){
-        Button x = (Button) grigliaMaterie.getSelectedItem();
-        String mat = (String) x.getText();
-        Intent vaiHomeMateria = new Intent(getApplicationContext(), HomeMateria.class);
-        vaiHomeMateria.putExtra("materia", mat);
-        vaiHomeMateria.putExtra("livello", livello);
-        startActivity(vaiHomeMateria);
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -102,17 +82,20 @@ public class HomeAlunno extends AppCompatActivity {
 
             @Override
             public void onResponse(JSONObject response) {
+                listaBt = new ArrayList<>();
 
                 try {
                     JSONArray materie = response.getJSONArray("nomeMaterie");
                     arrayMaterie = new ArrayList<>();
                     for(int i=0; i<materie.length(); i++){
+                        txtBenvenutoAlunno.setText(materie.getJSONObject(i).getString("nome"));
                         materia = materie.getJSONObject(i).getString("nomeMateria");
-                        livello = materie.getJSONObject(i).getString("nomeClasse");
+                        livello = String.valueOf(materie.getJSONObject(i).getString("nomeClasse").charAt(0));
                         arrayMaterie.add(materia);
+                        listaBt.add(new Button(getApplicationContext()));
                     }
-                    adapterMaterie = new ArrayAdapter<String>(getApplicationContext(), R.layout.cella_materia, arrayMaterie);
-                    grigliaMaterie.setAdapter(adapterMaterie);
+                    adapter = new ButtonAdapter(getApplicationContext(),listaBt,arrayMaterie,livello);
+                    grigliaMaterie.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.v("LOG", "e "+e.toString());
