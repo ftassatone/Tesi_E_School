@@ -41,8 +41,8 @@ public class HomeMateria extends AppCompatActivity {
         listContenitore = (ListView) findViewById(R.id.listViewTeoria);
         titolo = (TextView) findViewById(R.id.titolo);
 
-        materia = getIntent().getStringExtra("materia");
-        livello = getIntent().getStringExtra("livello");
+        /*materia = getIntent().getStringExtra("materia");
+        livello = getIntent().getStringExtra("livello");*/
 
         btTeoriaMateria.setOnClickListener(new View.OnClickListener() {
             @Override

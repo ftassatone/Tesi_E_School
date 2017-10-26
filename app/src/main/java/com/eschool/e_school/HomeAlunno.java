@@ -38,12 +38,12 @@ public class HomeAlunno extends AppCompatActivity {
     private ArrayList<String> arrayMaterie;
     private ArrayAdapter<String> adapterMaterie;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_alunno);
-
-
 
         grigliaMaterie = (GridView) findViewById(R.id.grigliaMaterie);
         txtBenvenutoAlunno = (TextView) findViewById(R.id.txtBenvenutoAlunno);
@@ -51,35 +51,42 @@ public class HomeAlunno extends AppCompatActivity {
         alunno = getIntent().getStringExtra("cf");
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-        grigliaMaterie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*grigliaMaterie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent vaiSingoloArgomento = new Intent(getApplicationContext(), HomeMateria.class);
-                vaiSingoloArgomento.putExtra("materia", materia);
-                vaiSingoloArgomento.putExtra("livello", livello);
-                startActivity(vaiSingoloArgomento);
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent vaiHomeMateria = new Intent(getApplicationContext(), HomeMateria.class);
+                        startActivity(vaiHomeMateria);
+                    }
+                });
             }
-        });
+        });*/
 
         connessione();
     }
 
+    /*public void metodo(View view){
+        Button x = (Button) grigliaMaterie.getSelectedItem();
+        String mat = (String) x.getText();
+        Intent vaiHomeMateria = new Intent(getApplicationContext(), HomeMateria.class);
+        vaiHomeMateria.putExtra("materia", mat);
+        vaiHomeMateria.putExtra("livello", livello);
+        startActivity(vaiHomeMateria);
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_logout, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             Intent i = new Intent(getApplicationContext(),PreLogin.class);
             startActivity(i);
@@ -103,7 +110,6 @@ public class HomeAlunno extends AppCompatActivity {
                         materia = materie.getJSONObject(i).getString("nomeMateria");
                         livello = materie.getJSONObject(i).getString("nomeClasse");
                         arrayMaterie.add(materia);
-
                     }
                     adapterMaterie = new ArrayAdapter<String>(getApplicationContext(), R.layout.cella_materia, arrayMaterie);
                     grigliaMaterie.setAdapter(adapterMaterie);
@@ -124,5 +130,10 @@ public class HomeAlunno extends AppCompatActivity {
         });
 
         requestQueue.add(richiesta);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

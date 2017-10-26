@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 
@@ -67,9 +68,6 @@ public class HomeClasse extends AppCompatActivity
 
         materia = getIntent().getStringExtra("Materia");
         classe = getIntent().getStringExtra("Classe");
-
-
-
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         infoAlert = new AlertDialog.Builder(getApplicationContext());

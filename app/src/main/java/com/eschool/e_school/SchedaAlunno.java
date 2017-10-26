@@ -116,7 +116,6 @@ public class SchedaAlunno extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_opzioni_dsa) {
             //TODO aprire l'alert
         }else if(id == android.R.id.home){
