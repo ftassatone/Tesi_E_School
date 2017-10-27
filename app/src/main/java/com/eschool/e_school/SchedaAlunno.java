@@ -95,7 +95,7 @@ public class SchedaAlunno extends AppCompatActivity {
         btConfermaModificaDati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modifica("dati");
+                modifica();
                 setEditDati(false);
             }
         });
@@ -158,8 +158,7 @@ public class SchedaAlunno extends AppCompatActivity {
         }
     }
 
-    public void modifica(String op){
-        //TODO potrebbe essere utileinviare solo i dati che si modificano (dati o credenziali)
+    public void modifica(){
         HashMap<String, String> parametri = new HashMap<String, String>();
 
        if(opzDsaAlunno.isChecked())
