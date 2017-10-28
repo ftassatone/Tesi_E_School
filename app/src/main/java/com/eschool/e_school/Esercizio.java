@@ -106,4 +106,21 @@ public class Esercizio {
     public void setRiscontroLettura(Boolean riscontroLettura) {
         this.riscontroLettura = riscontroLettura;
     }
+
+    @Override
+    public String toString() {
+        return "Esercizio{" +
+                "codiceEsercizio=" + codiceEsercizio +
+                ", voto=" + voto +
+                ", numeroErrori=" + numeroErrori +
+                ", codiceTeoria=" + codiceTeoria +
+                ", descrizione='" + descrizione + '\'' +
+                ", opzioneRisposta='" + opzioneRisposta + '\'' +
+                ", livello='" + livello + '\'' +
+                ", dataCreazione='" + dataCreazione + '\'' +
+                ", sintetizzatore=" + sintetizzatore +
+                ", microfono=" + microfono +
+                ", riscontroLettura=" + riscontroLettura +
+                '}';
+    }
 }
