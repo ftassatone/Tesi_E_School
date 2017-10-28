@@ -29,7 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SchedaAlunno extends AppCompatActivity {
+public class Docente_SchedaAlunno extends AppCompatActivity {
 
     private Alunno alunno, alunnoMod;
     private EditText nomeAlunno, cognomeAlunnno, dataNascitaAlunno, codiceFiscaleAlunno, luogoNascitaAlunno, residenzaAlunno,
@@ -120,8 +120,8 @@ public class SchedaAlunno extends AppCompatActivity {
             //TODO aprire l'alert
         }else if(id == android.R.id.home){
             Intent vaiHomeClasse = NavUtils.getParentActivityIntent(this);
-            vaiHomeClasse.putExtra("Materia",HomeClasse.materia);
-            vaiHomeClasse.putExtra("Classe",HomeClasse.classe);
+            vaiHomeClasse.putExtra("Materia",Docente_HomeClasse.materia);
+            vaiHomeClasse.putExtra("Classe",Docente_HomeClasse.classe);
             if (NavUtils.shouldUpRecreateTask(this, vaiHomeClasse)) {
                 TaskStackBuilder.create(this).addNextIntentWithParentStack(vaiHomeClasse).startActivities();
             } else {

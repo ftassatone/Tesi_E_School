@@ -22,7 +22,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class HomeMateria extends AppCompatActivity {
+public class Alunno_HomeMateria extends AppCompatActivity {
     private Button btTeoriaMateria,btEserciziMateria;
     private String url = "http://www.eschooldb.altervista.org/PHP/homeMateria.php";
     private String materia,tipologia;

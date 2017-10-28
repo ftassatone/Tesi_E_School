@@ -78,7 +78,7 @@ public class Login extends AppCompatActivity {
             linkNuovoDoc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent vaiRegistazione = new Intent(Login.this, Registrazione.class);
+                    Intent vaiRegistazione = new Intent(Login.this, Docente_Registrazione.class);
                     startActivity(vaiRegistazione);
                 }
             });
@@ -193,7 +193,7 @@ public class Login extends AppCompatActivity {
                     }
                     if(c=="true"){
                         Log.v("LOG","sono qui");
-                        Intent vai = new Intent(getApplicationContext(),Home.class);
+                        Intent vai = new Intent(getApplicationContext(),Docente_Home.class);
                         vai.putExtra("username",username);
                         startActivity(vai);
                         finish();
@@ -267,7 +267,7 @@ public class Login extends AppCompatActivity {
                         Log.d("LOG","risultato"+dati);
                         if(!dati.equals(null)){
                             //TODO da decommentare (controllare nel php quando c'è un errore di connessione)
-                            Intent homeAlunno = new Intent(getApplicationContext(),HomeAlunno.class);
+                            Intent homeAlunno = new Intent(getApplicationContext(),Alunno_HomeAlunno.class);
                             homeAlunno.putExtra("cf", dati.getString("cf"));
                             startActivity(homeAlunno);
                         }else{

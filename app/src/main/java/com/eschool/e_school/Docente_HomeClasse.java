@@ -32,7 +32,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class HomeClasse extends AppCompatActivity
+public class Docente_HomeClasse extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listViewElencoAlunni, listViewProgramma;
@@ -77,7 +77,7 @@ public class HomeClasse extends AppCompatActivity
         listViewElencoAlunni.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterAlunni, View view, int i, long l) {
-                Intent vaiSchedaAlunno = new Intent(getApplicationContext(), SchedaAlunno.class);
+                Intent vaiSchedaAlunno = new Intent(getApplicationContext(), Docente_SchedaAlunno.class);
                 Bundle bundle = new Bundle();
                 int x = adapterAlunni.getPositionForView(view);
                 Alunno al = (Alunno) elencoAlunni.get(x);
@@ -90,7 +90,7 @@ public class HomeClasse extends AppCompatActivity
         listViewProgramma.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent vaiArgo = new Intent(getApplicationContext(),SingoloArgomento.class);
+                Intent vaiArgo = new Intent(getApplicationContext(),Docente_SingoloArgomento.class);
                 vaiArgo.putExtra("argomento", nomeArgomento);
                 startActivity(vaiArgo);
             }
@@ -141,15 +141,15 @@ public class HomeClasse extends AppCompatActivity
         } else if (id == R.id.eserciziSvolti) {
 
         } else if (id == R.id.homePrincipale) {
-           Intent home = new Intent(getApplicationContext(),Home.class);
-            Log.d("LOG",Home.DOC);
-            home.putExtra("username",Home.DOC);
+           Intent home = new Intent(getApplicationContext(),Docente_Home.class);
+            Log.d("LOG",Docente_Home.DOC);
+            home.putExtra("username",Docente_Home.DOC);
             startActivity(home);
 
         } else if(id == R.id.sezOpzioniDsa){
             //TODO passare alla sezione opzioni dsa
             //startActivity(new Intent(getApplicationContext(),SezioneOpzDsa.class));
-            startActivity(new Intent(getApplicationContext(),SingoloArgomento.class));
+            startActivity(new Intent(getApplicationContext(),Docente_SingoloArgomento.class));
         }else if (id == R.id.impostazioni) {
             //TODO passare ad impostazioni
         } else if (id == R.id.logout) {

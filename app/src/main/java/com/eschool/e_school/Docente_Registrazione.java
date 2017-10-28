@@ -27,10 +27,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Registrazione extends AppCompatActivity {
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
+
+public class Docente_Registrazione extends AppCompatActivity {
 
     private EditText nomeDoc,cognomeDoc,dataNascitaDoc,luogoNascitaDoc,residenzaDoc,cfDoc,cellulareDoc, telefonoDoc, emailDoc;
     private EditText matricolaDoc,pswDoc,confermaPswDoc;
@@ -66,7 +70,7 @@ public class Registrazione extends AppCompatActivity {
         confermaPswDoc = (EditText) findViewById(R.id.confermaPswDoc);
         txtErrore = (TextView) findViewById(R.id.txtErrore);
         btConfermaRegistrazione = (Button) findViewById(R.id.btConfermaRegistrazione);
-        infoAlert = new AlertDialog.Builder(Registrazione.this);
+        infoAlert = new AlertDialog.Builder(getApplicationContext());
         txtCf = (TextView) findViewById(R.id.txtCf);
         linearMaterie = (LinearLayout) findViewById(R.id.linearMaterie);
         linearPrima = (LinearLayout) findViewById(R.id.linearPrima);
@@ -85,7 +89,13 @@ public class Registrazione extends AppCompatActivity {
         btConfermaRegistrazione.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                aquisiszioneDati();
+                try {
+                    aquisiszioneDati();
+                } catch (NoSuchPaddingException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
                 if(controllo()){
                     doc = new Docente(matricola,nome,cognome,cf,datanascita,luogoNascita,residenza,telefono,cellulare,email,psw);
                     try {
@@ -99,7 +109,7 @@ public class Registrazione extends AppCompatActivity {
     }
 
     //metodo che mi permette di acquisire i dati dalle editText
-    private void aquisiszioneDati(){
+    private void aquisiszioneDati() throws NoSuchPaddingException, NoSuchAlgorithmException {
         nome = nomeDoc.getText().toString().trim();
         cognome = cognomeDoc.getText().toString().trim();
         datanascita = dataNascitaDoc.getText().toString().trim();
@@ -111,6 +121,7 @@ public class Registrazione extends AppCompatActivity {
         email = emailDoc.getText().toString().trim();
         matricola = matricolaDoc.getText().toString().trim();
         psw = pswDoc.getText().toString().trim();
+        Cipher c = Cipher.getInstance("AES_128/CBC/NoPadding");
         confermaPsw = confermaPswDoc.getText().toString().trim();
 
         if(mat.length != 0 || clas.length !=0) {
@@ -283,7 +294,7 @@ public class Registrazione extends AppCompatActivity {
                  e.printStackTrace();
              }
              if(c!=""){
-                 Intent vaiLogin = new Intent(Registrazione.this,Login.class);
+                 Intent vaiLogin = new Intent(Docente_Registrazione.this,Login.class);
                  startActivity(vaiLogin);
                  Toast toast = Toast.makeText(getApplicationContext(),c,Toast.LENGTH_LONG);
                  toast.show();

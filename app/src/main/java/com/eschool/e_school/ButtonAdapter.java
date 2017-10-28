@@ -53,7 +53,7 @@ public class ButtonAdapter extends BaseAdapter {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,HomeMateria.class);
+                Intent intent = new Intent(context,Alunno_HomeMateria.class);
                 intent.putExtra("materia", finalC);
                 intent.putExtra("livello",liv);
                 context.startActivity(intent);

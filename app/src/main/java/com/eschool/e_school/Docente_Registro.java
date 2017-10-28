@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
-public class Registro extends AppCompatActivity {
+public class Docente_Registro extends AppCompatActivity {
     private ListView listViewRegistro;
     private Button btModificaRegistro;
     private AlertDialog.Builder alertModifica;

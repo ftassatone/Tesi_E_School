@@ -28,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SingoloArgomento extends AppCompatActivity {
+public class Docente_SingoloArgomento extends AppCompatActivity {
     private ListView listViewEsercizi,listViewTeoria;
     private Button btMultiple,btAperte,btFile,btCaricaFile;
     private String argo;
@@ -96,8 +96,8 @@ public class SingoloArgomento extends AppCompatActivity {
 
         if(id == android.R.id.home){
             Intent vaiHomeClasse = NavUtils.getParentActivityIntent(this);
-            vaiHomeClasse.putExtra("Materia",HomeClasse.materia);
-            vaiHomeClasse.putExtra("Classe",HomeClasse.classe);
+            vaiHomeClasse.putExtra("Materia",Docente_HomeClasse.materia);
+            vaiHomeClasse.putExtra("Classe",Docente_HomeClasse.classe);
             if (NavUtils.shouldUpRecreateTask(this, vaiHomeClasse)) {
                 TaskStackBuilder.create(this).addNextIntentWithParentStack(vaiHomeClasse).startActivities();
             } else {

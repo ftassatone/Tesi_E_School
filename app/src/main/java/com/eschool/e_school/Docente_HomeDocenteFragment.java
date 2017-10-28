@@ -36,10 +36,10 @@ import java.util.HashMap;
  * Activities that contain this fragment must implement the
  * {@link //HomeDocenteFragment.//OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link HomeDocenteFragment#newInstance} factory method to
+ * Use the {@link Docente_HomeDocenteFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeDocenteFragment extends Fragment {
+public class Docente_HomeDocenteFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "matricola";
@@ -56,7 +56,7 @@ public class HomeDocenteFragment extends Fragment {
 
     //private OnFragmentInteractionListener mListener;
 
-    public HomeDocenteFragment() {
+    public Docente_HomeDocenteFragment() {
         // Required empty public constructor
     }
 
@@ -69,8 +69,8 @@ public class HomeDocenteFragment extends Fragment {
      * @return A new instance of fragment HomeDocenteFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeDocenteFragment newInstance(String param) {
-        HomeDocenteFragment fragment = new HomeDocenteFragment();
+    public static Docente_HomeDocenteFragment newInstance(String param) {
+        Docente_HomeDocenteFragment fragment = new Docente_HomeDocenteFragment();
         Bundle args = new Bundle();
        args.putString(ARG_PARAM1, param);
        // args.putString(ARG_PARAM2, param2);
@@ -123,7 +123,7 @@ public class HomeDocenteFragment extends Fragment {
                 }
 
                 if(radioClasse != null && radioMateria != null) {
-                    Intent vaiHomeClasse = new Intent(getContext(), HomeClasse.class);
+                    Intent vaiHomeClasse = new Intent(getContext(), Docente_HomeClasse.class);
                     vaiHomeClasse.putExtra("Materia", radioMateria);
                     vaiHomeClasse.putExtra("Classe", radioClasse);
                     startActivity(vaiHomeClasse);

@@ -33,10 +33,10 @@ import java.util.HashMap;
  * Activities that contain this fragment must implement the
  * {@link //AggiungiClasseFragment.//OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AggiungiClasseFragment#newInstance} factory method to
+ * Use the {@link Docente_AggiungiClasseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AggiungiClasseFragment extends Fragment {
+public class Docente_AggiungiClasseFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     //private static final String ARG_PARAM1 = "param1";
     //private static final String ARG_PARAM2 = "param2";
@@ -60,7 +60,7 @@ public class AggiungiClasseFragment extends Fragment {
     private RequestQueue requestQueue;
     private AlertDialog.Builder infoAlert;
 
-    public AggiungiClasseFragment() {
+    public Docente_AggiungiClasseFragment() {
         // Required empty public constructor
     }
 
@@ -72,8 +72,8 @@ public class AggiungiClasseFragment extends Fragment {
      * @return A new instance of fragment AggiungiClasseFragment.
      */
 
-    public static AggiungiClasseFragment newInstance() {
-        AggiungiClasseFragment fragment = new AggiungiClasseFragment();
+    public static Docente_AggiungiClasseFragment newInstance() {
+        Docente_AggiungiClasseFragment fragment = new Docente_AggiungiClasseFragment();
         /*Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);*/
@@ -134,8 +134,8 @@ public class AggiungiClasseFragment extends Fragment {
                 acquisizioneDati();
                 sezione.setText("");
                 classe.setText("");
-                Intent home = new Intent(getContext(),Home.class);
-                home.putExtra("username",Home.DOC);
+                Intent home = new Intent(getContext(),Docente_Home.class);
+                home.putExtra("username",Docente_Home.DOC);
                 startActivity(home);
             }
         });
@@ -163,7 +163,7 @@ public class AggiungiClasseFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-       // mListener = null;
+        // mListener = null;
     }
 
     /**
@@ -176,9 +176,9 @@ public class AggiungiClasseFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }*/
+     public interface OnFragmentInteractionListener {
+     void onFragmentInteraction(Uri uri);
+     }*/
 
     private void acquisizioneDati(){
         Log.v("LOG", "sono in acquisizioneDati");

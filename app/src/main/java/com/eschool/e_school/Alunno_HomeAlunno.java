@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class HomeAlunno extends AppCompatActivity {
+public class Alunno_HomeAlunno extends AppCompatActivity {
 
     private GridView grigliaMaterie;
     private TextView txtBenvenutoAlunno;

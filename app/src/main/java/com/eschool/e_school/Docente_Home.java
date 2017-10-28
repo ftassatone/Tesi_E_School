@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class Home extends AppCompatActivity {
+public class Docente_Home extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -111,11 +111,11 @@ public class Home extends AppCompatActivity {
             switch (position) {
                 case 0:
                    //return HomeDocenteFragment.newInstance(docente);
-                    return HomeDocenteFragment.newInstance(DOC);
+                    return Docente_HomeDocenteFragment.newInstance(DOC);
                 case 1:
-                    return AggiungiClasseFragment.newInstance();
+                    return Docente_AggiungiClasseFragment.newInstance();
                 case 2:
-                    return SezioneDiagnosticaFragment.newInstance();
+                    return Docente_SezioneDiagnosticaFragment.newInstance();
             }
             return null;
         }
