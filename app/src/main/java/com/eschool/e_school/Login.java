@@ -48,7 +48,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //TODO rendere statico utenete
         utente = getIntent().getStringExtra("utente");
 
         if (utente.equalsIgnoreCase("docente"))
