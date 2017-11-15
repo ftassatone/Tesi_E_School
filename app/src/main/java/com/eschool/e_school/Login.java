@@ -44,7 +44,7 @@ public class Login extends AppCompatActivity {
     private CheckBox cbRicorda;
     private String utente;
     private Boolean doc = false, al = false;
-
+//elimina
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
