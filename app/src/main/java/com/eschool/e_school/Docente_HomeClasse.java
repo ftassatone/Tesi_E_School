@@ -141,7 +141,7 @@ public class Docente_HomeClasse extends AppCompatActivity
         } else if (id == R.id.eserciziSvolti) {
 
         } else if (id == R.id.homePrincipale) {
-           Intent home = new Intent(getApplicationContext(),Docente_Home.class);
+            Intent home = new Intent(getApplicationContext(),Docente_Home.class);
             Log.d("LOG",Docente_Home.DOC);
             home.putExtra("username",Docente_Home.DOC);
             startActivity(home);

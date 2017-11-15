@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Docente_SingoloArgomento extends AppCompatActivity {
+
     private ListView listViewEsercizi,listViewTeoria;
     private Button btMultiple,btAperte,btFile,btCaricaFile;
     private String argo;
@@ -42,11 +43,13 @@ public class Docente_SingoloArgomento extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.singolo_argomento);
         listaTeoria = new ArrayList<>();
         listaEsercizi = new ArrayList<>();
         righeTeoria = new ArrayList<>();
         righeEsercizi = new ArrayList<>();
+
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         infoAlert = new AlertDialog.Builder(getApplicationContext());
 

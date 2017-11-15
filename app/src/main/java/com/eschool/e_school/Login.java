@@ -37,18 +37,18 @@ public class Login extends AppCompatActivity {
     private String username, psw;
     private RequestQueue requestQueue;
     private AlertDialog.Builder infoAlert;
-    //nome del file
+    // CRED: nome del file sul quale verranno salvate le credenziali
     private final static String CRED = "credenziali";
     private SharedPreferences.Editor edit;
     private JsonRequest richiesta;
     private CheckBox cbRicorda;
-    private String utente;
+    static String utente;
     private Boolean doc = false, al = false;
-//elimina
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO rendere statico utenete
+
         utente = getIntent().getStringExtra("utente");
 
         if (utente.equalsIgnoreCase("docente"))

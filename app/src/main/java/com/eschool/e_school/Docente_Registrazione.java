@@ -3,11 +3,14 @@ package com.eschool.e_school;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,12 +47,14 @@ public class Docente_Registrazione extends AppCompatActivity {
     private TextView txtErrore, txtCf;
     private String urlRegistrazione = "http://www.eschooldb.altervista.org/PHP/registrazione.php";
     private String urlMteriaClasse = "http://www.eschooldb.altervista.org/PHP/getMaterieClassi.php";
+    private String urlControlloDuplicato = "http://www.eschooldb.altervista.org/PHP/controlloRegistrazione.php";
     private AlertDialog.Builder infoAlert;
     private RequestQueue requestQueue;
     private LinearLayout linearMaterie, linearPrima, linearSeconda, linearTerza, linearQuarta, linearQuinta;
     private CheckBox[] mat, clas;
     private ArrayList<String> materie, classi;
     private Docente doc;
+    private boolean controlloDup = true;
 
 
     @Override
@@ -121,7 +127,6 @@ public class Docente_Registrazione extends AppCompatActivity {
         email = emailDoc.getText().toString().trim();
         matricola = matricolaDoc.getText().toString().trim();
         psw = pswDoc.getText().toString().trim();
-        Cipher c = Cipher.getInstance("AES_128/CBC/NoPadding");
         confermaPsw = confermaPswDoc.getText().toString().trim();
 
         if(mat.length != 0 || clas.length !=0) {
@@ -140,6 +145,7 @@ public class Docente_Registrazione extends AppCompatActivity {
 
     //metodo che controlla che l'inserimento dei valori sia giusto, in caso negativo mostra messaggi o dà segnali di errore
     public boolean controllo(){
+        boolean verifica;
         if(nome.equals("") || cognome.equals("") || datanascita.equals("")|| luogoNascita.equals("") || cf.equals("") || residenza.equals("")
                 || telefono.equals("") || cellulare.equals("") || email.equals("") || matricola.equals("") || psw.equals("")){
             txtErrore.setTextColor(Color.RED);
@@ -188,8 +194,53 @@ public class Docente_Registrazione extends AppCompatActivity {
             });
             return false;
         }
+        verifica = controlloDuplicato();
+        Log.d("LOG", String.valueOf(verifica));
+        return verifica;
+    }
 
-        return true;
+    private boolean controlloDuplicato(){
+        JsonRequest controlloReg = new JsonRequest(Request.Method.POST, urlControlloDuplicato, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    boolean ris = Boolean.parseBoolean(response.getJSONObject("risposta").toString());
+                    if(!ris){
+                        controlloDup = false;
+                        matricolaDoc.setTextColor(Color.RED);
+                        matricolaDoc.setError("Matricola già esistente.");
+                        matricolaDoc.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                matricolaDoc.setTextColor(Color.BLACK);
+                                matricolaDoc.setError(null);
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable editable) {
+
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        requestQueue.add(controlloReg);
+
+        return controlloDup;
     }
 
     public void riempiLinearMaterie(){
@@ -279,6 +330,9 @@ public class Docente_Registrazione extends AppCompatActivity {
         parametri.put("jsonDocente",docente.toJson(doc));
         parametri.put("jsonMaterie",materia.toJson(materie));
         parametri.put("jsonClassi",classe.toJson(classi));
+        Log.d("DATI",docente.toJson(doc));
+        Log.d("DATI",materia.toJson(materie));
+        Log.d("DATI",classe.toJson(classi));
 
 
         //richiesta di connessione al server
@@ -288,13 +342,13 @@ public class Docente_Registrazione extends AppCompatActivity {
         public void onResponse(JSONObject response) {
             String c ="";
             try {
-
                 c  = response.getString("risposta");
             } catch (JSONException e) {
                  e.printStackTrace();
              }
              if(c!=""){
                  Intent vaiLogin = new Intent(Docente_Registrazione.this,Login.class);
+                 vaiLogin.putExtra("utente",Login.utente);
                  startActivity(vaiLogin);
                  Toast toast = Toast.makeText(getApplicationContext(),c,Toast.LENGTH_LONG);
                  toast.show();
@@ -317,6 +371,24 @@ public class Docente_Registrazione extends AppCompatActivity {
         }
         });
         requestQueue.add(richiesta);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id == android.R.id.home){
+            Intent vaiLog = NavUtils.getParentActivityIntent(this);
+            vaiLog.putExtra("utente",Login.utente);
+            if (NavUtils.shouldUpRecreateTask(this, vaiLog)) {
+                TaskStackBuilder.create(this).addNextIntentWithParentStack(vaiLog).startActivities();
+            } else {
+                NavUtils.navigateUpTo(this, vaiLog);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
