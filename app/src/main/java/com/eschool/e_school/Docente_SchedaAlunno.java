@@ -68,8 +68,6 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-        cfVecchio = codiceFiscaleAlunno.getText().toString();
-
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if(bundle != null){
@@ -88,6 +86,7 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
         btAnnullaDati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                riempiScheda();
                 setEditDati(false);
             }
         });
@@ -134,6 +133,7 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
     }
 
     public void riempiScheda(){
+        //TODO perche abbiamo usato un array?
         datiAlunno = new ArrayList();
         datiAlunno.add(alunno);
         for(int i=0; i<datiAlunno.size(); i++) {
@@ -155,6 +155,7 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
             } else {
                 opzDsaAlunno.setChecked(false);
             }
+            cfVecchio = codiceFiscaleAlunno.getText().toString();
         }
     }
 
@@ -179,7 +180,7 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Log.d("LOG","ris "+response.getString("risposta"));
+                    alunno = alunnoMod;
                     Toast.makeText(getApplicationContext(), response.getString("risposta"), Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -25,7 +25,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +53,7 @@ public class Docente_Registrazione extends AppCompatActivity {
     private CheckBox[] mat, clas;
     private ArrayList<String> materie, classi;
     private Docente doc;
-    private boolean controlloDup = true;
+    private boolean controlloDup;
 
 
     @Override
@@ -96,7 +95,7 @@ public class Docente_Registrazione extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    aquisiszioneDati();
+                    aquisizioneDati();
                 } catch (NoSuchPaddingException e) {
                     e.printStackTrace();
                 } catch (NoSuchAlgorithmException e) {
@@ -115,7 +114,7 @@ public class Docente_Registrazione extends AppCompatActivity {
     }
 
     //metodo che mi permette di acquisire i dati dalle editText
-    private void aquisiszioneDati() throws NoSuchPaddingException, NoSuchAlgorithmException {
+    private void aquisizioneDati() throws NoSuchPaddingException, NoSuchAlgorithmException {
         nome = nomeDoc.getText().toString().trim();
         cognome = cognomeDoc.getText().toString().trim();
         datanascita = dataNascitaDoc.getText().toString().trim();
@@ -130,6 +129,8 @@ public class Docente_Registrazione extends AppCompatActivity {
         confermaPsw = confermaPswDoc.getText().toString().trim();
 
         if(mat.length != 0 || clas.length !=0) {
+            materie.clear();
+            classi.clear();
             for (int i = 0; i < mat.length; i++) {
                 if (mat[i].isChecked()) {
                     materie.add(mat[i].getText().toString());
@@ -145,7 +146,6 @@ public class Docente_Registrazione extends AppCompatActivity {
 
     //metodo che controlla che l'inserimento dei valori sia giusto, in caso negativo mostra messaggi o dà segnali di errore
     public boolean controllo(){
-        boolean verifica;
         if(nome.equals("") || cognome.equals("") || datanascita.equals("")|| luogoNascita.equals("") || cf.equals("") || residenza.equals("")
                 || telefono.equals("") || cellulare.equals("") || email.equals("") || matricola.equals("") || psw.equals("")){
             txtErrore.setTextColor(Color.RED);
@@ -194,38 +194,47 @@ public class Docente_Registrazione extends AppCompatActivity {
             });
             return false;
         }
-        verifica = controlloDuplicato();
-        Log.d("LOG", String.valueOf(verifica));
-        return verifica;
+       if(!controlloDuplicato()){
+            matricolaDoc.setTextColor(Color.RED);
+            matricolaDoc.setError("Le password non corrispondono");
+            matricolaDoc.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    matricolaDoc.setTextColor(Color.BLACK);
+                    matricolaDoc.setError(null);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
+            return  false;
+        }
+
+        return true;
     }
 
     private boolean controlloDuplicato(){
-        JsonRequest controlloReg = new JsonRequest(Request.Method.POST, urlControlloDuplicato, new Response.Listener<JSONObject>() {
+        HashMap<String,String> param = new HashMap<String, String>();
+        param.put("matricola",matricola);
+
+        JsonRequest controlloReg = new JsonRequest(Request.Method.POST, urlControlloDuplicato, param, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                String verifica = "";
                 try {
-                    boolean ris = Boolean.parseBoolean(response.getJSONObject("risposta").toString());
-                    if(!ris){
+                    verifica = response.getString("risposta");
+                    if(verifica.equals("false")){
                         controlloDup = false;
-                        matricolaDoc.setTextColor(Color.RED);
-                        matricolaDoc.setError("Matricola già esistente.");
-                        matricolaDoc.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                            }
-
-                            @Override
-                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                matricolaDoc.setTextColor(Color.BLACK);
-                                matricolaDoc.setError(null);
-                            }
-
-                            @Override
-                            public void afterTextChanged(Editable editable) {
-
-                            }
-                        });
+                    }else{
+                        controlloDup = true;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -244,7 +253,7 @@ public class Docente_Registrazione extends AppCompatActivity {
     }
 
     public void riempiLinearMaterie(){
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlMteriaClasse, new Response.Listener<JSONObject>() {
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlMteriaClasse,new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -319,7 +328,6 @@ public class Docente_Registrazione extends AppCompatActivity {
 
     //invia al db i dati inseriti dall'utente
     public void registrazione() throws JSONException {
-
         //raccolgo i dati inseriti dall'utente
         HashMap<String,String> parametri = new HashMap<String, String>();
 
