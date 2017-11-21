@@ -15,10 +15,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -34,7 +32,6 @@ public class Docente_SingoloArgomento extends AppCompatActivity {
     private Button btMultiple,btAperte,btFile,btCaricaFile;
     private String argo;
     private  String url = "http://www.eschooldb.altervista.org/PHP/SingoloArgomento.php";
-    private RequestQueue requestQueue;
     private ArrayList<Teoria> listaTeoria;
     private ArrayList<Esercizio> listaEsercizi;
     private ArrayList<String> righeTeoria, righeEsercizi;
@@ -50,7 +47,6 @@ public class Docente_SingoloArgomento extends AppCompatActivity {
         righeTeoria = new ArrayList<>();
         righeEsercizi = new ArrayList<>();
 
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
         infoAlert = new AlertDialog.Builder(getApplicationContext());
 
         listViewEsercizi = (ListView) findViewById(R.id.listViewEsercizi);
@@ -158,8 +154,7 @@ public class Docente_SingoloArgomento extends AppCompatActivity {
                     alert.show();
             }
         });
-
-        requestQueue.add(richiesta);
+        RequestSingleton.getInstance(this).addToRequestQueue(richiesta);
     }
 
 }

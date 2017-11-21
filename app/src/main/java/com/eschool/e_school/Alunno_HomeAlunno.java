@@ -7,18 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +27,6 @@ public class Alunno_HomeAlunno extends AppCompatActivity {
 
     private GridView grigliaMaterie;
     private TextView txtBenvenutoAlunno;
-    private RequestQueue requestQueue;
     private AlertDialog.Builder infoAlert;
     private String url = "http://www.eschooldb.altervista.org/PHP/getMaterieAlunno.php";
     private String alunno, materia,livello;
@@ -51,7 +46,6 @@ public class Alunno_HomeAlunno extends AppCompatActivity {
         txtBenvenutoAlunno = (TextView) findViewById(R.id.txtBenvenutoAlunno);
         infoAlert = new AlertDialog.Builder(getApplicationContext());
         alunno = getIntent().getStringExtra("cf");
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         connessione();
     }
@@ -111,8 +105,7 @@ public class Alunno_HomeAlunno extends AppCompatActivity {
                 alert.show();
             }
         });
-
-        requestQueue.add(richiesta);
+        RequestSingleton.getInstance(this).addToRequestQueue(richiesta);
     }
 
     @Override

@@ -17,6 +17,8 @@
                 android:id="@+id/txtBenvenuto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/textSizeButton"
+                android:textStyle="italic"
                 android:layout_marginTop="@dimen/minimoMarginetop"
                 android:layout_marginLeft="@dimen/marginetop"
                 android:layout_marginBottom="@dimen/marginetop"/>
@@ -56,7 +58,7 @@
 
                 <ScrollView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="125dp">
                     <RadioGroup
                         android:id="@+id/rgMaterie"
                         android:layout_width="wrap_content"
@@ -84,7 +86,7 @@
 
                 <ScrollView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="125dp">
                     <RadioGroup
                     android:id="@+id/rgClassi"
                     android:layout_width="wrap_content"

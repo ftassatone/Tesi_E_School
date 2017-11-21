@@ -15,15 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +39,6 @@ public class Docente_HomeClasse extends AppCompatActivity
     private ArrayList elencoAlunni, programma, datiAlunni;
     private ArrayAdapter<String> adapterAlunni;
     private ArrayAdapter<String> adapterProgramma;
-    private RequestQueue requestQueue;
     private Alunno alunno;
     private AlertDialog.Builder infoAlert;
 
@@ -69,7 +65,6 @@ public class Docente_HomeClasse extends AppCompatActivity
         materia = getIntent().getStringExtra("Materia");
         classe = getIntent().getStringExtra("Classe");
 
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
         infoAlert = new AlertDialog.Builder(getApplicationContext());
 
         connessione();
@@ -216,7 +211,7 @@ public class Docente_HomeClasse extends AppCompatActivity
                 alert.show();
             }
         });
-        requestQueue.add(richiesta);
+        RequestSingleton.getInstance(this).addToRequestQueue(richiesta);
     }
 
 

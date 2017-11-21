@@ -1,10 +1,8 @@
 package com.eschool.e_school;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import android.content.Context;
@@ -57,7 +55,6 @@ public class Docente_AggiungiClasseFragment extends Fragment {
     private boolean opzioneDsa =false;
     private ArrayList<Alunno> listaAlunni;
     private Classe cl;
-    private RequestQueue requestQueue;
     private AlertDialog.Builder infoAlert;
 
     public Docente_AggiungiClasseFragment() {
@@ -95,8 +92,6 @@ public class Docente_AggiungiClasseFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_aggiungi_classe, container, false);
-
-        requestQueue = Volley.newRequestQueue(getContext());
         infoAlert = new AlertDialog.Builder(getContext());
 
         classe = (EditText) view.findViewById(R.id.classe);
@@ -261,7 +256,7 @@ public class Docente_AggiungiClasseFragment extends Fragment {
                 alert.show();
             }
         });
-        requestQueue.add(richiesta);
+        RequestSingleton.getInstance(getContext()).addToRequestQueue(richiesta);
     }
 
     private void pulizia(){

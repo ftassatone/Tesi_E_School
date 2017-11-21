@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,10 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +32,6 @@ public class Login extends AppCompatActivity {
     private TextView pswDimenticata, linkNuovoDoc, txtCredenzialiErrate;
     private String urlLogin;
     private String username, psw;
-    private RequestQueue requestQueue;
     private AlertDialog.Builder infoAlert;
     // CRED: nome del file sul quale verranno salvate le credenziali
     private final static String CRED = "credenziali";
@@ -98,11 +94,9 @@ public class Login extends AppCompatActivity {
             }
         }
 
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
         infoAlert = new AlertDialog.Builder(Login.this);
 
         //controllo futuro sulla password dimenticata
-
 
         //button di accesso
         btConfermaLogin.setOnClickListener(new View.OnClickListener() {
@@ -291,8 +285,7 @@ public class Login extends AppCompatActivity {
             });
         }
         //richiesta di connessione al server
-
-        requestQueue.add(richiesta);
+        RequestSingleton.getInstance(this).addToRequestQueue(richiesta);
 
     }
 

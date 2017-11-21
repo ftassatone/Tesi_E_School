@@ -11,7 +11,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
@@ -27,7 +26,6 @@ public class Alunno_HomeMateria extends AppCompatActivity {
     private String url = "http://www.eschooldb.altervista.org/PHP/homeMateria.php";
     private String materia,tipologia;
     private String livello;
-    private RequestQueue requestQueue;
     private ListView listContenitore;
     private TextView titolo;
     private ArrayAdapter adapter;
@@ -95,7 +93,7 @@ public class Alunno_HomeMateria extends AppCompatActivity {
 
             }
         });
-        requestQueue.add(richiesta);
+        RequestSingleton.getInstance(this).addToRequestQueue(richiesta);
         return list;
     }
 

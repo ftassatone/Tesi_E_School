@@ -20,10 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,7 +45,6 @@ public class Docente_HomeDocenteFragment extends Fragment {
 
     private String docente, radioMateria, radioClasse;
     private String url = "http://www.eschooldb.altervista.org/PHP/loginDocente.php";
-    private RequestQueue requestQueue;
     private AlertDialog.Builder infoAlert;
     private RadioGroup rgClassi, rgMaterie;
     private Button btVaiClasse;
@@ -93,8 +90,6 @@ public class Docente_HomeDocenteFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_home_docente, container, false);
-
-        requestQueue = Volley.newRequestQueue(getContext());
 
         infoAlert = new AlertDialog.Builder(getContext());
 
@@ -221,7 +216,7 @@ public class Docente_HomeDocenteFragment extends Fragment {
                 alert.show();
             }
         });
-        requestQueue.add(richiesta);
+        RequestSingleton.getInstance(getContext()).addToRequestQueue(richiesta);
     }
 
     @Override

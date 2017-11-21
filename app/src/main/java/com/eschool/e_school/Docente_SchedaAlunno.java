@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,14 +12,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -42,7 +38,6 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
     private ImageButton btModificaDati;
     private String url = "http://www.eschooldb.altervista.org/PHP/modificaDatiAlunno.php";
     private String cfVecchio;
-    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +60,6 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
         btModificaDati = (ImageButton) findViewById(R.id.btModificaDati);
         btConfermaModificaDati = (Button) findViewById(R.id.btConfermaModificaDati);
         btAnnullaDati = (Button) findViewById(R.id.btAnnullaDati);
-
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -192,7 +185,7 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
 
             }
         });
-        requestQueue.add(richiesta);
+        RequestSingleton.getInstance(this).addToRequestQueue(richiesta);
     }
 
     //metodo che mi permette di abilitare o diabilitare le editText

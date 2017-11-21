@@ -2,6 +2,7 @@ package com.eschool.e_school;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -20,10 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.toolbox.RequestFuture;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -33,8 +33,10 @@ import org.json.JSONObject;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
-import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
 public class Docente_Registrazione extends AppCompatActivity {
@@ -48,12 +50,12 @@ public class Docente_Registrazione extends AppCompatActivity {
     private String urlMteriaClasse = "http://www.eschooldb.altervista.org/PHP/getMaterieClassi.php";
     private String urlControlloDuplicato = "http://www.eschooldb.altervista.org/PHP/controlloRegistrazione.php";
     private AlertDialog.Builder infoAlert;
-    private RequestQueue requestQueue;
     private LinearLayout linearMaterie, linearPrima, linearSeconda, linearTerza, linearQuarta, linearQuinta;
     private CheckBox[] mat, clas;
     private ArrayList<String> materie, classi;
     private Docente doc;
     private boolean controlloDup;
+    private JsonRequest controlloReg;
 
 
     @Override
@@ -87,7 +89,6 @@ public class Docente_Registrazione extends AppCompatActivity {
         materie = new ArrayList<String>();
         classi = new ArrayList<String>();
 
-        requestQueue = Volley.newRequestQueue(getApplicationContext());
         riempiLinearMaterie();
         riempiLinearClassi();
 
@@ -102,6 +103,7 @@ public class Docente_Registrazione extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if(controllo()){
+                    Log.d("DATI","sono nell'if controllo");
                     doc = new Docente(matricola,nome,cognome,cf,datanascita,luogoNascita,residenza,telefono,cellulare,email,psw);
                     try {
                         registrazione();
@@ -142,17 +144,19 @@ public class Docente_Registrazione extends AppCompatActivity {
                 }
             }
         }
+
+        //controlloDuplicato();
     }
 
     //metodo che controlla che l'inserimento dei valori sia giusto, in caso negativo mostra messaggi o dà segnali di errore
-    public boolean controllo(){
-        if(nome.equals("") || cognome.equals("") || datanascita.equals("")|| luogoNascita.equals("") || cf.equals("") || residenza.equals("")
-                || telefono.equals("") || cellulare.equals("") || email.equals("") || matricola.equals("") || psw.equals("")){
+    public boolean controllo() {
+        if (nome.equals("") || cognome.equals("") || datanascita.equals("") || luogoNascita.equals("") || cf.equals("") || residenza.equals("")
+                || telefono.equals("") || cellulare.equals("") || email.equals("") || matricola.equals("") || psw.equals("")) {
             txtErrore.setTextColor(Color.RED);
             return false;
         }
 
-        if(!psw.equals(confermaPsw) ){
+        if (!psw.equals(confermaPsw)) {
             pswDoc.setTextColor(Color.RED);
             pswDoc.setError("Le password non corrispondono");
             pswDoc.addTextChangedListener(new TextWatcher() {
@@ -194,14 +198,14 @@ public class Docente_Registrazione extends AppCompatActivity {
             });
             return false;
         }
-       if(!controlloDuplicato()){
+        new ControlloDuplicato().execute();
+        if (!controlloDup) {
+            Log.d("DATI","sono nell'if del controllo");
             matricolaDoc.setTextColor(Color.RED);
-            matricolaDoc.setError("Le password non corrispondono");
+            matricolaDoc.setError("Matricola già esistente.");
             matricolaDoc.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -210,50 +214,84 @@ public class Docente_Registrazione extends AppCompatActivity {
                 }
 
                 @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
+                public void afterTextChanged(Editable editable) {}
             });
 
-            return  false;
+            return false;
         }
 
         return true;
     }
 
-    private boolean controlloDuplicato(){
-        HashMap<String,String> param = new HashMap<String, String>();
-        param.put("matricola",matricola);
+   private class ControlloDuplicato extends AsyncTask<Void,Void,Void>{
 
-        JsonRequest controlloReg = new JsonRequest(Request.Method.POST, urlControlloDuplicato, param, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                String verifica = "";
-                try {
-                    verifica = response.getString("risposta");
-                    if(verifica.equals("false")){
-                        controlloDup = false;
-                    }else{
-                        controlloDup = true;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+       @Override
+       protected Void doInBackground(Void... voids) {
+           HashMap<String,String> param = new HashMap<String, String>();
+           param.put("matricola",matricola);
 
-            }
-        });
+           Log.d("DATI","sono nella classe");
+           Log.d("DATI","controllo+"+controlloDup);
 
-        requestQueue.add(controlloReg);
+           /*controlloReg = new JsonRequest(Request.Method.POST, urlControlloDuplicato, param, new Response.Listener<JSONObject>() {
+               @Override
+               public void onResponse(JSONObject response) {
+                   Log.d("DATI","entro");
+                   Log.d("DATI","controllo1+"+controlloDup);
+                   String verifica = "";
+                   try {
+                       verifica = response.getString("risposta");
+                       Log.d("DATI","verifica+"+verifica);
+                       if(verifica.equals("false")){
+                           controlloDup = false;
+                       }else{
+                           controlloDup = true;
+                       }
+                   } catch (JSONException e) {
+                       e.printStackTrace();
+                   }
+               }
+           }, new Response.ErrorListener() {
+               @Override
+               public void onErrorResponse(VolleyError error) {
 
-        return controlloDup;
+               }
+           });*/
+           RequestFuture<JSONObject> future = RequestFuture.newFuture();
+           controlloReg = new JsonRequest(Request.Method.POST,urlControlloDuplicato,param,future,new Response.ErrorListener() {
+               @Override
+               public void onErrorResponse(VolleyError error) {
+
+               }
+           });
+
+           RequestSingleton.getInstance(getApplicationContext()).addToRequestQueue(controlloReg);
+
+           try {
+               Log.d("DATI","sono dopo la richiesta");
+               JSONObject risultato = future.get();
+               String verifica = "";
+               verifica = risultato.getString("risposta");
+               Log.d("DATI","verifica+"+verifica);
+               if(verifica.equals("false")){
+                   controlloDup = false;
+               }else{
+                   controlloDup = true;
+               }
+           } catch (InterruptedException e) {
+               e.printStackTrace();
+           } catch (ExecutionException e) {
+               e.printStackTrace();
+           } catch (JSONException e) {
+               e.printStackTrace();
+           }
+
+           return null;
+       }
     }
 
     public void riempiLinearMaterie(){
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlMteriaClasse,new Response.Listener<JSONObject>() {
+        JsonRequest richiestaMaterie = new JsonRequest(Request.Method.POST, urlMteriaClasse,new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -275,11 +313,11 @@ public class Docente_Registrazione extends AppCompatActivity {
 
             }
         });
-        requestQueue.add(richiesta);
+        RequestSingleton.getInstance(this).addToRequestQueue(richiestaMaterie);
     }
 
     public void riempiLinearClassi(){
-        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlMteriaClasse, new Response.Listener<JSONObject>() {
+        JsonRequest richiestaClassi = new JsonRequest(Request.Method.POST, urlMteriaClasse, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -323,7 +361,8 @@ public class Docente_Registrazione extends AppCompatActivity {
                 Log.d("LOG", error.toString());
             }
         });
-        requestQueue.add(richiesta);
+        RequestSingleton.getInstance(this).addToRequestQueue(richiestaClassi);
+        //requestQueue.add(richiesta);
     }
 
     //invia al db i dati inseriti dall'utente
@@ -378,7 +417,7 @@ public class Docente_Registrazione extends AppCompatActivity {
             alert.show();
         }
         });
-        requestQueue.add(richiesta);
+        RequestSingleton.getInstance(this).addToRequestQueue(richiesta);
     }
 
     @Override
@@ -403,4 +442,6 @@ public class Docente_Registrazione extends AppCompatActivity {
     public void onBackPressed() {
 
     }
+
+
 }
