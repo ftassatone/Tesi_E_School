@@ -63,6 +63,7 @@
                     <EditText
                         android:id="@+id/nomeAlunno"
                         android:enabled="false"
+                        android:maxLines="@integer/numeroRighe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/marginetop"/>
@@ -70,6 +71,7 @@
                     <EditText
                         android:id="@+id/cognomeAlunno"
                         android:enabled="false"
+                        android:maxLines="@integer/numeroRighe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/marginetop"/>
@@ -77,6 +79,7 @@
                     <EditText
                         android:id="@+id/dataNascitaAlunno"
                         android:enabled="false"
+                        android:maxLines="@integer/numeroRighe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/marginetop"/>
@@ -113,6 +116,8 @@
                     <EditText
                         android:id="@+id/codiceFiscaleAlunno"
                         android:enabled="false"
+                        android:maxLines="@integer/numeroRighe"
+                        android:maxLength="@integer/lunghezzaCf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/marginetop"/>
@@ -120,6 +125,7 @@
                     <EditText
                         android:id="@+id/luogoNascitaAlunno"
                         android:enabled="false"
+                        android:maxLines="@integer/numeroRighe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/marginetop"/>
@@ -161,6 +167,9 @@
                     <EditText
                         android:id="@+id/telefonoAlunno"
                         android:enabled="false"
+                        android:maxLines="@integer/numeroRighe"
+                        android:maxLength="@integer/lunghezzaNumero"
+                        android:inputType="number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/marginetop"/>
@@ -168,6 +177,9 @@
                     <EditText
                         android:id="@+id/celAlunno"
                         android:enabled="false"
+                        android:maxLines="@integer/numeroRighe"
+                        android:maxLength="@integer/lunghezzaNumero"
+                        android:inputType="number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/marginetop"/>
@@ -175,6 +187,7 @@
                     <EditText
                         android:id="@+id/emailAlunno"
                         android:enabled="false"
+                        android:maxLines="@integer/numeroRighe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/marginetop"/>
