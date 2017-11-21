@@ -46,9 +46,8 @@ public class Login extends AppCompatActivity {
     private JsonRequest richiesta;
     private CheckBox cbRicorda;
     static String utente;
-    private String pswCifrata;
+    private byte[] pswCifrata;
     private Boolean doc = false, al = false;
-    private MyCript myCript = new MyCript();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,21 +118,7 @@ public class Login extends AppCompatActivity {
                             SharedPreferences credenziali = getSharedPreferences(CRED, MODE_PRIVATE);
                             edit = credenziali.edit();
                             //TODO cifrare la psw
-                            try {
-                                pswCifrata = myCript.encrypt(psw);
-                            } catch (InvalidKeyException e) {
-                                e.printStackTrace();
-                            } catch (IllegalBlockSizeException e) {
-                                e.printStackTrace();
-                            } catch (BadPaddingException e) {
-                                e.printStackTrace();
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            } catch (NoSuchAlgorithmException e) {
-                                e.printStackTrace();
-                            } catch (NoSuchPaddingException e) {
-                                e.printStackTrace();
-                            }
+                            pswCifrata = MyCript.encrypt(psw);
                             edit.putString("username", username);
                             edit.putString("password", String.valueOf(pswCifrata));
                             edit.commit();
