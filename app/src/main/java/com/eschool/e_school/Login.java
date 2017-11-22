@@ -113,18 +113,16 @@ public class Login extends AppCompatActivity {
                 if (usernameTxt.getText().toString().trim().length() != 0 || passwordTxt.getText().toString().trim().length() != 0) {
                     username = usernameTxt.getText().toString().trim();
                     psw = passwordTxt.getText().toString().trim();
+                    pswCifrata = MyCript.encrypt(psw);
                     if (al) {
                         if (cbRicorda.isChecked()) {
                             SharedPreferences credenziali = getSharedPreferences(CRED, MODE_PRIVATE);
                             edit = credenziali.edit();
-                            //TODO cifrare la psw
-                            pswCifrata = MyCript.encrypt(psw);
                             edit.putString("username", username);
                             edit.putString("password", String.valueOf(pswCifrata));
                             edit.commit();
                         }
                     }
-                    Log.d("LOG","cred-"+username+" pswCifrata "+pswCifrata);
                     login();
                 } else {
                     usernameTxt.setError("Inserire username");
@@ -178,7 +176,7 @@ public class Login extends AppCompatActivity {
         //raccolgo i dati inseriti dall'utente
         HashMap<String,String> parametri = new HashMap<String, String>();
         parametri.put("username",username);
-        parametri.put("password",psw);
+        parametri.put("password", String.valueOf(pswCifrata));
 
         Log.v("LOG","parametri "+ parametri);
 
