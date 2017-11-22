@@ -34,6 +34,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import javax.crypto.NoSuchPaddingException;
 
@@ -53,7 +55,6 @@ public class Docente_Registrazione extends AppCompatActivity {
     private ArrayList<String> materie, classi;
     private Docente doc;
     private boolean controlloDup;
-    private JsonRequest controlloReg;
 
 
     @Override
@@ -93,22 +94,16 @@ public class Docente_Registrazione extends AppCompatActivity {
         btConfermaRegistrazione.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
+                txtErrore.setTextColor(Color.BLACK);
+               try {
                     aquisizioneDati();
                 } catch (NoSuchPaddingException e) {
                     e.printStackTrace();
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
-                if(controllo()){
-                    Log.d("DATI","sono nell'if controllo");
-                    doc = new Docente(matricola,nome,cognome,cf,datanascita,luogoNascita,residenza,telefono,cellulare,email,psw);
-                    try {
-                        registrazione();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
+
+                new ControlloDuplicato().execute();
             }
         });
     }
@@ -167,6 +162,8 @@ public class Docente_Registrazione extends AppCompatActivity {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     pswDoc.setTextColor(Color.BLACK);
                     pswDoc.setError(null);
+                    confermaPswDoc.setTextColor(Color.BLACK);
+                    confermaPswDoc.setError(null);
                 }
 
                 @Override
@@ -187,6 +184,8 @@ public class Docente_Registrazione extends AppCompatActivity {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     confermaPswDoc.setTextColor(Color.BLACK);
                     confermaPswDoc.setError(null);
+                    pswDoc.setTextColor(Color.BLACK);
+                    pswDoc.setError(null);
                 }
 
                 @Override
@@ -196,96 +195,9 @@ public class Docente_Registrazione extends AppCompatActivity {
             });
             return false;
         }
-        new ControlloDuplicato().execute();
-        if (!controlloDup) {
-            Log.d("DATI","sono nell'if del controllo");
-            matricolaDoc.setTextColor(Color.RED);
-            matricolaDoc.setError("Matricola già esistente.");
-            matricolaDoc.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    matricolaDoc.setTextColor(Color.BLACK);
-                    matricolaDoc.setError(null);
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {}
-            });
-
-            return false;
-        }
 
         return true;
-    }
-
-   private class ControlloDuplicato extends AsyncTask<Void,Void,Void>{
-
-       @Override
-       protected Void doInBackground(Void... voids) {
-           HashMap<String,String> param = new HashMap<String, String>();
-           param.put("matricola",matricola);
-
-           Log.d("DATI","sono nella classe");
-           Log.d("DATI","controllo+"+controlloDup);
-
-           /*controlloReg = new JsonRequest(Request.Method.POST, urlControlloDuplicato, param, new Response.Listener<JSONObject>() {
-               @Override
-               public void onResponse(JSONObject response) {
-                   Log.d("DATI","entro");
-                   Log.d("DATI","controllo1+"+controlloDup);
-                   String verifica = "";
-                   try {
-                       verifica = response.getString("risposta");
-                       Log.d("DATI","verifica+"+verifica);
-                       if(verifica.equals("false")){
-                           controlloDup = false;
-                       }else{
-                           controlloDup = true;
-                       }
-                   } catch (JSONException e) {
-                       e.printStackTrace();
-                   }
-               }
-           }, new Response.ErrorListener() {
-               @Override
-               public void onErrorResponse(VolleyError error) {
-
-               }
-           });*/
-           RequestFuture<JSONObject> future = RequestFuture.newFuture();
-           controlloReg = new JsonRequest(Request.Method.POST,urlControlloDuplicato,param,future,new Response.ErrorListener() {
-               @Override
-               public void onErrorResponse(VolleyError error) {
-
-               }
-           });
-
-           RequestSingleton.getInstance(getApplicationContext()).addToRequestQueue(controlloReg);
-
-           try {
-               Log.d("DATI","sono dopo la richiesta");
-               JSONObject risultato = future.get();
-               String verifica = "";
-               verifica = risultato.getString("risposta");
-               Log.d("DATI","verifica+"+verifica);
-               if(verifica.equals("false")){
-                   controlloDup = false;
-               }else{
-                   controlloDup = true;
-               }
-           } catch (InterruptedException e) {
-               e.printStackTrace();
-           } catch (ExecutionException e) {
-               e.printStackTrace();
-           } catch (JSONException e) {
-               e.printStackTrace();
-           }
-
-           return null;
-       }
     }
 
     public void riempiLinearMaterie(){
@@ -438,8 +350,76 @@ public class Docente_Registrazione extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
     }
 
+    private class ControlloDuplicato extends AsyncTask<Void,Void,Void> {
+        JSONObject risp;
+        boolean duplicato;
+        @Override
+        protected Void doInBackground(Void... voids) {
+            RequestFuture<JSONObject> future = RequestFuture.newFuture();
+            HashMap<String, String> param = new HashMap<String, String>();
+            param.put("matricola", matricola);
 
+            JsonRequest controlloReg = new JsonRequest(Request.Method.POST, urlControlloDuplicato, param, future, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+            RequestSingleton.getInstance(getApplicationContext()).addToRequestQueue(controlloReg);
+            try {
+                risp=future.get(5,TimeUnit.SECONDS);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            } catch (ExecutionException e1) {
+                e1.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            try {
+                if(risp.getString("risposta").equals("false")){
+                    controlloDup=false;
+                }else{
+                    controlloDup=true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (!controlloDup) {
+                duplicato=true;
+                matricolaDoc.setTextColor(Color.RED);
+                matricolaDoc.setError("Matricola già esistente.");
+                matricolaDoc.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        matricolaDoc.setTextColor(Color.BLACK);
+                        matricolaDoc.setError(null);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {}
+                });
+
+            }
+            if(controllo()&& !duplicato){
+                doc = new Docente(matricola,nome,cognome,cf,datanascita,luogoNascita,residenza,telefono,cellulare,email,psw);
+                try {
+                    registrazione();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    }
 }

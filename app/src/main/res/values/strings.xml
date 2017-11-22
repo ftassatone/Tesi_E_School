@@ -64,6 +64,7 @@
     <string name="infoTeoria">Seleziona l\'argomento di teoria per visualizzarlo.</string>
 
     <!-- button -->
+    <string name="ok">ok</string>
     <string name="conferma">Conferma</string>
     <string name="accedi">Accedi</string>
     <string name="modifica">Modifica</string>
