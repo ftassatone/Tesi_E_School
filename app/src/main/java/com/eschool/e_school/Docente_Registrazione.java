@@ -162,6 +162,8 @@ public class Docente_Registrazione extends AppCompatActivity {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     pswDoc.setTextColor(Color.BLACK);
                     pswDoc.setError(null);
+                    confermaPswDoc.setTextColor(Color.BLACK);
+                    confermaPswDoc.setError(null);
                 }
 
                 @Override
@@ -182,6 +184,8 @@ public class Docente_Registrazione extends AppCompatActivity {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     confermaPswDoc.setTextColor(Color.BLACK);
                     confermaPswDoc.setError(null);
+                    pswDoc.setTextColor(Color.BLACK);
+                    pswDoc.setError(null);
                 }
 
                 @Override

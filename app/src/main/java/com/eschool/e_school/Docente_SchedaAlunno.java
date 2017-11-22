@@ -1,7 +1,9 @@
 package com.eschool.e_school;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +24,6 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Docente_SchedaAlunno extends AppCompatActivity {
@@ -31,7 +32,6 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
     private EditText nomeAlunno, cognomeAlunnno, dataNascitaAlunno, codiceFiscaleAlunno, luogoNascitaAlunno, residenzaAlunno,
             telefonoAlunno, celAlunno, emailAlunno, usernameAlunno, passwordAlunno, classeTxt;
     private CheckBox opzDsaAlunno;
-    private ArrayList datiAlunno;
     private Boolean dsa;
     private Boolean getdsa;
     private Button btConfermaModificaDati, btAnnullaDati;
@@ -109,7 +109,9 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_opzioni_dsa) {
-            //TODO aprire l'alert
+            DialogFragment dial = new DialogDsa();
+            dial.show(getFragmentManager(),"dialogDSA");
+
         }else if(id == android.R.id.home){
             Intent vaiHomeClasse = NavUtils.getParentActivityIntent(this);
             vaiHomeClasse.putExtra("Materia",Docente_HomeClasse.materia);
@@ -126,30 +128,26 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
     }
 
     public void riempiScheda(){
-        //TODO perche abbiamo usato un array?
-        datiAlunno = new ArrayList();
-        datiAlunno.add(alunno);
-        for(int i=0; i<datiAlunno.size(); i++) {
-            nomeAlunno.setText(alunno.getNome().trim());
-            cognomeAlunnno.setText(alunno.getCognome().trim());
-            dataNascitaAlunno.setText(alunno.getDataNascita().trim());
-            codiceFiscaleAlunno.setText(alunno.getCf().trim());
-            luogoNascitaAlunno.setText(alunno.getLuogoNascita().trim());
-            residenzaAlunno.setText(alunno.getResidenza().trim());
-            telefonoAlunno.setText(alunno.getNumeroTelefono().trim());
-            celAlunno.setText(alunno.getCellulare().trim());
-            emailAlunno.setText(alunno.getEmail().trim());
-            usernameAlunno.setText(alunno.getUsername().trim());
-            passwordAlunno.setText(alunno.getPassword().trim());
-            classeTxt.setText(alunno.getNomeClasse().trim());
-            dsa = alunno.getDsa();
-            if (dsa.equals(true)) {
-                opzDsaAlunno.setChecked(true);
-            } else {
-                opzDsaAlunno.setChecked(false);
-            }
-            cfVecchio = codiceFiscaleAlunno.getText().toString();
+
+        nomeAlunno.setText(alunno.getNome().trim());
+        cognomeAlunnno.setText(alunno.getCognome().trim());
+        dataNascitaAlunno.setText(alunno.getDataNascita().trim());
+        codiceFiscaleAlunno.setText(alunno.getCf().trim());
+        luogoNascitaAlunno.setText(alunno.getLuogoNascita().trim());
+        residenzaAlunno.setText(alunno.getResidenza().trim());
+        telefonoAlunno.setText(alunno.getNumeroTelefono().trim());
+        celAlunno.setText(alunno.getCellulare().trim());
+        emailAlunno.setText(alunno.getEmail().trim());
+        usernameAlunno.setText(alunno.getUsername().trim());
+        passwordAlunno.setText(alunno.getPassword().trim());
+        classeTxt.setText(alunno.getNomeClasse().trim());
+        dsa = alunno.getDsa();
+        if (dsa.equals(true)) {
+            opzDsaAlunno.setChecked(true);
+        } else {
+            opzDsaAlunno.setChecked(false);
         }
+        cfVecchio = codiceFiscaleAlunno.getText().toString();
     }
 
     public void modifica(){
