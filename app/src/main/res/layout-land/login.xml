@@ -50,6 +50,7 @@
         android:id="@+id/passwordTxt"
         android:layout_width="200sp"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:maxLines="@integer/numeroRighe"
         android:hint="@string/inserisci"
         android:layout_gravity="center"/>

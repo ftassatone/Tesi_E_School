@@ -19,11 +19,14 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.gson.JsonArray;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -38,7 +41,8 @@ public class Login extends AppCompatActivity {
     private Button btConfermaLogin;
     private TextView pswDimenticata, linkNuovoDoc, txtCredenzialiErrate;
     private String urlLogin;
-    private String username, psw;
+    private String username, psw, pswDecifrata;
+    private String pswCifrata;
     private AlertDialog.Builder infoAlert;
     // CRED: nome del file sul quale verranno salvate le credenziali
     private final static String CRED = "credenziali";
@@ -46,7 +50,6 @@ public class Login extends AppCompatActivity {
     private JsonRequest richiesta;
     private CheckBox cbRicorda;
     static String utente;
-    private byte[] pswCifrata;
     private Boolean doc = false, al = false;
 
     @Override
@@ -113,7 +116,6 @@ public class Login extends AppCompatActivity {
                 if (usernameTxt.getText().toString().trim().length() != 0 || passwordTxt.getText().toString().trim().length() != 0) {
                     username = usernameTxt.getText().toString().trim();
                     psw = passwordTxt.getText().toString().trim();
-                    pswCifrata = MyCript.encrypt(psw);
                     if (al) {
                         if (cbRicorda.isChecked()) {
                             SharedPreferences credenziali = getSharedPreferences(CRED, MODE_PRIVATE);
@@ -176,33 +178,33 @@ public class Login extends AppCompatActivity {
         //raccolgo i dati inseriti dall'utente
         HashMap<String,String> parametri = new HashMap<String, String>();
         parametri.put("username",username);
-        parametri.put("password", String.valueOf(pswCifrata));
-
         Log.v("LOG","parametri "+ parametri);
 
         if(doc){
             urlLogin = "http://www.eschooldb.altervista.org/PHP/login.php";
             richiesta = new JsonRequest(Request.Method.POST, urlLogin, parametri, new Response.Listener<JSONObject>() {
+
                 @Override
                 public void onResponse(JSONObject response) {
-                    String c ="";
-                    Log.v("LOG","ris "+ response.toString());
                     try {
-                        c  = response.getString("ris");
+                        Log.d("LOG", "sono nel try");
+                        JSONArray docente = response.getJSONArray("docente");
+                        Log.d("LOG", "docente "+docente);
+                        pswCifrata = docente.getJSONObject(0).getString("password");
+
+                        Log.d("LOG", "pswCifrata2 "+pswCifrata);
+                        pswDecifrata = MyCript.decrypt(pswCifrata);
+                        Log.d("LOG", "pswDecifrata "+pswDecifrata);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if(c=="true"){
-                        Log.v("LOG","sono qui");
+                    if(psw.equals(pswDecifrata)){
                         Intent vai = new Intent(getApplicationContext(),Docente_Home.class);
                         vai.putExtra("username",username);
                         startActivity(vai);
                         finish();
-                    }else if(c=="false") {
-                    /*infoAlert.setTitle("Credenziali errate");
-                    infoAlert.setMessage("Username o password errati, riprovare.");
-                    AlertDialog alert = infoAlert.create();
-                    alert.show();*/
+                    }else{
+                        Log.d("LOG","sono nell'else");
                         txtCredenzialiErrate.setVisibility(View.VISIBLE);
                         usernameTxt.setTextColor(Color.RED);
                         usernameTxt.addTextChangedListener(new TextWatcher() {
@@ -242,6 +244,63 @@ public class Login extends AppCompatActivity {
                             }
                         });
                     }
+                    /*String c ="";
+                    Log.v("LOG","ris "+ response.toString());
+                    try {
+                        c  = response.getString("ris");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if(c=="true"){
+                        Log.v("LOG","sono qui");
+                        Intent vai = new Intent(getApplicationContext(),Docente_Home.class);
+                        vai.putExtra("username",username);
+                        startActivity(vai);
+                        finish();
+                    }else if(c=="false") {
+                    /*infoAlert.setTitle("Credenziali errate");
+                    infoAlert.setMessage("Username o password errati, riprovare.");
+                    AlertDialog alert = infoAlert.create();
+                    alert.show();
+                        txtCredenzialiErrate.setVisibility(View.VISIBLE);
+                        usernameTxt.setTextColor(Color.RED);
+                        usernameTxt.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                usernameTxt.setTextColor(Color.BLACK);
+                                usernameTxt.setError(null);
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable editable) {
+
+                            }
+                        });
+
+                        passwordTxt.setTextColor(Color.RED);
+                        passwordTxt.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                passwordTxt.setTextColor(Color.BLACK);
+                                passwordTxt.setError(null);
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable editable) {
+
+                            }
+                        });
+                    }*/
                 }
             }, new Response.ErrorListener() {
 

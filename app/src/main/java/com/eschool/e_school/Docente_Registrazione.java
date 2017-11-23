@@ -45,10 +45,11 @@ public class Docente_Registrazione extends AppCompatActivity {
     private EditText matricolaDoc,pswDoc,confermaPswDoc;
     private Button btConfermaRegistrazione;
     private String nome, cognome, datanascita, luogoNascita, residenza, cf, cellulare, telefono, email, matricola, psw, confermaPsw;
-    private TextView txtErrore, txtCf;
+    private TextView txtErrore;
     private String urlRegistrazione = "http://www.eschooldb.altervista.org/PHP/registrazione.php";
     private String urlMteriaClasse = "http://www.eschooldb.altervista.org/PHP/getMaterieClassi.php";
     private String urlControlloDuplicato = "http://www.eschooldb.altervista.org/PHP/controlloRegistrazione.php";
+    private String pswCifrata;
     private AlertDialog.Builder infoAlert;
     private LinearLayout linearMaterie, linearPrima, linearSeconda, linearTerza, linearQuarta, linearQuinta;
     private CheckBox[] mat, clas;
@@ -77,7 +78,6 @@ public class Docente_Registrazione extends AppCompatActivity {
         txtErrore = (TextView) findViewById(R.id.txtErrore);
         btConfermaRegistrazione = (Button) findViewById(R.id.btConfermaRegistrazione);
         infoAlert = new AlertDialog.Builder(getApplicationContext());
-        txtCf = (TextView) findViewById(R.id.txtCf);
         linearMaterie = (LinearLayout) findViewById(R.id.linearMaterie);
         linearPrima = (LinearLayout) findViewById(R.id.linearPrima);
         linearSeconda = (LinearLayout) findViewById(R.id.linearSeconda);
@@ -149,7 +149,10 @@ public class Docente_Registrazione extends AppCompatActivity {
             return false;
         }
 
-        if (!psw.equals(confermaPsw)) {
+        if (psw.equals(confermaPsw)) {
+            pswCifrata = MyCript.encrypt(psw);
+            Log.d("LOG", "pswCifrata nell'if "+pswCifrata);
+        }else{
             pswDoc.setTextColor(Color.RED);
             pswDoc.setError("Le password non corrispondono");
             pswDoc.addTextChangedListener(new TextWatcher() {
@@ -195,8 +198,6 @@ public class Docente_Registrazione extends AppCompatActivity {
             });
             return false;
         }
-
-
         return true;
     }
 
@@ -412,7 +413,8 @@ public class Docente_Registrazione extends AppCompatActivity {
 
             }
             if(controllo()&& !duplicato){
-                doc = new Docente(matricola,nome,cognome,cf,datanascita,luogoNascita,residenza,telefono,cellulare,email,psw);
+                doc = new Docente(matricola,nome,cognome,cf,datanascita,luogoNascita,residenza,telefono,cellulare,email,pswCifrata);
+                Log.d("LOG", "pswCifrata nel controllo "+pswCifrata);
                 try {
                     registrazione();
                 } catch (JSONException e) {
