@@ -51,7 +51,7 @@ public class Docente_AggiungiClasseFragment extends Fragment {
     private Button btNuovoAlunno, btFine;
     private CheckBox opzDsaAlunno;
     private String classeTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, cfAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt,
-            telefonoAlunnoTxt, cellulareAlunnoTxt, emailAlunnoTxt, usernameTxt, passwordTxt;
+            telefonoAlunnoTxt, cellulareAlunnoTxt, emailAlunnoTxt, usernameTxt, passwordTxt,pswCifrata;
     private boolean opzioneDsa =false;
     private ArrayList<Alunno> listaAlunni;
     private Classe cl;
@@ -206,13 +206,14 @@ public class Docente_AggiungiClasseFragment extends Fragment {
 
             if(password.getText().toString().equals(confermaPsw.getText().toString())){
                 passwordTxt = password.getText().toString();
+                pswCifrata = MyCript.encrypt(passwordTxt);
             }else{
                 Toast.makeText(getContext(),"Le password non coincidono.", Toast.LENGTH_LONG).show();
             }
 
             //TODO si deve acquisire anche foto
             Alunno al = new Alunno(cfAlunnoTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt, telefonoAlunnoTxt,
-                    cellulareAlunnoTxt, emailAlunnoTxt,opzioneDsa, usernameTxt, passwordTxt,classeTxt);
+                    cellulareAlunnoTxt, emailAlunnoTxt,opzioneDsa, usernameTxt, pswCifrata,classeTxt);
             Log.v("LOG", "alunno: "+al.toString());
             listaAlunni.add(al);
 

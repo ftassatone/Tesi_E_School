@@ -12,7 +12,6 @@ public class Docente {
     private String cellulare;
     private String email;
     private String password;
-    private byte[] pswCifrata;
 
     public Docente (String matricola,String nome,String cognome, String cf, String dataNascita, String luogoNascita,
                     String residenza,String numeroTelefono, String cellulare, String email, String password){
@@ -27,21 +26,6 @@ public class Docente {
         this.cellulare = cellulare;
         this.email = email;
         this.password = password;
-    }
-
-    public Docente (String matricola,String nome,String cognome, String cf, String dataNascita, String luogoNascita,
-                    String residenza,String numeroTelefono, String cellulare, String email, byte[] password){
-        this.matricola = matricola;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.cf = cf;
-        this.dataNascita = dataNascita;
-        this.luogoNascita = luogoNascita;
-        this.residenza = residenza;
-        this.numeroTelefono = numeroTelefono;
-        this.cellulare = cellulare;
-        this.email = email;
-        this.pswCifrata = password;
     }
 
     public String getMatricola() {

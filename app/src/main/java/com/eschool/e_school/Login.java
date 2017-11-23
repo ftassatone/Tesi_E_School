@@ -41,8 +41,7 @@ public class Login extends AppCompatActivity {
     private Button btConfermaLogin;
     private TextView pswDimenticata, linkNuovoDoc, txtCredenzialiErrate;
     private String urlLogin;
-    private String username, psw, pswDecifrata;
-    private String pswCifrata;
+    private String username, psw, pswDecifrata, pswCifrata;
     private AlertDialog.Builder infoAlert;
     // CRED: nome del file sul quale verranno salvate le credenziali
     private final static String CRED = "credenziali";
@@ -100,7 +99,10 @@ public class Login extends AppCompatActivity {
             SharedPreferences credenziali = getSharedPreferences(CRED, MODE_PRIVATE);
             if(!credenziali.getString("username","").equals("") && !credenziali.getString("password","").equals("")){
                 usernameTxt.setText(credenziali.getString("username",""));
-                passwordTxt.setText(credenziali.getString("password",""));
+                String pswCred = credenziali.getString("password","");
+                pswDecifrata = MyCript.decrypt(pswCred);
+                passwordTxt.setText(pswDecifrata);
+                //passwordTxt.setText(credenziali.getString("password", ""));
                 cbRicorda.setChecked(true);
             }
         }
@@ -116,15 +118,7 @@ public class Login extends AppCompatActivity {
                 if (usernameTxt.getText().toString().trim().length() != 0 || passwordTxt.getText().toString().trim().length() != 0) {
                     username = usernameTxt.getText().toString().trim();
                     psw = passwordTxt.getText().toString().trim();
-                    if (al) {
-                        if (cbRicorda.isChecked()) {
-                            SharedPreferences credenziali = getSharedPreferences(CRED, MODE_PRIVATE);
-                            edit = credenziali.edit();
-                            edit.putString("username", username);
-                            edit.putString("password", String.valueOf(pswCifrata));
-                            edit.commit();
-                        }
-                    }
+
                     login();
                 } else {
                     usernameTxt.setError("Inserire username");
@@ -191,10 +185,8 @@ public class Login extends AppCompatActivity {
                         JSONArray docente = response.getJSONArray("docente");
                         Log.d("LOG", "docente "+docente);
                         pswCifrata = docente.getJSONObject(0).getString("password");
-
-                        Log.d("LOG", "pswCifrata2 "+pswCifrata);
+                        Log.d("LOG", "pswCifrata "+pswCifrata);
                         pswDecifrata = MyCript.decrypt(pswCifrata);
-                        Log.d("LOG", "pswDecifrata "+pswDecifrata);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -244,70 +236,12 @@ public class Login extends AppCompatActivity {
                             }
                         });
                     }
-                    /*String c ="";
-                    Log.v("LOG","ris "+ response.toString());
-                    try {
-                        c  = response.getString("ris");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    if(c=="true"){
-                        Log.v("LOG","sono qui");
-                        Intent vai = new Intent(getApplicationContext(),Docente_Home.class);
-                        vai.putExtra("username",username);
-                        startActivity(vai);
-                        finish();
-                    }else if(c=="false") {
-                    /*infoAlert.setTitle("Credenziali errate");
-                    infoAlert.setMessage("Username o password errati, riprovare.");
-                    AlertDialog alert = infoAlert.create();
-                    alert.show();
-                        txtCredenzialiErrate.setVisibility(View.VISIBLE);
-                        usernameTxt.setTextColor(Color.RED);
-                        usernameTxt.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                            }
-
-                            @Override
-                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                usernameTxt.setTextColor(Color.BLACK);
-                                usernameTxt.setError(null);
-                            }
-
-                            @Override
-                            public void afterTextChanged(Editable editable) {
-
-                            }
-                        });
-
-                        passwordTxt.setTextColor(Color.RED);
-                        passwordTxt.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                            }
-
-                            @Override
-                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                passwordTxt.setTextColor(Color.BLACK);
-                                passwordTxt.setError(null);
-                            }
-
-                            @Override
-                            public void afterTextChanged(Editable editable) {
-
-                            }
-                        });
-                    }*/
                 }
             }, new Response.ErrorListener() {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.v("LOG","errore "+ error.toString());
-
                     infoAlert.setTitle("Errore di connessione");
                     infoAlert.setMessage("Controllare connessione internet e riprovare.");
                     AlertDialog alert = infoAlert.create();
@@ -324,8 +258,18 @@ public class Login extends AppCompatActivity {
                     try {
                         Log.d("LOG","sono nella richiesta");
                         JSONObject dati = response.getJSONObject("datiAlunno");
+                        pswCifrata = dati.getString("password");
+                        Log.d("PSW", "pswCifrata "+pswCifrata);
+                        pswDecifrata = MyCript.decrypt(pswCifrata);
                         Log.d("LOG","risultato"+dati);
-                        if(!dati.equals(null)){
+                        if(!dati.equals(null) && pswDecifrata.equals(psw)){
+                            if (cbRicorda.isChecked()) {
+                                SharedPreferences credenziali = getSharedPreferences(CRED, MODE_PRIVATE);
+                                edit = credenziali.edit();
+                                edit.putString("username", username);
+                                edit.putString("password", pswCifrata);
+                                edit.commit();
+                            }
                             //TODO da decommentare (controllare nel php quando c'è un errore di connessione)
                             Intent homeAlunno = new Intent(getApplicationContext(),Alunno_HomeAlunno.class);
                             homeAlunno.putExtra("cf", dati.getString("cf"));
