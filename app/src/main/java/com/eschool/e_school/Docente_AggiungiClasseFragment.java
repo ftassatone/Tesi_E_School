@@ -7,10 +7,13 @@ import com.google.gson.Gson;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -44,10 +48,11 @@ public class Docente_AggiungiClasseFragment extends Fragment {
     private String mParam2;*/
 
     //private OnFragmentInteractionListener mListener;
-    private String url = "http://www.eschooldb.altervista.org/PHP/aggiungiClasse.php";
+    private String url = "http://www.eschooldb.altervista.org/PHP/addClass.php";
 
     private EditText classe, sezione, nomeAlunno, cognomeAlunno, dataNascitaAlunno, cfAlunno, luogoNascitaAlunno, residenzaAlunno, telefonoAlunno,
-            cellulareAlunno, emailAlunno, txtError, username, password, confermaPsw;
+            cellulareAlunno, emailAlunno, username, password, confermaPsw;
+    private TextView txtError;
     private Button btNuovoAlunno, btFine;
     private CheckBox opzDsaAlunno;
     private String classeTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, cfAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt,
@@ -108,7 +113,7 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         btNuovoAlunno = (Button) view.findViewById(R.id.btNuovoAlunno);
         btFine = (Button) view.findViewById(R.id.btFine);
         opzDsaAlunno = (CheckBox) view.findViewById(R.id.opzDsaAlunno);
-        txtError = (EditText) view.findViewById(R.id.txtError);
+        txtError = (TextView) view.findViewById(R.id.txtError);
         username = (EditText) view.findViewById(R.id.userAlunno);
         password = (EditText) view.findViewById(R.id.pswAlunno);
         confermaPsw = (EditText) view.findViewById(R.id.confermaPswAlunno);
@@ -118,15 +123,29 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         btNuovoAlunno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                acquisizioneDati();
+             if(acquisizioneDati()){
+                 Alunno al = new Alunno(cfAlunnoTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt, telefonoAlunnoTxt,
+                         cellulareAlunnoTxt, emailAlunnoTxt,opzioneDsa, usernameTxt, pswCifrata,classeTxt);
+                 Log.v("LOG", "alunno: "+al.toString());
+                 listaAlunni.add(al);
 
-
+                 pulizia();
+                }
             }
         });
+
         btFine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                acquisizioneDati();
+                if(acquisizioneDati()){
+                    Alunno al = new Alunno(cfAlunnoTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt, telefonoAlunnoTxt,
+                            cellulareAlunnoTxt, emailAlunnoTxt,opzioneDsa, usernameTxt, pswCifrata,classeTxt);
+                    Log.v("LOG", "alunno: "+al.toString());
+                    listaAlunni.add(al);
+
+                    pulizia();
+                    aggiungiSetAlunni();
+                }
                 sezione.setText("");
                 classe.setText("");
                 Intent home = new Intent(getContext(),Docente_Home.class);
@@ -175,56 +194,161 @@ public class Docente_AggiungiClasseFragment extends Fragment {
      void onFragmentInteraction(Uri uri);
      }*/
 
-    private void acquisizioneDati(){
-        Log.v("LOG", "sono in acquisizioneDati");
-        //per il primo inserimento mi salvo la classe
-        if(classe.getText() != null || sezione.getText() != null){
-            classeTxt = classe.getText().toString()+sezione.getText().toString();
-
+    private boolean acquisizioneDati(){
+        if(!classe.getText().toString().equals("") && !sezione.getText().toString().equals("")){
+            classeTxt = classe.getText().toString()+sezione.getText().toString().toUpperCase();
+            Log.d("CLASSE", classeTxt);
             cl = new Classe(classeTxt);
-        }
 
-        if(nomeAlunno.getText() != null  || cognomeAlunno.getText() != null || dataNascitaAlunno.getText() != null
-                || cfAlunno.getText() != null || luogoNascitaAlunno.getText() != null || residenzaAlunno.getText() != null || telefonoAlunno.getText() != null
-                || cellulareAlunno.getText() != null || emailAlunno.getText() != null){
+            if(!nomeAlunno.getText().toString().equals("") && !cognomeAlunno.getText().toString().equals("") && !dataNascitaAlunno.getText().toString().equals("")
+                    && !cfAlunno.getText().toString().equals("") && !luogoNascitaAlunno.getText().toString().equals("") && !residenzaAlunno.getText().toString().equals("") && !telefonoAlunno.getText().toString().equals("")
+                    && !cellulareAlunno.getText().toString().equals("") && !emailAlunno.getText().toString().equals("")){
 
-            nomeAlunnoTxt = nomeAlunno.getText().toString();
-            cognomeAlunnoTxt = cognomeAlunno.getText().toString();
-            dataNascitaAlunnoTxt = dataNascitaAlunno.getText().toString();
-            cfAlunnoTxt = cfAlunno.getText().toString();
-            luogoNascitaAlunnoTxt = luogoNascitaAlunno.getText().toString();
-            residenzaAlunnoTxt = residenzaAlunno.getText().toString();
-            telefonoAlunnoTxt = telefonoAlunno.getText().toString();
-            cellulareAlunnoTxt = cellulareAlunno.getText().toString();
-            emailAlunnoTxt = emailAlunno.getText().toString();
+                nomeAlunnoTxt = nomeAlunno.getText().toString();
+                cognomeAlunnoTxt = cognomeAlunno.getText().toString();
+                dataNascitaAlunnoTxt = dataNascitaAlunno.getText().toString();
+                cfAlunnoTxt = cfAlunno.getText().toString().trim();
+                luogoNascitaAlunnoTxt = luogoNascitaAlunno.getText().toString();
+                residenzaAlunnoTxt = residenzaAlunno.getText().toString();
+                telefonoAlunnoTxt = telefonoAlunno.getText().toString();
+                cellulareAlunnoTxt = cellulareAlunno.getText().toString();
+                emailAlunnoTxt = emailAlunno.getText().toString();
+                usernameTxt = username.getText().toString();
 
-            if(opzDsaAlunno.isChecked()) {
-                opzioneDsa = true;
-            }
+                if(opzDsaAlunno.isChecked()) {
+                    opzioneDsa = true;
+                }
 
-            usernameTxt = username.getText().toString();
+                if(cfAlunnoTxt.length() != 16){
+                    cfAlunno.setTextColor(Color.RED);
+                    cfAlunno.setError("Il codice fiscale deve essere di 16 caratteri.");
+                    cfAlunno.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            if(password.getText().toString().equals(confermaPsw.getText().toString())){
-                passwordTxt = password.getText().toString();
-                pswCifrata = MyCript.encrypt(passwordTxt);
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            cfAlunno.setTextColor(Color.BLACK);
+                            cfAlunno.setError(null);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
+                    return false;
+                }
+                if(cellulareAlunnoTxt.length() != 10){
+                    cellulareAlunno.setTextColor(Color.RED);
+                    cellulareAlunno.setError("Il numero deve essere di 10 cifre.");
+                    cellulareAlunno.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            cellulareAlunno.setTextColor(Color.BLACK);
+                            cellulareAlunno.setError(null);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
+                    return false;
+                }
+                if(telefonoAlunnoTxt.length() != 10){
+                    telefonoAlunno.setTextColor(Color.RED);
+                    telefonoAlunno.setError("Il numero deve essere di 10 cifre.");
+                    telefonoAlunno.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            telefonoAlunno.setTextColor(Color.BLACK);
+                            telefonoAlunno.setError(null);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
+                    return false;
+                }
+
+
+
+                if(password.getText().toString().equals(confermaPsw.getText().toString())){
+                    passwordTxt = password.getText().toString();
+                    pswCifrata = MyCript.encrypt(passwordTxt);
+                }else{
+                    password.setTextColor(Color.RED);
+                    password.setError("Le password non coincidono");
+                    password.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            password.setTextColor(Color.BLACK);
+                            password.setError(null);
+                            confermaPsw.setTextColor(Color.BLACK);
+                            confermaPsw.setError(null);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
+                    confermaPsw.setTextColor(Color.RED);
+                    confermaPsw.setError("Le password non coincidono");
+                    confermaPsw.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                            password.setTextColor(Color.BLACK);
+                            password.setError(null);
+                            confermaPsw.setTextColor(Color.BLACK);
+                            confermaPsw.setError(null);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
+                    txtError.setTextColor(Color.RED);
+                    return false;
+                }
             }else{
-                Toast.makeText(getContext(),"Le password non coincidono.", Toast.LENGTH_LONG).show();
+                txtError.setTextColor(Color.RED);
+                return false;
+                //Toast.makeText(getContext(), "Inserire i campi obbligatori.", Toast.LENGTH_LONG).show();
             }
-
-            //TODO si deve acquisire anche foto
-            Alunno al = new Alunno(cfAlunnoTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt, telefonoAlunnoTxt,
-                    cellulareAlunnoTxt, emailAlunnoTxt,opzioneDsa, usernameTxt, pswCifrata,classeTxt);
-            Log.v("LOG", "alunno: "+al.toString());
-            listaAlunni.add(al);
-
-            pulizia();
-
-            //invia i dati
-            aggiungiSetAlunni();
-
         }else{
-            Toast.makeText(getContext(), "Inserire i campi obbligatori.", Toast.LENGTH_LONG).show();
+            txtError.setTextColor(Color.RED);
+            return false;
         }
+
+        txtError.setTextColor(Color.BLACK);
+        return true;
     }
 
     public void aggiungiSetAlunni() {
