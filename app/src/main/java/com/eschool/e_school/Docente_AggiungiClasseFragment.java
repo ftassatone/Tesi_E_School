@@ -3,12 +3,14 @@ package com.eschool.e_school;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.RequestFuture;
 import com.google.gson.Gson;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -29,6 +31,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,17 +44,9 @@ import java.util.HashMap;
  * create an instance of this fragment.
  */
 public class Docente_AggiungiClasseFragment extends Fragment {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    //private static final String ARG_PARAM1 = "param1";
-    //private static final String ARG_PARAM2 = "param2";
 
-    /*
-    private String mParam1;
-    private String mParam2;*/
-
-    //private OnFragmentInteractionListener mListener;
     private String url = "http://www.eschooldb.altervista.org/PHP/addClass.php";
-
+    private String urlControllo = "http://www.eschooldb.altervista.org/PHP/controlloAggiungiClasse.php";
     private EditText classe, sezione, nomeAlunno, cognomeAlunno, dataNascitaAlunno, cfAlunno, luogoNascitaAlunno, residenzaAlunno, telefonoAlunno,
             cellulareAlunno, emailAlunno, username, password, confermaPsw;
     private TextView txtError;
@@ -57,7 +54,7 @@ public class Docente_AggiungiClasseFragment extends Fragment {
     private CheckBox opzDsaAlunno;
     private String classeTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, cfAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt,
             telefonoAlunnoTxt, cellulareAlunnoTxt, emailAlunnoTxt, usernameTxt, passwordTxt,pswCifrata;
-    private boolean opzioneDsa =false;
+    private boolean opzioneDsa =false, newAlunno=true;
     private ArrayList<Alunno> listaAlunni;
     private Classe cl;
     private AlertDialog.Builder infoAlert;
@@ -123,13 +120,8 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         btNuovoAlunno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             if(acquisizioneDati()){
-                 Alunno al = new Alunno(cfAlunnoTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt, telefonoAlunnoTxt,
-                         cellulareAlunnoTxt, emailAlunnoTxt,opzioneDsa, usernameTxt, pswCifrata,classeTxt);
-                 Log.v("LOG", "alunno: "+al.toString());
-                 listaAlunni.add(al);
-
-                 pulizia();
+                if(acquisizineDati()){
+                    new Controllo().execute();
                 }
             }
         });
@@ -137,20 +129,10 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         btFine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(acquisizioneDati()){
-                    Alunno al = new Alunno(cfAlunnoTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt, telefonoAlunnoTxt,
-                            cellulareAlunnoTxt, emailAlunnoTxt,opzioneDsa, usernameTxt, pswCifrata,classeTxt);
-                    Log.v("LOG", "alunno: "+al.toString());
-                    listaAlunni.add(al);
-
-                    pulizia();
-                    aggiungiSetAlunni();
+                newAlunno = false;
+                if(acquisizineDati()){
+                    new Controllo().execute();
                 }
-                sezione.setText("");
-                classe.setText("");
-                Intent home = new Intent(getContext(),Docente_Home.class);
-                home.putExtra("username",Docente_Home.DOC);
-                startActivity(home);
             }
         });
 
@@ -193,166 +175,226 @@ public class Docente_AggiungiClasseFragment extends Fragment {
      public interface OnFragmentInteractionListener {
      void onFragmentInteraction(Uri uri);
      }*/
+    private class Controllo extends AsyncTask<Void,Void,Void>{
+        JSONObject risposta;
+        boolean controlloCf=true,controlloUser=true;
+        @Override
+        protected Void doInBackground(Void... voids) {
 
-    private boolean acquisizioneDati(){
-        if(!classe.getText().toString().equals("") && !sezione.getText().toString().equals("")){
-            classeTxt = classe.getText().toString()+sezione.getText().toString().toUpperCase();
-            Log.d("CLASSE", classeTxt);
-            cl = new Classe(classeTxt);
+            HashMap<String,String> param = new HashMap<>();
+            param.put("cf",cfAlunnoTxt);
+            param.put("username",usernameTxt);
+            RequestFuture<JSONObject> future = RequestFuture.newFuture();
 
-            if(!nomeAlunno.getText().toString().equals("") && !cognomeAlunno.getText().toString().equals("") && !dataNascitaAlunno.getText().toString().equals("")
-                    && !cfAlunno.getText().toString().equals("") && !luogoNascitaAlunno.getText().toString().equals("") && !residenzaAlunno.getText().toString().equals("") && !telefonoAlunno.getText().toString().equals("")
-                    && !cellulareAlunno.getText().toString().equals("") && !emailAlunno.getText().toString().equals("")){
+            JsonRequest richiestaControllo = new JsonRequest(Request.Method.POST,  urlControllo, param, future, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
 
-                nomeAlunnoTxt = nomeAlunno.getText().toString();
-                cognomeAlunnoTxt = cognomeAlunno.getText().toString();
-                dataNascitaAlunnoTxt = dataNascitaAlunno.getText().toString();
-                cfAlunnoTxt = cfAlunno.getText().toString().trim();
-                luogoNascitaAlunnoTxt = luogoNascitaAlunno.getText().toString();
-                residenzaAlunnoTxt = residenzaAlunno.getText().toString();
-                telefonoAlunnoTxt = telefonoAlunno.getText().toString();
-                cellulareAlunnoTxt = cellulareAlunno.getText().toString();
-                emailAlunnoTxt = emailAlunno.getText().toString();
-                usernameTxt = username.getText().toString();
-
-                if(opzDsaAlunno.isChecked()) {
-                    opzioneDsa = true;
                 }
-
-                if(cfAlunnoTxt.length() != 16){
-                    cfAlunno.setTextColor(Color.RED);
-                    cfAlunno.setError("Il codice fiscale deve essere di 16 caratteri.");
-                    cfAlunno.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            cfAlunno.setTextColor(Color.BLACK);
-                            cfAlunno.setError(null);
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-
-                        }
-                    });
-                    return false;
-                }
-                if(cellulareAlunnoTxt.length() != 10){
-                    cellulareAlunno.setTextColor(Color.RED);
-                    cellulareAlunno.setError("Il numero deve essere di 10 cifre.");
-                    cellulareAlunno.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            cellulareAlunno.setTextColor(Color.BLACK);
-                            cellulareAlunno.setError(null);
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-
-                        }
-                    });
-                    return false;
-                }
-                if(telefonoAlunnoTxt.length() != 10){
-                    telefonoAlunno.setTextColor(Color.RED);
-                    telefonoAlunno.setError("Il numero deve essere di 10 cifre.");
-                    telefonoAlunno.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            telefonoAlunno.setTextColor(Color.BLACK);
-                            telefonoAlunno.setError(null);
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-
-                        }
-                    });
-                    return false;
-                }
-
-
-
-                if(password.getText().toString().equals(confermaPsw.getText().toString())){
-                    passwordTxt = password.getText().toString();
-                    pswCifrata = MyCript.encrypt(passwordTxt);
-                }else{
-                    password.setTextColor(Color.RED);
-                    password.setError("Le password non coincidono");
-                    password.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            password.setTextColor(Color.BLACK);
-                            password.setError(null);
-                            confermaPsw.setTextColor(Color.BLACK);
-                            confermaPsw.setError(null);
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-
-                        }
-                    });
-                    confermaPsw.setTextColor(Color.RED);
-                    confermaPsw.setError("Le password non coincidono");
-                    confermaPsw.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                            password.setTextColor(Color.BLACK);
-                            password.setError(null);
-                            confermaPsw.setTextColor(Color.BLACK);
-                            confermaPsw.setError(null);
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable editable) {
-
-                        }
-                    });
-                    txtError.setTextColor(Color.RED);
-                    return false;
-                }
-            }else{
-                txtError.setTextColor(Color.RED);
-                return false;
-                //Toast.makeText(getContext(), "Inserire i campi obbligatori.", Toast.LENGTH_LONG).show();
+            });
+            RequestSingleton.getInstance(getContext()).addToRequestQueue(richiestaControllo);
+            try {
+                risposta=future.get(5, TimeUnit.SECONDS);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            } catch (ExecutionException e1) {
+                e1.printStackTrace();
+            } catch (TimeoutException e) {
+                e.printStackTrace();
             }
-        }else{
-            txtError.setTextColor(Color.RED);
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.d("DATI","risposta+"+risposta);
+            try {
+                if(risposta.getString("rispostaCf").equals("false")){
+                     controlloCf = false;
+                }else if(risposta.getString("rispostaUser").equals("false")){
+                    controlloUser = false;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if(controlloDati() && controlloCf && controlloUser){
+                Alunno al = new Alunno(cfAlunnoTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt, telefonoAlunnoTxt,
+                        cellulareAlunnoTxt, emailAlunnoTxt,opzioneDsa, usernameTxt, pswCifrata,classeTxt);
+                Log.v("DATI", "alunno: "+al.toString());
+                listaAlunni.add(al);
+                pulizia();
+
+                if(!newAlunno){
+                    aggiungiSetAlunni();
+                    sezione.setText("");
+                    classe.setText("");
+                    Intent home = new Intent(getContext(), Docente_Home.class);
+                    home.putExtra("username", Docente_Home.DOC);
+                    startActivity(home);
+                }
+            }else if(!controlloCf){
+                cfAlunno.setError("Codice fiscale già esistente.");
+                cfAlunno.setTextColor(Color.RED);
+                cfAlunno.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        cfAlunno.setTextColor(Color.BLACK);
+                        cfAlunno.setError(null);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+            }else if(!controlloUser){
+                username.setError("Username già esistente.");
+                username.setTextColor(Color.RED);
+                username.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        username.setTextColor(Color.BLACK);
+                        username.setError(null);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+            }
+        }
+    }
+
+    private boolean controlloDati(){
+       if(cfAlunnoTxt.length() != 16){
+           cfAlunno.setTextColor(Color.RED);
+           cfAlunno.setError("Il codice fiscale deve essere di 16 caratteri.");
+           cfAlunno.addTextChangedListener(new TextWatcher() {
+               @Override
+               public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+               }
+
+               @Override
+               public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                   cfAlunno.setTextColor(Color.BLACK);
+                   cfAlunno.setError(null);
+               }
+
+               @Override
+               public void afterTextChanged(Editable editable) {
+               }
+           });
+           return false;
+       }
+
+        if(cellulareAlunnoTxt.length() != 10){
+            cellulareAlunno.setTextColor(Color.RED);
+            cellulareAlunno.setError("Il numero deve essere di 10 cifre.");
+            cellulareAlunno.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    cellulareAlunno.setTextColor(Color.BLACK);
+                    cellulareAlunno.setError(null);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                }
+            });
             return false;
         }
 
-        txtError.setTextColor(Color.BLACK);
+        if(telefonoAlunnoTxt.length() != 10){
+            telefonoAlunno.setTextColor(Color.RED);
+            telefonoAlunno.setError("Il numero deve essere di 10 cifre.");
+            telefonoAlunno.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    telefonoAlunno.setTextColor(Color.BLACK);
+                    telefonoAlunno.setError(null);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                }
+            });
+            return false;
+        }
+        if(password.getText().toString().equals(confermaPsw.getText().toString())){
+            passwordTxt = password.getText().toString();
+            pswCifrata = MyCript.encrypt(passwordTxt);
+        }else{
+            password.setTextColor(Color.RED);
+            password.setError("Le password non coincidono");
+            password.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    password.setTextColor(Color.BLACK);
+                    password.setError(null);
+                    confermaPsw.setTextColor(Color.BLACK);
+                    confermaPsw.setError(null);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                }
+            });
+            confermaPsw.setTextColor(Color.RED);
+            confermaPsw.setError("Le password non coincidono");
+            confermaPsw.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    password.setTextColor(Color.BLACK);
+                    password.setError(null);
+                    confermaPsw.setTextColor(Color.BLACK);
+                    confermaPsw.setError(null);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            txtError.setTextColor(Color.RED);
+            return false;
+        }
         return true;
     }
 
-    public void aggiungiSetAlunni() {
-        Log.v("LOG", "sono in aggiungi");
+     public void aggiungiSetAlunni() {
         HashMap<String, String> parametri = new HashMap<>();
 
         Gson lista = new Gson();
@@ -398,7 +440,41 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         username.setText("");
         confermaPsw.setText("");
         opzDsaAlunno.setChecked(false);
-
     }
 
+    //acquisisco tutti i dati
+    private boolean acquisizineDati() {
+        if (!classe.getText().toString().equals("") && !sezione.getText().toString().equals("")) {
+            classeTxt = classe.getText().toString() + sezione.getText().toString().toUpperCase();
+            cl = new Classe(classeTxt);
+
+            if (!nomeAlunno.getText().toString().equals("") && !cognomeAlunno.getText().toString().equals("") && !dataNascitaAlunno.getText().toString().equals("")
+                    && !cfAlunno.getText().toString().equals("") && !luogoNascitaAlunno.getText().toString().equals("") && !residenzaAlunno.getText().toString().equals("") && !telefonoAlunno.getText().toString().equals("")
+                    && !cellulareAlunno.getText().toString().equals("") && !emailAlunno.getText().toString().equals("")) {
+
+                nomeAlunnoTxt = nomeAlunno.getText().toString();
+                cognomeAlunnoTxt = cognomeAlunno.getText().toString();
+                dataNascitaAlunnoTxt = dataNascitaAlunno.getText().toString();
+                cfAlunnoTxt = cfAlunno.getText().toString().trim();
+                luogoNascitaAlunnoTxt = luogoNascitaAlunno.getText().toString();
+                residenzaAlunnoTxt = residenzaAlunno.getText().toString();
+                telefonoAlunnoTxt = telefonoAlunno.getText().toString();
+                cellulareAlunnoTxt = cellulareAlunno.getText().toString();
+                emailAlunnoTxt = emailAlunno.getText().toString();
+                usernameTxt = username.getText().toString();
+
+                if (opzDsaAlunno.isChecked()) {
+                    opzioneDsa = true;
+                }
+            }else {
+                txtError.setTextColor(Color.RED);
+                return false;
+            }
+        }else{
+            txtError.setTextColor(Color.RED);
+            return false;
+        }
+        txtError.setTextColor(Color.BLACK);
+        return true;
+    }
 }

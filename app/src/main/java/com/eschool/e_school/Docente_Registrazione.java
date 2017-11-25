@@ -137,8 +137,6 @@ public class Docente_Registrazione extends AppCompatActivity {
                 }
             }
         }
-
-        //controlloDuplicato();
     }
 
     //metodo che controlla che l'inserimento dei valori sia giusto, in caso negativo mostra messaggi o dà segnali di errore
