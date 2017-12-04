@@ -187,8 +187,6 @@ public class Docente_AggiungiClasseFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 sezioneTxt = sezione.getItemAtPosition(i).toString();
-                Log.d("classe", "position "+sezione.getPositionForView(view));
-                Log.d("classe", "classeTxt "+sezione.getItemAtPosition(i).toString());
             }
 
             @Override

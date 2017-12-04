@@ -63,15 +63,47 @@
                 android:maxLines="@integer/numeroRighe"
                 android:layout_marginLeft="@dimen/marginetop"/>
 
-            <EditText
-                android:id="@+id/dataNascitaDoc"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/inserisci"
-                android:inputType="date"
-                android:maxLines="@integer/numeroRighe"
-                android:layout_marginLeft="@dimen/marginetop"
-                android:layout_marginRight="@dimen/marginetop"/>
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editAnno"
+                    android:layout_width="@dimen/dimenEdit"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="AAAA"
+                    android:textAlignment="center"
+                    android:layout_marginLeft="@dimen/marginetop"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"/>
+
+                <EditText
+                    android:id="@+id/editMese"
+                    android:layout_width="@dimen/dimenEdit"
+                    android:inputType="number"
+                    android:hint="MM"
+                    android:textAlignment="center"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"/>
+
+                <EditText
+                    android:id="@+id/editGiorno"
+                    android:layout_width="@dimen/dimenEdit"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:inputType="number"
+                    android:hint="GG"/>
+
+            </LinearLayout>
         </TableRow>
 
         <TableRow>

@@ -32,6 +32,8 @@ import org.json.JSONObject;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -41,8 +43,8 @@ import javax.crypto.NoSuchPaddingException;
 
 public class Docente_Registrazione extends AppCompatActivity {
 
-    private EditText nomeDoc,cognomeDoc,dataNascitaDoc,luogoNascitaDoc,residenzaDoc,cfDoc,cellulareDoc, telefonoDoc, emailDoc;
-    private EditText matricolaDoc,pswDoc,confermaPswDoc;
+    private EditText nomeDoc,cognomeDoc,luogoNascitaDoc,residenzaDoc,cfDoc,cellulareDoc, telefonoDoc, emailDoc, matricolaDoc,pswDoc,confermaPswDoc,
+            editAnno, editMese, editGiorno;
     private Button btConfermaRegistrazione;
     private String nome, cognome, datanascita, luogoNascita, residenza, cf, cellulare, telefono, email, matricola, psw, confermaPsw;
     private TextView txtErrore;
@@ -56,6 +58,7 @@ public class Docente_Registrazione extends AppCompatActivity {
     private ArrayList<String> materie, classi;
     private Docente doc;
     private boolean controlloDup;
+    private int anno, mese, giorno;
 
 
     @Override
@@ -65,7 +68,6 @@ public class Docente_Registrazione extends AppCompatActivity {
 
         nomeDoc = (EditText) findViewById(R.id.nomeDoc);
         cognomeDoc = (EditText) findViewById(R.id.cognomeDoc);
-        dataNascitaDoc = (EditText) findViewById(R.id.dataNascitaDoc);
         luogoNascitaDoc = (EditText) findViewById(R.id.luogoNascitaDoc);
         cfDoc = (EditText) findViewById(R.id.cfDoc);
         residenzaDoc = (EditText) findViewById(R.id.residenzaDoc);
@@ -84,6 +86,9 @@ public class Docente_Registrazione extends AppCompatActivity {
         linearTerza = (LinearLayout) findViewById(R.id.linearTerza);
         linearQuarta = (LinearLayout) findViewById(R.id.linearQuarta);
         linearQuinta = (LinearLayout) findViewById(R.id.linearQuinta);
+        editAnno = (EditText) findViewById(R.id.editAnno);
+        editMese = (EditText) findViewById(R.id.editMese);
+        editGiorno = (EditText) findViewById(R.id.editGiorno);
 
         materie = new ArrayList<String>();
         classi = new ArrayList<String>();
@@ -110,20 +115,26 @@ public class Docente_Registrazione extends AppCompatActivity {
 
     //metodo che mi permette di acquisire i dati dalle editText
     private void aquisizioneDati() throws NoSuchPaddingException, NoSuchAlgorithmException {
-        nome = nomeDoc.getText().toString().trim();
-        cognome = cognomeDoc.getText().toString().trim();
-        datanascita = dataNascitaDoc.getText().toString().trim();
-        luogoNascita = luogoNascitaDoc.getText().toString().trim();
-        cf = cfDoc.getText().toString().trim();
-        residenza = residenzaDoc.getText().toString().trim();
-        telefono = telefonoDoc.getText().toString().trim();
-        cellulare = cellulareDoc.getText().toString().trim();
-        email = emailDoc.getText().toString().trim();
-        matricola = matricolaDoc.getText().toString().trim();
-        psw = pswDoc.getText().toString().trim();
-        confermaPsw = confermaPswDoc.getText().toString().trim();
+        anno = Integer.parseInt(editAnno.getText().toString());
+        mese = Integer.parseInt(editMese.getText().toString());
+        giorno = Integer.parseInt(editGiorno.getText().toString());
+        datanascita = anno + "-" + mese + "-" + giorno;
+        Log.d("data", "dataNascita "+datanascita);
+        if(controlloData(anno,mese,giorno)) {
+            nome = nomeDoc.getText().toString().trim();
+            cognome = cognomeDoc.getText().toString().trim();
+            luogoNascita = luogoNascitaDoc.getText().toString().trim();
+            cf = cfDoc.getText().toString().trim();
+            residenza = residenzaDoc.getText().toString().trim();
+            telefono = telefonoDoc.getText().toString().trim();
+            cellulare = cellulareDoc.getText().toString().trim();
+            email = emailDoc.getText().toString().trim();
+            matricola = matricolaDoc.getText().toString().trim();
+            psw = pswDoc.getText().toString().trim();
+            confermaPsw = confermaPswDoc.getText().toString().trim();
+        }
 
-        if(mat.length != 0 || clas.length !=0) {
+        if (mat.length != 0 || clas.length != 0) {
             materie.clear();
             classi.clear();
             for (int i = 0; i < mat.length; i++) {
@@ -141,7 +152,7 @@ public class Docente_Registrazione extends AppCompatActivity {
 
     //metodo che controlla che l'inserimento dei valori sia giusto, in caso negativo mostra messaggi o dà segnali di errore
     public boolean controllo() {
-        if (nome.equals("") || cognome.equals("") || datanascita.equals("") || luogoNascita.equals("") || cf.equals("") || residenza.equals("")
+        if (nome.equals("") || cognome.equals("") || editAnno.getText().toString().equals("") || editMese.getText().toString().equals("") || editGiorno.getText().toString().equals("") || luogoNascita.equals("") || cf.equals("") || residenza.equals("")
                 || telefono.equals("") || cellulare.equals("") || email.equals("") || matricola.equals("") || psw.equals("")) {
             txtErrore.setTextColor(Color.RED);
             return false;
@@ -277,6 +288,7 @@ public class Docente_Registrazione extends AppCompatActivity {
     //invia al db i dati inseriti dall'utente
     public void registrazione() throws JSONException {
         //raccolgo i dati inseriti dall'utente
+
         HashMap<String,String> parametri = new HashMap<String, String>();
 
         Gson classe = new Gson();
@@ -420,6 +432,63 @@ public class Docente_Registrazione extends AppCompatActivity {
                 }
             }
 
+        }
+    }
+
+    public boolean controlloData(int anno, int mese, int giorno) {
+        GregorianCalendar cal = new GregorianCalendar(anno, mese - 1, giorno);
+        cal.set(Calendar.YEAR, anno);
+        cal.set(Calendar.MONTH, mese - 1);
+        cal.set(Calendar.DAY_OF_MONTH, giorno);
+        if (!cal.isLeapYear(anno) && mese == 2 && giorno > 28) {
+            editGiorno.setError("Giorno non valido. Anno non bisestile");
+            editGiorno.setTextColor(Color.RED);
+            editGiorno.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    editGiorno.setError(null);
+                    editGiorno.setTextColor(Color.BLACK);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            return false;
+        }
+        if (anno > 1950) {
+            return true;
+        } else {
+            editGiorno.setError("Data non valida.");
+            editGiorno.setTextColor(Color.RED);
+            editMese.setTextColor(Color.RED);
+            editAnno.setTextColor(Color.RED);
+            editGiorno.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    editGiorno.setError(null);
+                    editGiorno.setTextColor(Color.BLACK);
+                    editMese.setTextColor(Color.BLACK);
+                    editAnno.setTextColor(Color.BLACK);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            return false;
         }
     }
 }
