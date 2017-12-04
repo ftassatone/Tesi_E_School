@@ -16,7 +16,6 @@ public class Alunno implements Parcelable{
     private Boolean dsa;
     private String username;
     private String password;
-    //foto
     private String nomeClasse;
 
     public Alunno(String cf, String nome, String cognome, String dataNascita, String luogoNascita,

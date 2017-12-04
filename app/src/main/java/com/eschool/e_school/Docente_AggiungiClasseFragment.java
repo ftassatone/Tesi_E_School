@@ -20,16 +20,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -45,19 +51,25 @@ import java.util.concurrent.TimeoutException;
  */
 public class Docente_AggiungiClasseFragment extends Fragment {
 
-    private String url = "http://www.eschooldb.altervista.org/PHP/addClass.php";
+    private String url = "http://www.eschooldb.altervista.org/PHP/aggiungiClasse.php";
     private String urlControllo = "http://www.eschooldb.altervista.org/PHP/controlloAggiungiClasse.php";
-    private EditText classe, sezione, nomeAlunno, cognomeAlunno, dataNascitaAlunno, cfAlunno, luogoNascitaAlunno, residenzaAlunno, telefonoAlunno,
+    private String urlSezione = "http://www.eschooldb.altervista.org/PHP/getClassi.php";
+    private EditText nomeAlunno, cognomeAlunno, editAnno, editMese, editGiorno, cfAlunno, luogoNascitaAlunno, residenzaAlunno, telefonoAlunno,
             cellulareAlunno, emailAlunno, username, password, confermaPsw;
-    private TextView txtError;
-    private Button btNuovoAlunno, btFine;
+    private Spinner sezione;
+    private TextView txtError, classe;
+    private Button btNuovoAlunno, btFine, btIncrementa, btDecrementa;
     private CheckBox opzDsaAlunno;
-    private String classeTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, cfAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt,
-            telefonoAlunnoTxt, cellulareAlunnoTxt, emailAlunnoTxt, usernameTxt, passwordTxt,pswCifrata;
-    private boolean opzioneDsa =false, newAlunno=true;
+    private String sezioneTxt, classeTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, cfAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt,
+            telefonoAlunnoTxt, cellulareAlunnoTxt, emailAlunnoTxt, usernameTxt, passwordTxt, pswCifrata;
+    private boolean opzioneDsa = false, newAlunno = true;
     private ArrayList<Alunno> listaAlunni;
+    private ArrayList<String> arraySezioni;
     private Classe cl;
     private AlertDialog.Builder infoAlert;
+    private int livello, giorno, mese, anno;
+    private ArrayAdapter<String> adapter;
+
 
     public Docente_AggiungiClasseFragment() {
         // Required empty public constructor
@@ -66,7 +78,6 @@ public class Docente_AggiungiClasseFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
      *
      * @return A new instance of fragment AggiungiClasseFragment.
      */
@@ -96,11 +107,13 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_aggiungi_classe, container, false);
         infoAlert = new AlertDialog.Builder(getContext());
 
-        classe = (EditText) view.findViewById(R.id.classe);
-        sezione = (EditText) view.findViewById(R.id.sezione);
+        classe = (TextView) view.findViewById(R.id.classe);
+        sezione = (Spinner) view.findViewById(R.id.sezione);
         nomeAlunno = (EditText) view.findViewById(R.id.nomeAlunno);
         cognomeAlunno = (EditText) view.findViewById(R.id.cognomeAlunno);
-        dataNascitaAlunno = (EditText) view.findViewById(R.id.dataNascitaAlunno);
+        editAnno = (EditText) view.findViewById(R.id.editAnno);
+        editMese = (EditText) view.findViewById(R.id.editMese);
+        editGiorno = (EditText) view.findViewById(R.id.editGiorno);
         cfAlunno = (EditText) view.findViewById(R.id.cfAlunno);
         luogoNascitaAlunno = (EditText) view.findViewById(R.id.luogoNascitaAlunno);
         residenzaAlunno = (EditText) view.findViewById(R.id.residenzaAlunno);
@@ -114,14 +127,27 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         username = (EditText) view.findViewById(R.id.userAlunno);
         password = (EditText) view.findViewById(R.id.pswAlunno);
         confermaPsw = (EditText) view.findViewById(R.id.confermaPswAlunno);
+        btDecrementa = (Button) view.findViewById(R.id.btDecrementa);
+        btIncrementa = (Button) view.findViewById(R.id.btIncrementa);
+        livello = Integer.parseInt(classe.getText().toString());
 
         listaAlunni = new ArrayList<>();
+        arraySezioni = new ArrayList<>();
+
+        getSezione();
 
         btNuovoAlunno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(acquisizineDati()){
-                    new Controllo().execute();
+                btDecrementa.setClickable(false);
+                btIncrementa.setClickable(false);
+                sezione.setClickable(false);
+                sezione.setEnabled(false);
+                if (acquisizineDati()) {
+                    if(controlloData(anno,mese,giorno)){
+                        new Controllo().execute();
+                    }
+
                 }
             }
         });
@@ -129,10 +155,45 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         btFine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btDecrementa.setClickable(true);
+                btIncrementa.setClickable(true);
+                sezione.setClickable(true);
+                sezione.setEnabled(true);
                 newAlunno = false;
-                if(acquisizineDati()){
-                    new Controllo().execute();
+                if (acquisizineDati()) {
+                    if(controlloData(anno,mese,giorno)){
+                        new Controllo().execute();
+                    }
                 }
+            }
+        });
+
+        btIncrementa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                incrementaClasse();
+            }
+        });
+
+        btDecrementa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decrementaClasse();
+
+            }
+        });
+
+        sezione.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                sezioneTxt = sezione.getItemAtPosition(i).toString();
+                Log.d("classe", "position "+sezione.getPositionForView(view));
+                Log.d("classe", "classeTxt "+sezione.getItemAtPosition(i).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
@@ -167,26 +228,28 @@ public class Docente_AggiungiClasseFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p/>
+     * <p>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
-
-     public interface OnFragmentInteractionListener {
-     void onFragmentInteraction(Uri uri);
-     }*/
-    private class Controllo extends AsyncTask<Void,Void,Void>{
+     * <p>
+     * public interface OnFragmentInteractionListener {
+     * void onFragmentInteraction(Uri uri);
+     * }
+     */
+    private class Controllo extends AsyncTask<Void, Void, Void> {
         JSONObject risposta;
-        boolean controlloCf=true,controlloUser=true;
+        boolean controlloCf = true, controlloUser = true;
+
         @Override
         protected Void doInBackground(Void... voids) {
 
-            HashMap<String,String> param = new HashMap<>();
-            param.put("cf",cfAlunnoTxt);
-            param.put("username",usernameTxt);
+            HashMap<String, String> param = new HashMap<>();
+            param.put("cf", cfAlunnoTxt);
+            param.put("username", usernameTxt);
             RequestFuture<JSONObject> future = RequestFuture.newFuture();
 
-            JsonRequest richiestaControllo = new JsonRequest(Request.Method.POST,  urlControllo, param, future, new Response.ErrorListener() {
+            JsonRequest richiestaControllo = new JsonRequest(Request.Method.POST, urlControllo, param, future, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
@@ -194,7 +257,7 @@ public class Docente_AggiungiClasseFragment extends Fragment {
             });
             RequestSingleton.getInstance(getContext()).addToRequestQueue(richiestaControllo);
             try {
-                risposta=future.get(5, TimeUnit.SECONDS);
+                risposta = future.get(5, TimeUnit.SECONDS);
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
             } catch (ExecutionException e1) {
@@ -213,33 +276,32 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Log.d("DATI","risposta+"+risposta);
+            Log.d("DATI", "risposta+" + risposta);
             try {
-                if(risposta.getString("rispostaCf").equals("false")){
-                     controlloCf = false;
-                }else if(risposta.getString("rispostaUser").equals("false")){
+                if (risposta.getString("rispostaCf").equals("false")) {
+                    controlloCf = false;
+                } else if (risposta.getString("rispostaUser").equals("false")) {
                     controlloUser = false;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            if(controlloDati() && controlloCf && controlloUser){
+            if (controlloDati() && controlloCf && controlloUser) {
                 Alunno al = new Alunno(cfAlunnoTxt, nomeAlunnoTxt, cognomeAlunnoTxt, dataNascitaAlunnoTxt, luogoNascitaAlunnoTxt, residenzaAlunnoTxt, telefonoAlunnoTxt,
-                        cellulareAlunnoTxt, emailAlunnoTxt,opzioneDsa, usernameTxt, pswCifrata,classeTxt);
-                Log.v("DATI", "alunno: "+al.toString());
+                        cellulareAlunnoTxt, emailAlunnoTxt, opzioneDsa, usernameTxt, pswCifrata, classeTxt);
+                Log.v("DATI", "alunno: " + al.toString());
                 listaAlunni.add(al);
                 pulizia();
 
-                if(!newAlunno){
+                if (!newAlunno) {
                     aggiungiSetAlunni();
-                    sezione.setText("");
                     classe.setText("");
                     Intent home = new Intent(getContext(), Docente_Home.class);
                     home.putExtra("username", Docente_Home.DOC);
                     startActivity(home);
                 }
-            }else if(!controlloCf){
+            } else if (!controlloCf) {
                 cfAlunno.setError("Codice fiscale già esistente.");
                 cfAlunno.setTextColor(Color.RED);
                 cfAlunno.addTextChangedListener(new TextWatcher() {
@@ -259,7 +321,7 @@ public class Docente_AggiungiClasseFragment extends Fragment {
 
                     }
                 });
-            }else if(!controlloUser){
+            } else if (!controlloUser) {
                 username.setError("Username già esistente.");
                 username.setTextColor(Color.RED);
                 username.addTextChangedListener(new TextWatcher() {
@@ -283,29 +345,29 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         }
     }
 
-    private boolean controlloDati(){
-       if(cfAlunnoTxt.length() != 16){
-           cfAlunno.setTextColor(Color.RED);
-           cfAlunno.setError("Il codice fiscale deve essere di 16 caratteri.");
-           cfAlunno.addTextChangedListener(new TextWatcher() {
-               @Override
-               public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-               }
+    private boolean controlloDati() {
+        if (cfAlunnoTxt.length() != 16) {
+            cfAlunno.setTextColor(Color.RED);
+            cfAlunno.setError("Il codice fiscale deve essere di 16 caratteri.");
+            cfAlunno.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
 
-               @Override
-               public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                   cfAlunno.setTextColor(Color.BLACK);
-                   cfAlunno.setError(null);
-               }
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    cfAlunno.setTextColor(Color.BLACK);
+                    cfAlunno.setError(null);
+                }
 
-               @Override
-               public void afterTextChanged(Editable editable) {
-               }
-           });
-           return false;
-       }
+                @Override
+                public void afterTextChanged(Editable editable) {
+                }
+            });
+            return false;
+        }
 
-        if(cellulareAlunnoTxt.length() != 10){
+        if (cellulareAlunnoTxt.length() != 10) {
             cellulareAlunno.setTextColor(Color.RED);
             cellulareAlunno.setError("Il numero deve essere di 10 cifre.");
             cellulareAlunno.addTextChangedListener(new TextWatcher() {
@@ -326,7 +388,7 @@ public class Docente_AggiungiClasseFragment extends Fragment {
             return false;
         }
 
-        if(telefonoAlunnoTxt.length() != 10){
+        if (telefonoAlunnoTxt.length() != 10) {
             telefonoAlunno.setTextColor(Color.RED);
             telefonoAlunno.setError("Il numero deve essere di 10 cifre.");
             telefonoAlunno.addTextChangedListener(new TextWatcher() {
@@ -346,16 +408,17 @@ public class Docente_AggiungiClasseFragment extends Fragment {
             });
             return false;
         }
-        if(password.getText().toString().equals(confermaPsw.getText().toString())){
+        if (password.getText().toString().equals(confermaPsw.getText().toString())) {
             passwordTxt = password.getText().toString();
             pswCifrata = MyCript.encrypt(passwordTxt);
-        }else{
+        } else {
             password.setTextColor(Color.RED);
             password.setError("Le password non coincidono");
             password.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 }
+
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     password.setTextColor(Color.BLACK);
@@ -394,7 +457,7 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         return true;
     }
 
-     public void aggiungiSetAlunni() {
+    public void aggiungiSetAlunni() {
         HashMap<String, String> parametri = new HashMap<>();
 
         Gson lista = new Gson();
@@ -402,14 +465,14 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         parametri.put("arrayAlunni", lista.toJson(listaAlunni));
         parametri.put("classe", classe.toJson(cl));
 
-        Log.v("LOG", "arrayAlunno-"+lista.toJson(listaAlunni));
-        Log.v("LOG", "classe-"+classe.toJson(cl));
+        Log.v("LOG", "arrayAlunno-" + lista.toJson(listaAlunni));
+        Log.v("LOG", "classe-" + classe.toJson(cl));
 
         JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Toast.makeText(getContext(),response.getString("messaggio") , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), response.getString("messaggio"), Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -426,10 +489,43 @@ public class Docente_AggiungiClasseFragment extends Fragment {
         RequestSingleton.getInstance(getContext()).addToRequestQueue(richiesta);
     }
 
-    private void pulizia(){
+    public void getSezione(){
+        JsonRequest richiesta = new JsonRequest(Request.Method.POST, urlSezione, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String numClasse;
+                    String sez;
+                    JSONArray sezioni = response.getJSONArray("elencoClassi");
+                    arraySezioni.add("Scegli una sezione");
+                    for(int i=0; i<sezioni.length(); i++){
+                        numClasse = sezioni.getJSONObject(i).getString("nomeClasse");
+                        sez = String.valueOf(numClasse.charAt(1));
+                        if(!arraySezioni.contains(sez)){
+                           arraySezioni.add(sez);
+                        }
+                    }
+                    adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, arraySezioni);
+                    sezione.setAdapter(adapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        RequestSingleton.getInstance(getContext()).addToRequestQueue(richiesta);
+    }
+
+    private void pulizia() {
         nomeAlunno.setText("");
         cognomeAlunno.setText("");
-        dataNascitaAlunno.setText("");
+        editAnno.setText("");
+        editMese.setText("");
+        editGiorno.setText("");
         cfAlunno.setText("");
         luogoNascitaAlunno.setText("");
         residenzaAlunno.setText("");
@@ -444,17 +540,21 @@ public class Docente_AggiungiClasseFragment extends Fragment {
 
     //acquisisco tutti i dati
     private boolean acquisizineDati() {
-        if (!classe.getText().toString().equals("") && !sezione.getText().toString().equals("")) {
-            classeTxt = classe.getText().toString() + sezione.getText().toString().toUpperCase();
+        if (!sezioneTxt.equals("Scegli una sezione")) {
+            classeTxt = livello + sezioneTxt;
+            Log.d("classe", "classeTxt "+classeTxt);
             cl = new Classe(classeTxt);
 
-            if (!nomeAlunno.getText().toString().equals("") && !cognomeAlunno.getText().toString().equals("") && !dataNascitaAlunno.getText().toString().equals("")
+            if (!nomeAlunno.getText().toString().equals("") && !cognomeAlunno.getText().toString().equals("") && !editAnno.getText().toString().equals("") && !editMese.getText().toString().equals("") && !editGiorno.getText().toString().equals("")
                     && !cfAlunno.getText().toString().equals("") && !luogoNascitaAlunno.getText().toString().equals("") && !residenzaAlunno.getText().toString().equals("") && !telefonoAlunno.getText().toString().equals("")
                     && !cellulareAlunno.getText().toString().equals("") && !emailAlunno.getText().toString().equals("")) {
 
+                anno = Integer.parseInt(editAnno.getText().toString());
+                mese = Integer.parseInt(editMese.getText().toString());
+                giorno = Integer.parseInt(editGiorno.getText().toString());
                 nomeAlunnoTxt = nomeAlunno.getText().toString();
                 cognomeAlunnoTxt = cognomeAlunno.getText().toString();
-                dataNascitaAlunnoTxt = dataNascitaAlunno.getText().toString();
+                dataNascitaAlunnoTxt = anno + "-" + mese + "-" + giorno;
                 cfAlunnoTxt = cfAlunno.getText().toString().trim();
                 luogoNascitaAlunnoTxt = luogoNascitaAlunno.getText().toString();
                 residenzaAlunnoTxt = residenzaAlunno.getText().toString();
@@ -466,15 +566,94 @@ public class Docente_AggiungiClasseFragment extends Fragment {
                 if (opzDsaAlunno.isChecked()) {
                     opzioneDsa = true;
                 }
-            }else {
+            } else {
                 txtError.setTextColor(Color.RED);
                 return false;
             }
-        }else{
+        } else {
             txtError.setTextColor(Color.RED);
             return false;
         }
         txtError.setTextColor(Color.BLACK);
         return true;
     }
+
+    public void incrementaClasse() {
+        livello += 1;
+        if (livello <= 5) {
+            String cl = String.valueOf(livello);
+            classe.setText(cl);
+        } else {
+            livello -= 1;
+        }
+    }
+
+    public void decrementaClasse() {
+        livello -= 1;
+        if (livello < 1) {
+            livello += 1;
+        } else {
+            String cl = String.valueOf(livello);
+            classe.setText(cl);
+
+        }
+    }
+    public boolean controlloData(int anno, int mese, int giorno) {
+        GregorianCalendar cal = new GregorianCalendar(anno, mese - 1, giorno);
+        cal.set(Calendar.YEAR, anno);
+        cal.set(Calendar.MONTH, mese - 1);
+        cal.set(Calendar.DAY_OF_MONTH, giorno);
+        if (!cal.isLeapYear(anno) && mese == 2 && giorno > 28) {
+            editGiorno.setError("Giorno non valido. Anno non bisestile");
+            editGiorno.setTextColor(Color.RED);
+            editGiorno.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    editGiorno.setError(null);
+                    editGiorno.setTextColor(Color.BLACK);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            return false;
+        }
+        if (anno > 2000) {
+            return true;
+        } else {
+            editGiorno.setError("Data non valida.");
+            editGiorno.setTextColor(Color.RED);
+            editMese.setTextColor(Color.RED);
+            editAnno.setTextColor(Color.RED);
+            editGiorno.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    editGiorno.setError(null);
+                    editGiorno.setTextColor(Color.BLACK);
+                    editMese.setTextColor(Color.BLACK);
+                    editAnno.setTextColor(Color.BLACK);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            return false;
+        }
+    }
+
 }
+

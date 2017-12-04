@@ -25,4 +25,9 @@
     <integer name="lunghezzaNumero">10</integer>
     <integer name="numeroRighe">1</integer>
     <dimen name="appbar_padding_top">8dp</dimen>
+
+    <!-- dimensioni button e editText nel form aggiungiClasse -->
+    <dimen name="dimenButton">50dp</dimen>
+    <dimen name="dimenEdit">70dp</dimen>
+    <dimen name="dimenTextViwe">40dp</dimen>
 </resources>
