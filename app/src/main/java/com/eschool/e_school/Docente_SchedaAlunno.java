@@ -2,11 +2,15 @@ package com.eschool.e_school;
 
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,20 +28,23 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 public class Docente_SchedaAlunno extends AppCompatActivity {
 
     private Alunno alunno, alunnoMod;
-    private EditText nomeAlunno, cognomeAlunnno, dataNascitaAlunno, codiceFiscaleAlunno, luogoNascitaAlunno, residenzaAlunno,
-            telefonoAlunno, celAlunno, emailAlunno, usernameAlunno, passwordAlunno, classeTxt;
+    private EditText nomeAlunno, cognomeAlunnno, codiceFiscaleAlunno, luogoNascitaAlunno, residenzaAlunno,
+            telefonoAlunno, celAlunno, emailAlunno, usernameAlunno, passwordAlunno, classeTxt, editAnno, editMese, editGiorno;
     private CheckBox opzDsaAlunno;
     private Boolean dsa;
     private Boolean getdsa;
     private Button btConfermaModificaDati, btAnnullaDati;
     private ImageButton btModificaDati;
     private String url = "http://www.eschooldb.altervista.org/PHP/modificaDatiAlunno.php";
-    private String cfVecchio;
+    private String cfVecchio, dataNascita;
+    private int anno, mese, giorno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +53,10 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
 
         nomeAlunno = (EditText) findViewById(R.id.nomeAlunno);
         cognomeAlunnno = (EditText) findViewById(R.id.cognomeAlunno);
-        dataNascitaAlunno = (EditText) findViewById(R.id.dataNascitaAlunno);
         codiceFiscaleAlunno = (EditText) findViewById(R.id.codiceFiscaleAlunno);
+        editAnno = (EditText) findViewById(R.id.editAnno);
+        editMese = (EditText) findViewById(R.id.editMese);
+        editGiorno = (EditText) findViewById(R.id.editGiorno);
         luogoNascitaAlunno = (EditText) findViewById(R.id.luogoNascitaAlunno);
         residenzaAlunno = (EditText) findViewById(R.id.residenzaAlunno);
         telefonoAlunno = (EditText) findViewById(R.id.telefonoAlunno);
@@ -61,10 +70,12 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
         btConfermaModificaDati = (Button) findViewById(R.id.btConfermaModificaDati);
         btAnnullaDati = (Button) findViewById(R.id.btAnnullaDati);
 
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if(bundle != null){
             alunno = (Alunno) bundle.getParcelable("Alunno");
+            Log.d("LOG","al "+alunno);
         }
 
         riempiScheda();
@@ -87,8 +98,11 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
         btConfermaModificaDati.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modifica();
-                setEditDati(false);
+                acquisizioneData();
+                if(controlloData(anno,mese,giorno)) {
+                    modifica();
+                    setEditDati(false);
+                }
             }
         });
 
@@ -128,10 +142,11 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
     }
 
     public void riempiScheda(){
-
         nomeAlunno.setText(alunno.getNome().trim());
         cognomeAlunnno.setText(alunno.getCognome().trim());
-        dataNascitaAlunno.setText(alunno.getDataNascita().trim());
+        editAnno.setText(alunno.getDataNascita().substring(0,4));
+        editMese.setText(alunno.getDataNascita().substring(5,7));
+        editGiorno.setText(alunno.getDataNascita().substring(8,10));
         codiceFiscaleAlunno.setText(alunno.getCf().trim());
         luogoNascitaAlunno.setText(alunno.getLuogoNascita().trim());
         residenzaAlunno.setText(alunno.getResidenza().trim());
@@ -139,7 +154,11 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
         celAlunno.setText(alunno.getCellulare().trim());
         emailAlunno.setText(alunno.getEmail().trim());
         usernameAlunno.setText(alunno.getUsername().trim());
-        passwordAlunno.setText(alunno.getPassword().trim());
+        String pswCifrata = alunno.getPassword().trim();
+        Log.d("LOG", "pswCifrata "+pswCifrata);
+        String pswDecifrata = MyCript.decrypt(pswCifrata);
+        Log.d("LOG","pswDecifrata "+pswDecifrata);
+        passwordAlunno.setText(pswDecifrata);
         classeTxt.setText(alunno.getNomeClasse().trim());
         dsa = alunno.getDsa();
         if (dsa.equals(true)) {
@@ -151,6 +170,7 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
     }
 
     public void modifica(){
+
         HashMap<String, String> parametri = new HashMap<String, String>();
 
        if(opzDsaAlunno.isChecked())
@@ -158,10 +178,11 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
         else
             getdsa = false;
 
-        alunnoMod = new Alunno(codiceFiscaleAlunno.getText().toString(),nomeAlunno.getText().toString(), cognomeAlunnno.getText().toString(), dataNascitaAlunno.getText().toString(),
-                 luogoNascitaAlunno.getText().toString(),residenzaAlunno.getText().toString(),
+        dataNascita = anno + "-" + mese + "-" + giorno;
+        alunnoMod = new Alunno(codiceFiscaleAlunno.getText().toString(), nomeAlunno.getText().toString(), cognomeAlunnno.getText().toString(), dataNascita,
+                luogoNascitaAlunno.getText().toString(), residenzaAlunno.getText().toString(),
                 telefonoAlunno.getText().toString(), celAlunno.getText().toString(), emailAlunno.getText().toString(), getdsa,
-                usernameAlunno.getText().toString(), passwordAlunno.getText().toString(),classeTxt.getText().toString());
+                usernameAlunno.getText().toString(), passwordAlunno.getText().toString(), classeTxt.getText().toString());
 
         String datiAlunno = new Gson().toJson(alunnoMod);
         parametri.put("alunno", datiAlunno);
@@ -173,6 +194,7 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
                 try {
                     alunno = alunnoMod;
                     Toast.makeText(getApplicationContext(), response.getString("risposta"), Toast.LENGTH_LONG).show();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -190,7 +212,9 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
     private void setEditDati(boolean b){
         nomeAlunno.setEnabled(b);
         cognomeAlunnno.setEnabled(b);
-        dataNascitaAlunno.setEnabled(b);
+        editAnno.setEnabled(b);
+        editMese.setEnabled(b);
+        editGiorno.setEnabled(b);
         codiceFiscaleAlunno.setEnabled(b);
         luogoNascitaAlunno.setEnabled(b);
         residenzaAlunno.setEnabled(b);
@@ -212,5 +236,70 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+    }
+
+    public boolean controlloData(int anno, int mese, int giorno) {
+        GregorianCalendar cal = new GregorianCalendar(anno, mese - 1, giorno);
+        Log.d("LOG", "data "+anno+mese+giorno);
+        cal.set(Calendar.YEAR, anno);
+        cal.set(Calendar.MONTH, mese - 1);
+        cal.set(Calendar.DAY_OF_MONTH, giorno);
+        if (!cal.isLeapYear(anno) && mese == 2 && giorno > 28) {
+            editGiorno.setError("Giorno non valido. Anno non bisestile");
+            editGiorno.setTextColor(Color.RED);
+            editGiorno.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    editGiorno.setError(null);
+                    editGiorno.setTextColor(Color.BLACK);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            return false;
+        }
+        if (anno > 2000) {
+            return true;
+        } else {
+            editGiorno.setError("Data non valida.");
+            editGiorno.setTextColor(Color.RED);
+            editMese.setTextColor(Color.RED);
+            editAnno.setTextColor(Color.RED);
+            editGiorno.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    editGiorno.setError(null);
+                    editGiorno.setTextColor(Color.BLACK);
+                    editMese.setTextColor(Color.BLACK);
+                    editAnno.setTextColor(Color.BLACK);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+            return false;
+        }
+    }
+
+    private void acquisizioneData(){
+        anno = Integer.parseInt(editAnno.getText().toString());
+        mese = Integer.parseInt(editMese.getText().toString());
+        giorno = Integer.parseInt(editGiorno.getText().toString());
+        dataNascita = anno + "-" + mese + "-" + giorno;
     }
 }
