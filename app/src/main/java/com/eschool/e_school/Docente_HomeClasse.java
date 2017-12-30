@@ -177,6 +177,9 @@ public class Docente_HomeClasse extends AppCompatActivity
                         }else{
                             dsa = false;
                         }
+
+                        //String psw = elenco.getJSONObject(i).getString("password");
+                        //String pswDec = MyCript.decrypt(psw);
                         alunno = new Alunno(elenco.getJSONObject(i).getString("cf"),  elenco.getJSONObject(i).getString("nome"), elenco.getJSONObject(i).getString("cognome"),
                                 elenco.getJSONObject(i).getString("dataNascita"), elenco.getJSONObject(i).getString("luogoNascita"), elenco.getJSONObject(i).getString("residenza"),
                                 elenco.getJSONObject(i).getString("numeroTelefono"), elenco.getJSONObject(i).getString("cellulare"), elenco.getJSONObject(i).getString("email"),

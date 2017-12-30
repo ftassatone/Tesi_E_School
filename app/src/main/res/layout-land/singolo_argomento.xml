@@ -10,10 +10,38 @@
         android:layout_marginLeft="@dimen/minimoMarginetop"
         android:layout_marginTop="@dimen/minimoMarginetop"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_gravity="center_vertical"
+                android:text="@string/caricaFile"
+                android:layout_marginLeft="@dimen/minimoMarginetop"/>
+
+            <Button
+                android:id="@+id/btCaricaFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/marginetop"
+                android:textAllCaps="false"
+                android:text="@string/btCaricaFile"
+                />
+        </LinearLayout>
+        <View
+            android:layout_height="2dip"
+            android:background="#FF909090"
+            android:layout_width="match_parent" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:layout_marginTop="@dimen/minimoMarginetop"
+            android:textSize="@dimen/textSizeSottotitolo"
             android:layout_gravity="center_horizontal"
             android:text="@string/teoria"/>
         <TextView
@@ -21,7 +49,6 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/textInfo"
             android:text="@string/infoTeoria"/>
-
         <ListView
             android:id="@+id/listViewTeoria"
             android:layout_width="wrap_content"
@@ -29,31 +56,6 @@
             android:layout_weight="2">
 
         </ListView>
-        <View
-            android:layout_height="2dip"
-            android:background="#FF909090"
-            android:layout_width="match_parent" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="@string/caricaFile"
-            android:paddingRight="@dimen/margineBordi"/>
-
-
-            <Button
-                android:id="@+id/btCaricaFile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/marginetop"
-                android:textAllCaps="false"
-                android:text="@string/btCaricaFile"
-                />
-        </LinearLayout>
     </LinearLayout>
 
     <View
@@ -68,10 +70,55 @@
         android:layout_marginLeft="@dimen/minimoMarginetop"
         android:layout_marginTop="@dimen/minimoMarginetop"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/minimoMarginetop"
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold"
+                android:text="@string/newEs"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btMultiple"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/aperte"
+                    android:textAllCaps="false"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/btAperte"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/multiple"
+                    android:textAllCaps="false"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/btFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/file"
+                    android:textAllCaps="false"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+        </LinearLayout>
+            <View
+                android:layout_height="2dip"
+                android:background="#FF909090"
+                android:layout_width="match_parent" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:textSize="@dimen/textSizeSottotitolo"
             android:layout_gravity="center_horizontal"
             android:text="@string/esercizi"/>
         <TextView
@@ -86,45 +133,6 @@
             android:layout_height="match_parent"
             android:layout_weight="2">
         </ListView>
-        <View
-            android:layout_height="2dip"
-            android:background="#FF909090"
-            android:layout_width="match_parent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/marginetop"
-                android:layout_gravity="center_horizontal"
-                android:textStyle="bold"
-                android:text="@string/newEs"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/btMultiple"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <Button
-                    android:id="@+id/btAperte"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-
-                <Button
-                    android:id="@+id/btFile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

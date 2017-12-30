@@ -62,7 +62,7 @@
     <string name="infoElenco">Seleziona l\'alunno per visualizzarne i dati.</string>
     <string name="infoProgramma">Seleziona l\'argomento per visualizzare esercizi e teoria associati.</string>
     <string name="newEs">Carica/crea esercizi</string>
-    <string name="caricaFile">Carica file:</string>
+    <string name="caricaFile">Carica file di teoria:</string>
     <string name="infoEsercizi">Seleziona l\'esercizio per visualizzarlo.</string>
     <string name="infoTeoria">Seleziona l\'argomento di teoria per visualizzarlo.</string>
 
@@ -79,7 +79,9 @@
     <string name="opzioniDSA">Opzioni DSA</string>
     <string name="annulla">Annulla</string>
     <string name="btCaricaFile">Scegli file</string>
-
+    <string name="aperte">Domande aperte</string>
+    <string name="multiple">Risposte multiple</string>
+    <string name="file">Carica file</string>
 
     <!-- sezione diagnostica -->
     <string name="parteDiagnostica">Parte diagnostica</string>

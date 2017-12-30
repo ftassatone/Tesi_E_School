@@ -54,6 +54,7 @@ public class ButtonAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context,Alunno_HomeMateria.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("materia", finalC);
                 intent.putExtra("livello",liv);
                 context.startActivity(intent);

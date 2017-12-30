@@ -2,10 +2,10 @@ package com.eschool.e_school;
 
 public class Teoria {
     private int codiceTeoria;
-    private String argomento,titolo,testo, livello, codiceMateria,dataCreazione;
+    private String argomento,titolo,testo, livello, codiceMateria,dataCreazione, file;
     private Boolean sintetizzatore,microfono,riscontroLettura;
 
-    public Teoria(int codiceTeoria, String argomento, String titolo, String testo, String livello, String codiceMateria, String dataCreazione, Boolean sintetizzatore, Boolean microfono, Boolean riscontroLettura) {
+    public Teoria(int codiceTeoria, String argomento, String titolo, String testo, String livello, String codiceMateria, String dataCreazione, Boolean sintetizzatore, Boolean microfono, Boolean riscontroLettura,String file) {
         this.codiceTeoria = codiceTeoria;
         this.argomento = argomento;
         this.titolo = titolo;
@@ -16,8 +16,8 @@ public class Teoria {
         this.sintetizzatore = sintetizzatore;
         this.microfono = microfono;
         this.riscontroLettura = riscontroLettura;
+        this.file = file;
     }
-
     public int getCodiceTeoria() {
         return codiceTeoria;
     }
@@ -98,19 +98,9 @@ public class Teoria {
         this.riscontroLettura = riscontroLettura;
     }
 
-    @Override
-    public String toString() {
-        return "Teoria{" +
-                "codiceTeoria=" + codiceTeoria +
-                ", argomento='" + argomento + '\'' +
-                ", titolo='" + titolo + '\'' +
-                ", testo='" + testo + '\'' +
-                ", livello='" + livello + '\'' +
-                ", codiceMateria='" + codiceMateria + '\'' +
-                ", dataCreazione='" + dataCreazione + '\'' +
-                ", sintetizzatore=" + sintetizzatore +
-                ", microfono=" + microfono +
-                ", riscontroLettura=" + riscontroLettura +
-                '}';
+    public String getFile() {
+        return file;
     }
+
+
 }

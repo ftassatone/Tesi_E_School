@@ -45,6 +45,7 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
     private String url = "http://www.eschooldb.altervista.org/PHP/modificaDatiAlunno.php";
     private String cfVecchio, dataNascita;
     private int anno, mese, giorno;
+    private String psw, pswDec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,11 +155,14 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
         celAlunno.setText(alunno.getCellulare().trim());
         emailAlunno.setText(alunno.getEmail().trim());
         usernameAlunno.setText(alunno.getUsername().trim());
-        String pswCifrata = alunno.getPassword().trim();
+        psw = alunno.getPassword().trim();
+        pswDec = MyCript.decrypt(psw);
+        passwordAlunno.setText(pswDec);
+        /*String pswCifrata = alunno.getPassword().trim();
         Log.d("LOG", "pswCifrata "+pswCifrata);
         String pswDecifrata = MyCript.decrypt(pswCifrata);
         Log.d("LOG","pswDecifrata "+pswDecifrata);
-        passwordAlunno.setText(pswDecifrata);
+        passwordAlunno.setText(pswDecifrata);*/
         classeTxt.setText(alunno.getNomeClasse().trim());
         dsa = alunno.getDsa();
         if (dsa.equals(true)) {
