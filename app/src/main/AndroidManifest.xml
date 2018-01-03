@@ -68,6 +68,11 @@
             android:screenOrientation="landscape"
             android:parentActivityName=".Docente_HomeClasse">
         </activity>
+        <activity
+            android:name=".Alunno_VisualizzatoreFile"
+            android:screenOrientation="landscape"
+            android:parentActivityName=".Alunno_HomeMateria">
+        </activity>
     </application>
 
 </manifest>

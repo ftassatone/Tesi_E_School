@@ -1,11 +1,13 @@
 package com.eschool.e_school;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -31,31 +33,40 @@ public class Alunno_HomeMateria extends AppCompatActivity {
     private String url = "http://www.eschooldb.altervista.org/PHP/homeMateria.php";
     private String materia,tipologia;
     private String livello;
-    private ListView listContenitore;
+    private ListView listContenitore, listaTeoria,listaEsercizi;
     private TextView titolo;
     private ArrayAdapter adapter;
     private ArrayList<String> lista;
+
+    //TODO provare con questo nuovo layout, quindi riempire le due listview all'avvio dell'activity e vedere come associare al file
+    //di toeria la path che poi verrà inviata all'activity successiva per avviare il downoad
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_materia);
+        //setContentView(R.layout.home_materia_new);
+        lista = new ArrayList<>();
 
         btTeoriaMateria = (Button) findViewById(R.id.btTeoriaMateria);
         btEserciziMateria = (Button) findViewById(R.id.btEserciziMateria);
-        listContenitore = (ListView) findViewById(R.id.listViewTeoria);
+        listContenitore = (ListView) findViewById(R.id.listContenitore);
+
+        listaTeoria = (ListView) findViewById(R.id.listaTeoria);
+        listaEsercizi = (ListView) findViewById(R.id.listaEsercizi);
+
         titolo = (TextView) findViewById(R.id.titolo);
 
         materia = getIntent().getStringExtra("materia");
         livello = getIntent().getStringExtra("livello");
         Log.d("DATI","ricevo "+materia+"-"+livello);
-
+        //connessione();
         btTeoriaMateria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tipologia = btTeoriaMateria.getTag().toString();
                 //rimpiLista(tipologia);
-                //new X().execute();
+                new AcquisizioneDati().execute();
             }
         });
 
@@ -64,12 +75,31 @@ public class Alunno_HomeMateria extends AppCompatActivity {
             public void onClick(View view) {
                 tipologia =btEserciziMateria.getTag().toString();
                 //rimpiLista(tipologia);
-                new X().execute();
+                new AcquisizioneDati().execute();
             }
         });
+
+        listContenitore.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("DATI","ho cliccato");
+                Intent visualizza = new Intent(getApplicationContext(),Alunno_VisualizzatoreFile.class);
+                //visualizza.putExtra("file", file);
+                startActivity(visualizza);
+            }
+        });
+
+        /*listaTeoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent visualizza = new Intent(getApplicationContext(),Alunno_VisualizzatoreFile.class);
+                //visualizza.putExtra("file", file);
+                startActivity(visualizza);
+            }
+        });*/
     }
 
-    private class X extends AsyncTask<Void,Void,Void> {
+    private class AcquisizioneDati extends AsyncTask<Void,Void,Void> {
         JSONObject rispFuture;
         //ArrayList list;
 
@@ -116,12 +146,14 @@ public class Alunno_HomeMateria extends AppCompatActivity {
                         lista.add(array.getJSONObject(i).getString("titolo"));
                     }
                     adapter = new ArrayAdapter(getApplicationContext(), R.layout.riga_lista_programma, lista);
+                    //listaTeoria.setAdapter(adapter);
                     listContenitore.setAdapter(adapter);
                 } else if (tipologia.equalsIgnoreCase("esercizio")) {
                     for (int i = 0; i < array.length(); i++) {
                         lista.add(array.getJSONObject(i).getString("codice") + " - " + array.getJSONObject(i).getString("argomento"));
                     }
                     adapter = new ArrayAdapter(getApplicationContext(), R.layout.riga_lista_programma, lista);
+                    //listaEsercizi.setAdapter(adapter);
                     listContenitore.setAdapter(adapter);
                 }
             } catch (JSONException e) {
@@ -176,7 +208,7 @@ public class Alunno_HomeMateria extends AppCompatActivity {
 
     private void rimpiLista(String tipo){
         Log.d("DATI","sono in riempi");
-        new X().execute();
+        new AcquisizioneDati().execute();
         //lista = connessione(tipo);
         Log.d("DATI","lista-"+lista);
         //ho usato la riga (layout) per il programma
