@@ -58,7 +58,8 @@ public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPa
     private TextToSpeech tts;
     private CharSequence toSpeak, pagina = "";
     private String[] frasi;
-    private String download_file_path = "http://eschooldb.altervista.org/File/propriet____4_operazioni.pdf";
+    //private String download_file_path = "http://eschooldb.altervista.org/File/propriet____4_operazioni.pdf";
+    private String download_file_path;
     private HashMap<String, String> map;
     private Boolean controllo = false;
     private PowerManager pm;
@@ -83,18 +84,23 @@ public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPa
         btPlay = (Button) findViewById(R.id.btPlay);
         btPausa = (Button) findViewById(R.id.btPausa);
         btStop = (Button) findViewById(R.id.btStop);
-        b = (Button) findViewById(R.id.b1);
+        //b = (Button) findViewById(R.id.b1);
 
         testoPagine = new ArrayList<>();
         tts = new TextToSpeech(this, this);
 
-        b.setOnClickListener(new View.OnClickListener() {
+        download_file_path = getIntent().getStringExtra("file");
+        //visualizza la progressbar e avvia il download
+        showProgress(download_file_path);
+        new Download().execute();
+
+        /*b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showProgress(download_file_path);
                 new Download().execute();
             }
-        });
+        });*/
 
         btSucc.setOnClickListener(new View.OnClickListener() {
             @Override

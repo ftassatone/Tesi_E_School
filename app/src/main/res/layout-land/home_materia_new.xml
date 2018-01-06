@@ -1,42 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_weight="1">
-        <TextView
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/minimoMarginetop">
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TEORIA"/>
-        <ListView
-            android:id="@+id/listaTeoria"
+            android:text="esercizi corretti"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:drawableTop="@android:drawable/btn_star"/>
+
+        <Button
+            android:text="esercizi svolti"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:drawableTop="@android:drawable/btn_star"/>
     </LinearLayout>
-
     <View
-        android:layout_width="2dip"
+        android:layout_width="match_parent"
         android:background="@color/colorPrimaryDark"
-        android:layout_height="match_parent" />
-
+        android:layout_height="2dip" />
     <LinearLayout
+        android:layout_marginTop="@dimen/marginetop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:orientation="horizontal"
         android:layout_weight="1">
-        <TextView
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ESERCIZI"/>
-        <ListView
-            android:id="@+id/listaEsercizi"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEORIA"/>
+
+
+            <ListView
+                android:id="@+id/listaTeoria"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="2dip"
+            android:background="@color/colorPrimaryDark"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ESERCIZI"/>
+
+            <ListView
+                android:id="@+id/listaEsercizi"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

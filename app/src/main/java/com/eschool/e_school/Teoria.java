@@ -2,10 +2,12 @@ package com.eschool.e_school;
 
 public class Teoria {
     private int codiceTeoria;
-    private String argomento,titolo,testo, livello, codiceMateria,dataCreazione, file;
+    private String argomento,titolo,testo, livello, codiceMateria,dataCreazione, file, nomeMateria;
     private Boolean sintetizzatore,microfono,riscontroLettura;
 
-    public Teoria(int codiceTeoria, String argomento, String titolo, String testo, String livello, String codiceMateria, String dataCreazione, Boolean sintetizzatore, Boolean microfono, Boolean riscontroLettura,String file) {
+    public Teoria(int codiceTeoria, String argomento, String titolo, String testo,Boolean sintetizzatore,
+                  Boolean microfono, Boolean riscontroLettura, String livello,String dataCreazione,
+                  String codiceMateria, String fileTeoria, String nomeMateria) {
         this.codiceTeoria = codiceTeoria;
         this.argomento = argomento;
         this.titolo = titolo;
@@ -16,7 +18,8 @@ public class Teoria {
         this.sintetizzatore = sintetizzatore;
         this.microfono = microfono;
         this.riscontroLettura = riscontroLettura;
-        this.file = file;
+        this.file = fileTeoria;
+        this.nomeMateria = nomeMateria;
     }
     public int getCodiceTeoria() {
         return codiceTeoria;
@@ -102,5 +105,21 @@ public class Teoria {
         return file;
     }
 
-
+    @Override
+    public String toString() {
+        return "Teoria{" +
+                "codiceTeoria=" + codiceTeoria +
+                ", argomento='" + argomento + '\'' +
+                ", titolo='" + titolo + '\'' +
+                ", testo='" + testo + '\'' +
+                ", livello='" + livello + '\'' +
+                ", codiceMateria='" + codiceMateria + '\'' +
+                ", dataCreazione='" + dataCreazione + '\'' +
+                ", file='" + file + '\'' +
+                ", nomeMateria='" + nomeMateria + '\'' +
+                ", sintetizzatore=" + sintetizzatore +
+                ", microfono=" + microfono +
+                ", riscontroLettura=" + riscontroLettura +
+                '}';
+    }
 }
