@@ -1,4 +1,4 @@
-package com.eschool.e_school;
+package com.eschool.e_school.docente;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.eschool.e_school.R;
 
 /**
  * A simple {@link Fragment} subclass.

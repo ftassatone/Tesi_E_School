@@ -27,51 +27,51 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".Docente_Registrazione"
+            android:name=".docente.Docente_Registrazione"
             android:parentActivityName=".Login"
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".Docente_HomeClasse"
+            android:name=".docente.Docente_HomeClasse"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".Docente_SchedaAlunno"
+            android:name=".docente.Docente_SchedaAlunno"
             android:screenOrientation="landscape"
-            android:parentActivityName=".Docente_HomeClasse">
+            android:parentActivityName=".docente.Docente_HomeClasse">
         </activity>
         <activity
-            android:name=".Docente_Home"
+            android:name=".docente.Docente_Home"
             android:label="@string/title_activity_home"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".Docente_Registro"
+            android:name=".docente.Docente_Registro"
             android:label="@string/registro"
             android:screenOrientation="landscape">
         </activity>
 
         <activity
-            android:name=".Alunno_HomeAlunno"
+            android:name=".alunno.Alunno_HomeAlunno"
             android:label="@string/home"
             android:screenOrientation="landscape">
         </activity>
 
         <activity
-            android:name=".Alunno_HomeMateria"
+            android:name=".alunno.Alunno_HomeMateria"
             android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name=".Docente_SingoloArgomento"
+            android:name=".docente.Docente_SingoloArgomento"
             android:screenOrientation="landscape"
-            android:parentActivityName=".Docente_HomeClasse">
+            android:parentActivityName=".docente.Docente_HomeClasse">
         </activity>
         <activity
-            android:name=".Alunno_VisualizzatoreFile"
+            android:name=".alunno.Alunno_VisualizzatoreFile"
             android:screenOrientation="landscape"
-            android:parentActivityName=".Alunno_HomeMateria">
+            android:parentActivityName=".alunno.Alunno_HomeMateria">
         </activity>
     </application>
 

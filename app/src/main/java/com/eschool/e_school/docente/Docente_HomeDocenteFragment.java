@@ -1,4 +1,4 @@
-package com.eschool.e_school;
+package com.eschool.e_school.docente;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +22,9 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.eschool.e_school.R;
+import com.eschool.e_school.connessione.JsonRequest;
+import com.eschool.e_school.connessione.RequestSingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;

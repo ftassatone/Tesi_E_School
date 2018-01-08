@@ -1,4 +1,4 @@
-package com.eschool.e_school;
+package com.eschool.e_school.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+
+import com.eschool.e_school.R;
+import com.eschool.e_school.alunno.Alunno_HomeMateria;
 
 import java.util.ArrayList;
 

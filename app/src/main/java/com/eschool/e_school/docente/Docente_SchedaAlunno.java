@@ -1,10 +1,9 @@
-package com.eschool.e_school;
+package com.eschool.e_school.docente;
 
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +22,12 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.eschool.e_school.DialogDsa;
+import com.eschool.e_school.MyCript;
+import com.eschool.e_school.R;
+import com.eschool.e_school.connessione.JsonRequest;
+import com.eschool.e_school.connessione.RequestSingleton;
+import com.eschool.e_school.elementiBase.Alunno;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -71,13 +76,13 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
         btConfermaModificaDati = (Button) findViewById(R.id.btConfermaModificaDati);
         btAnnullaDati = (Button) findViewById(R.id.btAnnullaDati);
 
-
-        Intent intent = getIntent();
+        alunno = (Alunno) getIntent().getSerializableExtra("Alunno");
+        /*Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if(bundle != null){
             alunno = (Alunno) bundle.getParcelable("Alunno");
             Log.d("LOG","al "+alunno);
-        }
+        }*/
 
         riempiScheda();
 

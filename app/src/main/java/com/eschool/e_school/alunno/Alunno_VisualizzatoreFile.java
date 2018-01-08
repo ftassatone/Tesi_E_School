@@ -1,4 +1,4 @@
-package com.eschool.e_school;
+package com.eschool.e_school.alunno;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eschool.e_school.R;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;

@@ -1,4 +1,4 @@
-package com.eschool.e_school;
+package com.eschool.e_school.alunno;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,11 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.eschool.e_school.adapter.ButtonAdapter;
+import com.eschool.e_school.PreLogin;
+import com.eschool.e_school.R;
+import com.eschool.e_school.connessione.JsonRequest;
+import com.eschool.e_school.connessione.RequestSingleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;

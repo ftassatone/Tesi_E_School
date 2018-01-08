@@ -1,9 +1,11 @@
-package com.eschool.e_school;
+package com.eschool.e_school.elementiBase;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Alunno implements Parcelable{
+import java.io.Serializable;
+
+public class Alunno implements Serializable{
     private String cf;
     private String nome;
     private String cognome;
@@ -180,7 +182,7 @@ public class Alunno implements Parcelable{
         nomeClasse = in.readString();
     }
 
-    public static final Parcelable.Creator<Alunno> CREATOR = new Creator<Alunno>() {
+    /*public static final Parcelable.Creator<Alunno> CREATOR = new Creator<Alunno>() {
         @Override
         public Alunno createFromParcel(Parcel parcel) {
             return new Alunno(parcel);
@@ -209,6 +211,6 @@ public class Alunno implements Parcelable{
 
     public int describeContents() {
         return 0;
-    }
+    }*/
 
 }

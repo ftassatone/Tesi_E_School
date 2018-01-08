@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/minimoMarginetop">
+
+    <TextView
+        android:id="@+id/nominativo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="n - nome cognome"
+        android:layout_alignTop="@+id/imageButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/marginetop"
+        android:layout_marginLeft="@dimen/marginetop"/>
+
+    <ImageButton
+        android:background="@color/trasparente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_media_play"
+        android:id="@+id/visualizza"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/marginetop"
+        android:layout_marginTop="@dimen/minimoMarginetop"/>
+
+</RelativeLayout>

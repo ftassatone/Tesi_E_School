@@ -1,4 +1,4 @@
-package com.eschool.e_school;
+package com.eschool.e_school.docente;
 
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.eschool.e_school.R;
 
 public class Docente_Registro extends AppCompatActivity {
     private ListView listViewRegistro;

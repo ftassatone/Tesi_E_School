@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.eschool.e_school.Docente_HomeClasse">
+    tools:context=".docente.Docente_HomeClasse">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

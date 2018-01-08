@@ -19,21 +19,17 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.JsonArray;
+import com.eschool.e_school.alunno.Alunno_HomeAlunno;
+import com.eschool.e_school.connessione.JsonRequest;
+import com.eschool.e_school.connessione.RequestSingleton;
+import com.eschool.e_school.docente.Docente_Home;
+import com.eschool.e_school.docente.Docente_Registrazione;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
 public class Login extends AppCompatActivity {
 
@@ -48,7 +44,7 @@ public class Login extends AppCompatActivity {
     private SharedPreferences.Editor edit;
     private JsonRequest richiesta;
     private CheckBox cbRicorda;
-    static String utente;
+    public static String utente;
     private Boolean doc = false, al = false;
 
     @Override

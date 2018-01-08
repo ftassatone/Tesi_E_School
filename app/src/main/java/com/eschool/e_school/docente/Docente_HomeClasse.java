@@ -1,4 +1,4 @@
-package com.eschool.e_school;
+package com.eschool.e_school.docente;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +21,12 @@ import android.widget.ListView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.eschool.e_school.PreLogin;
+import com.eschool.e_school.R;
+import com.eschool.e_school.adapter.CustomAdapterElenco;
+import com.eschool.e_school.connessione.JsonRequest;
+import com.eschool.e_school.connessione.RequestSingleton;
+import com.eschool.e_school.elementiBase.Alunno;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,10 +43,11 @@ public class Docente_HomeClasse extends AppCompatActivity
     static String materia, classe;
     private String url = "http://www.eschooldb.altervista.org/PHP/homeClasse.php";
     private ArrayList elencoAlunni, programma, datiAlunni;
-    private ArrayAdapter<String> adapterAlunni;
+    //private ArrayAdapter<String> adapterAlunni;
     private ArrayAdapter<String> adapterProgramma;
     private Alunno alunno;
     private AlertDialog.Builder infoAlert;
+    private CustomAdapterElenco adapterAlunni;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +76,11 @@ public class Docente_HomeClasse extends AppCompatActivity
 
         connessione();
 
-        listViewElencoAlunni.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listViewElencoAlunni.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterAlunni, View view, int i, long l) {
+                Log.d("DATI", "mi hai cliccato");
+                Toast.makeText(Docente_HomeClasse.this, "clicchi"+ view.getTag(), Toast.LENGTH_SHORT).show();
                 Intent vaiSchedaAlunno = new Intent(getApplicationContext(), Docente_SchedaAlunno.class);
                 Bundle bundle = new Bundle();
                 int x = adapterAlunni.getPositionForView(view);
@@ -80,7 +89,7 @@ public class Docente_HomeClasse extends AppCompatActivity
                 vaiSchedaAlunno.putExtras(bundle);
                 startActivity(vaiSchedaAlunno);
             }
-        });
+        });*/
 
         listViewProgramma.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -186,10 +195,12 @@ public class Docente_HomeClasse extends AppCompatActivity
                                 dsa, elenco.getJSONObject(i).getString("username"), elenco.getJSONObject(i).getString("password"),
                                 elenco.getJSONObject(i).getString("nomeClasse"));
                         elencoAlunni.add(alunno);
-                        datiAlunni.add(alunno.getNome() + " " + alunno.getCognome());
+                        //datiAlunni.add(alunno.getNome() + " " + alunno.getCognome());
                     }
-                    adapterAlunni = new ArrayAdapter<String>(getApplicationContext(), R.layout.riga_lista_alunni, datiAlunni);
+                    adapterAlunni = new CustomAdapterElenco(getApplicationContext(),elencoAlunni);
                     listViewElencoAlunni.setAdapter(adapterAlunni);
+                    //adapterAlunni = new ArrayAdapter<String>(getApplicationContext(), R.layout.layout_riga_elenco, datiAlunni);
+                    //listViewElencoAlunni.setAdapter(adapterAlunni);
 
                     JSONArray elencoProgramma = response.getJSONArray("programma");
                     for(int j =0; j < elencoProgramma.length(); j++){

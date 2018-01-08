@@ -1,4 +1,4 @@
-package com.eschool.e_school;
+package com.eschool.e_school.elementiBase;
 
 public class Esercizio {
     private int codiceEsercizio,voto,numeroErrori, codiceTeoria;

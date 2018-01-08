@@ -1,4 +1,4 @@
-package com.eschool.e_school;
+package com.eschool.e_school.docente;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,6 +24,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.RequestFuture;
+import com.eschool.e_school.Login;
+import com.eschool.e_school.MyCript;
+import com.eschool.e_school.R;
+import com.eschool.e_school.connessione.JsonRequest;
+import com.eschool.e_school.connessione.RequestSingleton;
+import com.eschool.e_school.elementiBase.Docente;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
