@@ -28,13 +28,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Alunno_HomeAlunno extends AppCompatActivity {
+public class HomeAlunno extends AppCompatActivity {
 
     private GridView grigliaMaterie;
     private TextView txtBenvenutoAlunno;
     private AlertDialog.Builder infoAlert;
     private String url = "http://www.eschooldb.altervista.org/PHP/getMaterieAlunno.php";
-    private String alunno, materia,livello;
+    private String materia,livello;
+    public static String alunno;
     private ArrayList<String> arrayMaterie;
     private ArrayAdapter<String> adapterMaterie;
     private ButtonAdapter adapter;

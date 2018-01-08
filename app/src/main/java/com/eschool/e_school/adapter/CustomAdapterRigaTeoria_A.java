@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.eschool.e_school.R;
-import com.eschool.e_school.alunno.Alunno_VisualizzatoreFile;
+import com.eschool.e_school.alunno.VisualizzatoreFile;
 import com.eschool.e_school.elementiBase.Teoria;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class CustomAdapterRigaTeoria_A extends BaseAdapter{
             btVisualizza.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent visualizza = new Intent(context, Alunno_VisualizzatoreFile.class);
+                    Intent visualizza = new Intent(context, VisualizzatoreFile.class);
                     visualizza.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     visualizza.putExtra("file", ((Teoria) getItem(i)).getFile());
                     context.startActivity(visualizza);

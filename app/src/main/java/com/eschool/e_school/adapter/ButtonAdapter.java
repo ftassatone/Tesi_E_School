@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.eschool.e_school.R;
-import com.eschool.e_school.alunno.Alunno_HomeMateria;
+import com.eschool.e_school.alunno.HomeMateria;
 
 import java.util.ArrayList;
 
@@ -56,7 +56,7 @@ public class ButtonAdapter extends BaseAdapter {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,Alunno_HomeMateria.class);
+                Intent intent = new Intent(context,HomeMateria.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("materia", finalC);
                 intent.putExtra("livello",liv);

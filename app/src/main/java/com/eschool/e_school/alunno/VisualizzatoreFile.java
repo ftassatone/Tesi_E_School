@@ -21,7 +21,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,10 +48,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener, TextToSpeech.OnInitListener {
+public class VisualizzatoreFile extends AppCompatActivity implements OnPageChangeListener, OnLoadCompleteListener, TextToSpeech.OnInitListener {
 
     private final static int ID_RICHIESTA_PERMISSION = 0;
-    private Button btSucc,btPrec,btPlay,btPausa,btStop,b;
+    private ImageButton btSucc,btPrec,btPlay,btPausa,btStop;
     private PDFView pdfView;
     private ProgressBar pb;
     private  Dialog dialog;
@@ -83,11 +83,11 @@ public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPa
         }
 
         pdfView = (PDFView) findViewById(R.id.pdfView);
-        btSucc = (Button) findViewById(R.id.btSucc);
-        btPrec = (Button) findViewById(R.id.btPrec);
-        btPlay = (Button) findViewById(R.id.btPlay);
-        btPausa = (Button) findViewById(R.id.btPausa);
-        btStop = (Button) findViewById(R.id.btStop);
+        btSucc = (ImageButton) findViewById(R.id.btSucc);
+        btPrec = (ImageButton) findViewById(R.id.btPrec);
+        btPlay = (ImageButton) findViewById(R.id.btPlay);
+        btPausa = (ImageButton) findViewById(R.id.btPausa);
+        btStop = (ImageButton) findViewById(R.id.btStop);
 
         testoPagine = new ArrayList<>();
         tts = new TextToSpeech(this, this);
@@ -97,7 +97,7 @@ public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPa
         if(download_file_path.equalsIgnoreCase("")){
             Log.d("DATI", "ottengo2: " + download_file_path);
             Log.d("DATI", "NULL");
-            Toast.makeText(Alunno_VisualizzatoreFile.this, "Non c'è nulla da scaricare.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(VisualizzatoreFile.this, "Non c'è nulla da scaricare.", Toast.LENGTH_SHORT).show();
         }else {
             Log.d("DATI", "avvio");
             Log.d("DATI", "ottengo: " + download_file_path);
@@ -398,7 +398,7 @@ public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPa
     }
 
     private void showProgress(String file_path) {
-        dialog = new Dialog(Alunno_VisualizzatoreFile.this);
+        dialog = new Dialog(VisualizzatoreFile.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.progressbar_dialog);
         dialog.setTitle("Download Progress");
@@ -478,13 +478,12 @@ public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPa
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-
             //prima di tornare all'activity precedente, rilascio le risorse utilizzate dal motore TextToSpeech.
             tts.shutdown();
 
             Intent back = NavUtils.getParentActivityIntent(this);
-            back.putExtra("materia", Alunno_HomeMateria.materia);
-            back.putExtra("livello", Alunno_HomeMateria.livello);
+            back.putExtra("materia", HomeMateria.materia);
+            back.putExtra("livello", HomeMateria.livello);
             if (NavUtils.shouldUpRecreateTask(this, back)) {
                 TaskStackBuilder.create(this).addNextIntentWithParentStack(back).startActivities();
             } else {

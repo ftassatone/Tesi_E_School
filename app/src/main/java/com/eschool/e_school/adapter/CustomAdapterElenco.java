@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.eschool.e_school.elementiBase.Alunno;
-import com.eschool.e_school.docente.Docente_SchedaAlunno;
+import com.eschool.e_school.docente.SchedaAlunno;
 import com.eschool.e_school.R;
 import com.eschool.e_school.elementiBase.Teoria;
 
@@ -59,7 +59,7 @@ public class CustomAdapterElenco extends BaseAdapter{
             bt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent vaiSchedaAlunno = new Intent(context, Docente_SchedaAlunno.class);
+                    Intent vaiSchedaAlunno = new Intent(context, SchedaAlunno.class);
                     vaiSchedaAlunno.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     vaiSchedaAlunno.putExtra("Alunno", (Serializable) getItem(i));
                     context.startActivity(vaiSchedaAlunno);

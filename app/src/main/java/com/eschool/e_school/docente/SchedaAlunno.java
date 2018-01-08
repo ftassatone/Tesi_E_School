@@ -37,7 +37,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
-public class Docente_SchedaAlunno extends AppCompatActivity {
+public class SchedaAlunno extends AppCompatActivity {
 
     private Alunno alunno, alunnoMod;
     private EditText nomeAlunno, cognomeAlunnno, codiceFiscaleAlunno, luogoNascitaAlunno, residenzaAlunno,
@@ -134,8 +134,8 @@ public class Docente_SchedaAlunno extends AppCompatActivity {
 
         }else if(id == android.R.id.home){
             Intent vaiHomeClasse = NavUtils.getParentActivityIntent(this);
-            vaiHomeClasse.putExtra("Materia",Docente_HomeClasse.materia);
-            vaiHomeClasse.putExtra("Classe",Docente_HomeClasse.classe);
+            vaiHomeClasse.putExtra("Materia", HomeClasse.materia);
+            vaiHomeClasse.putExtra("Classe", HomeClasse.classe);
             if (NavUtils.shouldUpRecreateTask(this, vaiHomeClasse)) {
                 TaskStackBuilder.create(this).addNextIntentWithParentStack(vaiHomeClasse).startActivities();
             } else {

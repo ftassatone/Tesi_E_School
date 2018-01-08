@@ -3,16 +3,58 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="horizontal"
         android:layout_weight="1">
+
         <TextView
             android:id="@+id/tv1"
-            android:layout_width="fill_parent"
+            android:layout_weight="0"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Downloading File"/>
+            android:text="@string/studiamoInsieme"
+            android:layout_marginLeft="@dimen/marginetop"
+            android:layout_gravity="center"/>
+
+        <FrameLayout
+            android:layout_weight="0.6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btSintetizzatore"
+            android:layout_weight="0.5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/trasparente"
+            android:text="@string/sintesivocale"
+            android:textAllCaps="false"
+            android:drawableTop="@android:drawable/ic_btn_speak_now"/>
+
+        <FrameLayout
+            android:layout_weight="0.05"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btMappa"
+            android:layout_weight="0.5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/trasparente"
+            android:layout_gravity="center"
+            android:text="@string/mappa"
+            android:textAllCaps="false"
+            android:drawableTop="@android:drawable/btn_star_big_on"/>
+
+        <FrameLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
@@ -26,52 +68,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
+
+        <ImageButton
             android:id="@+id/btPlay"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="play"/>
-        <Button
+            android:src="@android:drawable/ic_media_play"/>
+
+        <ImageButton
             android:id="@+id/btPausa"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="Pausa"/>
-        <Button
+            android:src="@android:drawable/ic_media_pause"/>
+
+        <ImageButton
             android:id="@+id/btStop"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="Stop"/>
-
-
+            android:src="@android:drawable/ic_delete"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/btSucc"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="Successivo"/>
-        <Button
+
+        <ImageButton
             android:text="Precendente"
             android:id="@+id/btPrec"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"/>
+            android:enabled="false"
+            android:src="@android:drawable/ic_media_previous"/>
+
+        <ImageButton
+            android:id="@+id/btSucc"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:src="@android:drawable/ic_media_next"/>
 
 
     </LinearLayout>
-
 
 </LinearLayout>

@@ -9,26 +9,40 @@
         android:orientation="horizontal"
         android:layout_marginTop="@dimen/minimoMarginetop">
 
+        <FrameLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <Button
             android:id="@+id/btTeoriaMateria"
-            android:tag="teoria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:drawableTop="@android:drawable/btn_plus"
-            android:text="@string/teoria"
-            android:background="@color/trasparente"
-            />
+            android:text="Esercizi svolti"
+            android:layout_weight="0.5"
+            android:textAllCaps="false"
+            android:background="@color/trasparente"/>
+
+        <FrameLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btEserciziMateria"
-            android:tag="esercizio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:drawableTop="@android:drawable/btn_plus"
-            android:text="@string/esercizi"
+            android:text="Esrcizi assegnati"
+            android:textAllCaps="false"
             android:background="@color/trasparente"/>
+
+        <FrameLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
     <LinearLayout

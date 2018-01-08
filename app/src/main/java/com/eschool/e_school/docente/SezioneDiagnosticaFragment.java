@@ -15,10 +15,10 @@ import com.eschool.e_school.R;
  * Activities that contain this fragment must implement the
  * {@link //SezioneDiagnosticaFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Docente_SezioneDiagnosticaFragment#newInstance} factory method to
+ * Use the {@link SezioneDiagnosticaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Docente_SezioneDiagnosticaFragment extends Fragment {
+public class SezioneDiagnosticaFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +30,7 @@ public class Docente_SezioneDiagnosticaFragment extends Fragment {
 
     //private OnFragmentInteractionListener mListener;
 
-    public Docente_SezioneDiagnosticaFragment() {
+    public SezioneDiagnosticaFragment() {
         // Required empty public constructor
     }
 
@@ -43,8 +43,8 @@ public class Docente_SezioneDiagnosticaFragment extends Fragment {
      * @return A new instance of fragment SezioneDiagnosticaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Docente_SezioneDiagnosticaFragment newInstance() {
-        Docente_SezioneDiagnosticaFragment fragment = new Docente_SezioneDiagnosticaFragment();
+    public static SezioneDiagnosticaFragment newInstance() {
+        SezioneDiagnosticaFragment fragment = new SezioneDiagnosticaFragment();
         Bundle args = new Bundle();
         //args.putString(ARG_PARAM1, param1);
         //args.putString(ARG_PARAM2, param2);

@@ -19,11 +19,11 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.eschool.e_school.alunno.Alunno_HomeAlunno;
+import com.eschool.e_school.alunno.HomeAlunno;
 import com.eschool.e_school.connessione.JsonRequest;
 import com.eschool.e_school.connessione.RequestSingleton;
-import com.eschool.e_school.docente.Docente_Home;
-import com.eschool.e_school.docente.Docente_Registrazione;
+import com.eschool.e_school.docente.HomeDocente;
+import com.eschool.e_school.docente.Registrazione;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,7 +80,7 @@ public class Login extends AppCompatActivity {
             linkNuovoDoc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent vaiRegistazione = new Intent(Login.this, Docente_Registrazione.class);
+                    Intent vaiRegistazione = new Intent(Login.this, Registrazione.class);
                     startActivity(vaiRegistazione);
                 }
             });
@@ -187,7 +187,7 @@ public class Login extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     if(psw.equals(pswDecifrata)){
-                        Intent vai = new Intent(getApplicationContext(),Docente_Home.class);
+                        Intent vai = new Intent(getApplicationContext(),HomeDocente.class);
                         vai.putExtra("username",username);
                         startActivity(vai);
                         finish();
@@ -267,7 +267,7 @@ public class Login extends AppCompatActivity {
                                 edit.commit();
                             }
                             //TODO da decommentare (controllare nel php quando c'è un errore di connessione)
-                            Intent homeAlunno = new Intent(getApplicationContext(),Alunno_HomeAlunno.class);
+                            Intent homeAlunno = new Intent(getApplicationContext(),HomeAlunno.class);
                             homeAlunno.putExtra("cf", dati.getString("cf"));
                             startActivity(homeAlunno);
                         }else{

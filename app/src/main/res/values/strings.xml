@@ -127,7 +127,16 @@
     <string name="sezione">Sezione*</string>
     <string name="informazioni">Informazioni</string>
     <string name="impostazioni">Impostazioni</string>
+
+    <!-- sezione alunno -->
+    <string name="sezioneEs">Sezione esercizi:</string>
     <string name="eserciziSvolti">Esercizi svolti</string>
+    <string name="eserciziAssegnati">Esercizi asseganti</string>
+    <string name="studiamoInsieme">Studiamo insieme:</string>
+    <string name="sintesivocale">Sintetizzatore</string>
+    <string name="mappa">Mappa</string>
+
+
 
 
 

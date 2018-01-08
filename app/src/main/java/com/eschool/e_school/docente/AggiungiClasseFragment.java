@@ -52,10 +52,10 @@ import java.util.concurrent.TimeoutException;
  * Activities that contain this fragment must implement the
  * {@link //AggiungiClasseFragment.//OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Docente_AggiungiClasseFragment#newInstance} factory method to
+ * Use the {@link AggiungiClasseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Docente_AggiungiClasseFragment extends Fragment {
+public class AggiungiClasseFragment extends Fragment {
 
     private String url = "http://www.eschooldb.altervista.org/PHP/aggiungiClasse.php";
     private String urlControllo = "http://www.eschooldb.altervista.org/PHP/controlloAggiungiClasse.php";
@@ -77,7 +77,7 @@ public class Docente_AggiungiClasseFragment extends Fragment {
     private ArrayAdapter<String> adapter;
 
 
-    public Docente_AggiungiClasseFragment() {
+    public AggiungiClasseFragment() {
         // Required empty public constructor
     }
 
@@ -88,8 +88,8 @@ public class Docente_AggiungiClasseFragment extends Fragment {
      * @return A new instance of fragment AggiungiClasseFragment.
      */
 
-    public static Docente_AggiungiClasseFragment newInstance() {
-        Docente_AggiungiClasseFragment fragment = new Docente_AggiungiClasseFragment();
+    public static AggiungiClasseFragment newInstance() {
+        AggiungiClasseFragment fragment = new AggiungiClasseFragment();
         /*Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);*/
@@ -301,8 +301,8 @@ public class Docente_AggiungiClasseFragment extends Fragment {
                 if (!newAlunno) {
                     aggiungiSetAlunni();
                     classe.setText("");
-                    Intent home = new Intent(getContext(), Docente_Home.class);
-                    home.putExtra("username", Docente_Home.DOC);
+                    Intent home = new Intent(getContext(), HomeDocente.class);
+                    home.putExtra("username", HomeDocente.DOC);
                     startActivity(home);
                 }
             } else if (!controlloCf) {

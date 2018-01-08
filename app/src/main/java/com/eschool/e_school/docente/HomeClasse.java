@@ -35,7 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Docente_HomeClasse extends AppCompatActivity
+public class HomeClasse extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listViewElencoAlunni, listViewProgramma;
@@ -94,7 +94,7 @@ public class Docente_HomeClasse extends AppCompatActivity
         listViewProgramma.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent vaiArgo = new Intent(getApplicationContext(),Docente_SingoloArgomento.class);
+                Intent vaiArgo = new Intent(getApplicationContext(),SingoloArgomento.class);
                 vaiArgo.putExtra("argomento", nomeArgomento);
                 startActivity(vaiArgo);
             }
@@ -145,15 +145,15 @@ public class Docente_HomeClasse extends AppCompatActivity
         } else if (id == R.id.eserciziSvolti) {
 
         } else if (id == R.id.homePrincipale) {
-            Intent home = new Intent(getApplicationContext(),Docente_Home.class);
-            Log.d("LOG",Docente_Home.DOC);
-            home.putExtra("username",Docente_Home.DOC);
+            Intent home = new Intent(getApplicationContext(),HomeDocente.class);
+            Log.d("LOG", HomeDocente.DOC);
+            home.putExtra("username", HomeDocente.DOC);
             startActivity(home);
 
         } else if(id == R.id.sezOpzioniDsa){
             //TODO passare alla sezione opzioni dsa
             //startActivity(new Intent(getApplicationContext(),SezioneOpzDsa.class));
-            startActivity(new Intent(getApplicationContext(),Docente_SingoloArgomento.class));
+            startActivity(new Intent(getApplicationContext(),SingoloArgomento.class));
         }else if (id == R.id.impostazioni) {
             //TODO passare ad impostazioni
         } else if (id == R.id.logout) {

@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import com.eschool.e_school.PreLogin;
 import com.eschool.e_school.R;
 
-public class Docente_Home extends AppCompatActivity {
+public class HomeDocente extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -106,11 +106,11 @@ public class Docente_Home extends AppCompatActivity {
             switch (position) {
                 case 0:
                    //return HomeDocenteFragment.newInstance(docente);
-                    return Docente_HomeDocenteFragment.newInstance(DOC);
+                    return HomeDocenteFragment.newInstance(DOC);
                 case 1:
-                    return Docente_AggiungiClasseFragment.newInstance();
+                    return AggiungiClasseFragment.newInstance();
                 case 2:
-                    return Docente_SezioneDiagnosticaFragment.newInstance();
+                    return SezioneDiagnosticaFragment.newInstance();
             }
             return null;
         }

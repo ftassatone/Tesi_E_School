@@ -47,7 +47,7 @@ import java.util.concurrent.TimeoutException;
 
 import javax.crypto.NoSuchPaddingException;
 
-public class Docente_Registrazione extends AppCompatActivity {
+public class Registrazione extends AppCompatActivity {
 
     private EditText nomeDoc,cognomeDoc,luogoNascitaDoc,residenzaDoc,cfDoc,cellulareDoc, telefonoDoc, emailDoc, matricolaDoc,pswDoc,confermaPswDoc,
             editAnno, editMese, editGiorno;
@@ -321,7 +321,7 @@ public class Docente_Registrazione extends AppCompatActivity {
                  e.printStackTrace();
              }
              if(c!=""){
-                 Intent vaiLogin = new Intent(Docente_Registrazione.this,Login.class);
+                 Intent vaiLogin = new Intent(Registrazione.this,Login.class);
                  vaiLogin.putExtra("utente",Login.utente);
                  startActivity(vaiLogin);
                  Toast toast = Toast.makeText(getApplicationContext(),c,Toast.LENGTH_LONG);

@@ -35,7 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Docente_SingoloArgomento extends AppCompatActivity {
+public class SingoloArgomento extends AppCompatActivity {
 
     private ListView listViewEsercizi,listViewTeoria;
     private Button btMultiple,btAperte,btFile,btCaricaFile;
@@ -124,8 +124,8 @@ public class Docente_SingoloArgomento extends AppCompatActivity {
 
         if(id == android.R.id.home){
             Intent vaiHomeClasse = NavUtils.getParentActivityIntent(this);
-            vaiHomeClasse.putExtra("Materia",Docente_HomeClasse.materia);
-            vaiHomeClasse.putExtra("Classe",Docente_HomeClasse.classe);
+            vaiHomeClasse.putExtra("Materia", HomeClasse.materia);
+            vaiHomeClasse.putExtra("Classe", HomeClasse.classe);
             if (NavUtils.shouldUpRecreateTask(this, vaiHomeClasse)) {
                 TaskStackBuilder.create(this).addNextIntentWithParentStack(vaiHomeClasse).startActivities();
             } else {
@@ -287,7 +287,7 @@ public class Docente_SingoloArgomento extends AppCompatActivity {
         });
     }
 
-   /*void showProgress(String file_path){
+   void showProgress(String file_path){
         dialog = new Dialog(Docente_SingoloArgomento.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.progressbar);

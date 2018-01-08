@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import com.eschool.e_school.R;
 
-public class Docente_Registro extends AppCompatActivity {
+public class Registro extends AppCompatActivity {
     private ListView listViewRegistro;
     private Button btModificaRegistro;
     private AlertDialog.Builder alertModifica;
