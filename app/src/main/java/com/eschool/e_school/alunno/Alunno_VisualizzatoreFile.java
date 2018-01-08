@@ -3,6 +3,7 @@ package com.eschool.e_school.alunno;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,9 +13,12 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -59,7 +63,6 @@ public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPa
     private TextToSpeech tts;
     private CharSequence toSpeak, pagina = "";
     private String[] frasi;
-    //private String download_file_path = "http://eschooldb.altervista.org/File/propriet____4_operazioni.pdf";
     private String download_file_path;
     private HashMap<String, String> map;
     private Boolean controllo = false;
@@ -85,23 +88,23 @@ public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPa
         btPlay = (Button) findViewById(R.id.btPlay);
         btPausa = (Button) findViewById(R.id.btPausa);
         btStop = (Button) findViewById(R.id.btStop);
-        //b = (Button) findViewById(R.id.b1);
 
         testoPagine = new ArrayList<>();
         tts = new TextToSpeech(this, this);
 
         download_file_path = getIntent().getStringExtra("file");
-        //visualizza la progressbar e avvia il download
-        showProgress(download_file_path);
-        new Download().execute();
-
-        /*b.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showProgress(download_file_path);
-                new Download().execute();
-            }
-        });*/
+        Log.d("DATI", "dowload_file "+download_file_path);
+        if(download_file_path.equalsIgnoreCase("")){
+            Log.d("DATI", "ottengo2: " + download_file_path);
+            Log.d("DATI", "NULL");
+            Toast.makeText(Alunno_VisualizzatoreFile.this, "Non c'è nulla da scaricare.", Toast.LENGTH_SHORT).show();
+        }else {
+            Log.d("DATI", "avvio");
+            Log.d("DATI", "ottengo: " + download_file_path);
+            //visualizza la progressbar e avvia il download
+            showProgress(download_file_path);
+            new Download().execute();
+        }
 
         btSucc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,7 +275,7 @@ public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPa
         new OttieniTesto().execute();
     }
 
-    File downloadFile() {
+    private File downloadFile() {
 
         try {
             //scarico il file
@@ -394,7 +397,7 @@ public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPa
         }
     }
 
-    void showProgress(String file_path) {
+    private void showProgress(String file_path) {
         dialog = new Dialog(Alunno_VisualizzatoreFile.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.progressbar_dialog);
@@ -469,5 +472,26 @@ public class Alunno_VisualizzatoreFile extends AppCompatActivity implements OnPa
         Log.d("DATI","sono in onStop");
         super.onStop();
         stopSpeech();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+
+            //prima di tornare all'activity precedente, rilascio le risorse utilizzate dal motore TextToSpeech.
+            tts.shutdown();
+
+            Intent back = NavUtils.getParentActivityIntent(this);
+            back.putExtra("materia", Alunno_HomeMateria.materia);
+            back.putExtra("livello", Alunno_HomeMateria.livello);
+            if (NavUtils.shouldUpRecreateTask(this, back)) {
+                TaskStackBuilder.create(this).addNextIntentWithParentStack(back).startActivities();
+            } else {
+                NavUtils.navigateUpTo(this, back);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

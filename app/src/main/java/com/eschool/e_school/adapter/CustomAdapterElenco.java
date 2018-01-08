@@ -14,6 +14,7 @@ import com.eschool.e_school.docente.Docente_SchedaAlunno;
 import com.eschool.e_school.R;
 import com.eschool.e_school.elementiBase.Teoria;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class CustomAdapterElenco extends BaseAdapter{
@@ -48,17 +49,19 @@ public class CustomAdapterElenco extends BaseAdapter{
         if (view == null)
         {
             view = LayoutInflater.from(context).inflate(R.layout.layout_riga_elenco, null);
-            al = (Alunno) getItem(i) ;
             TextView nominativo = (TextView) view.findViewById(R.id.nominativo);
             ImageButton bt = (ImageButton) view.findViewById(R.id.visualizza);
+
+            al = (Alunno) getItem(i) ;
             nominativo.setText((i+1)+". - "+al.getNome() +" "+ al.getCognome());
             view.setTag(i);
+
             bt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent vaiSchedaAlunno = new Intent(context, Docente_SchedaAlunno.class);
                     vaiSchedaAlunno.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    vaiSchedaAlunno.putExtra("Alunno",al);
+                    vaiSchedaAlunno.putExtra("Alunno", (Serializable) getItem(i));
                     context.startActivity(vaiSchedaAlunno);
                 }
             });

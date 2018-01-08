@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/minimoMarginetop">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/nomeFile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/minimoMarginetop"
-        android:layout_marginBottom="@dimen/minimoMarginetop">
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Qui andrà il testo"/>
+        android:hint="n - nome cognome"
+        android:layout_alignTop="@+id/imageButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/marginetop"
+        android:layout_marginLeft="@dimen/marginetop"/>
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="#00000000"
-            android:src="@android:drawable/arrow_up_float"/>
+    <ImageButton
+        android:id="@+id/visualizzaFile"
+        android:background="@color/trasparente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_media_play"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/marginetop"
+        android:layout_marginTop="@dimen/minimoMarginetop"/>
 
-    </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

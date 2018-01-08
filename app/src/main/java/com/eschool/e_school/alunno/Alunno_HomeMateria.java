@@ -1,12 +1,9 @@
 package com.eschool.e_school.alunno;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -16,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.eschool.e_school.R;
+import com.eschool.e_school.adapter.CustomAdapterRigaTeoria_A;
 import com.eschool.e_school.connessione.JsonRequest;
 import com.eschool.e_school.connessione.RequestSingleton;
 import com.eschool.e_school.elementiBase.Teoria;
@@ -31,11 +29,12 @@ public class Alunno_HomeMateria extends AppCompatActivity {
     private Button btTeoriaMateria,btEserciziMateria;
     //private String url = "http://www.eschooldb.altervista.org/PHP/homeMateria.php";
     private String url = "http://www.eschooldb.altervista.org/PHP/acquisizioneTeoriaEsercizi.php";
-    private String materia,tipologia;
-    private String livello;
+    public static String materia;
+    public static String livello;
     private ListView listContenitore, listaTeoria,listaEsercizi;
     private TextView titolo;
-    private ArrayAdapter adapterEs, adapterTeo;
+    private ArrayAdapter adapterEs;
+    private CustomAdapterRigaTeoria_A adapterTeo;
     private ArrayList<String> lista;
     private ArrayList<Teoria> listObTeoria;
 
@@ -66,15 +65,14 @@ public class Alunno_HomeMateria extends AppCompatActivity {
         //acquisisco i dati delle due listView
         acquisisci();
 
-        listaTeoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listaTeoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent visualizza = new Intent(getApplicationContext(),Alunno_VisualizzatoreFile.class);
-                //visualizza.putExtra("file", file);
+                visualizza.putExtra("file",listObTeoria.get(i).getFile());
                 startActivity(visualizza);
             }
-        });
-
+        });*/
 
         /*btTeoriaMateria.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,14 +102,6 @@ public class Alunno_HomeMateria extends AppCompatActivity {
             }
         });*/
 
-        listaTeoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent visualizza = new Intent(getApplicationContext(),Alunno_VisualizzatoreFile.class);
-                visualizza.putExtra("file",listObTeoria.get(i).getFile());
-                startActivity(visualizza);
-            }
-        });
     }
 
     /*private class AcquisizioneDati extends AsyncTask<Void,Void,Void> {
@@ -281,7 +271,8 @@ public class Alunno_HomeMateria extends AppCompatActivity {
                             //Log.d("DATI",i+"--"+arrayTeoria.getJSONObject(i).getString("titolo"));*/
                             listTeo.add(t.getTitolo());
                         }
-                        adapterTeo = new ArrayAdapter(getApplicationContext(), R.layout.riga_lista_programma, listTeo);
+                        //adapterTeo = new ArrayAdapter(getApplicationContext(), R.layout.riga_lista_programma, listTeo);
+                        adapterTeo = new CustomAdapterRigaTeoria_A(getApplicationContext(),listObTeoria);
                         listaTeoria.setAdapter(adapterTeo);
                     }
                     if(arrayEsercizi.length() != 0){
