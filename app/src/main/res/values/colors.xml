@@ -11,4 +11,7 @@
     <color name="colorAccent">#5cd2ce</color>
     <color name="coloreTesto">#000000</color>
     <color name="trasparente">#00000000</color>
+
+    <!-- colore errore -->
+    <color name="errore">#b60c0c</color>
 </resources>

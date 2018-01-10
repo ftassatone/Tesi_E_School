@@ -4,31 +4,65 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/logo_250"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="30dp"
+        android:paddingBottom="@dimen/nav_header_vertical_spacing"
         android:layout_gravity="center"
-        android:textStyle="bold"
+        android:textStyle="italic"
         android:textSize="@dimen/textSizeTitolo"
-        android:text="Chi sei?"/>
-
-    <LinearLayout
-        android:id="@+id/linearCheck"
+        android:text="Seleziona utente:"/>
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_weight="0.5"/>
+    <LinearLayout
+        android:id="@+id/linearCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="30dp">
+        android:layout_centerInParent="true">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
-        <RadioGroup
+        <Button
+            android:id="@+id/btAlunno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/alunno"
+            android:background="@color/trasparente"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:text="@string/alunno"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btDocente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/docente"
+            android:layout_weight="1"
+            android:background="@color/trasparente"
+            android:textAllCaps="false"
+            android:text="@string/docente"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <!--RadioGroup
             android:id="@+id/groupRadioUtente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,11 +80,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/alunno"/>
-        </RadioGroup>
+        </RadioGroup-->
 
     </LinearLayout>
-
-    <Button
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"/>
+    <!--Button
         android:id="@+id/btConfermaUtente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,6 +95,6 @@
         android:textAllCaps="false"
         android:layout_marginTop="20dp"
         android:textSize="@dimen/textSizeButton"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"/-->
 
 </LinearLayout>

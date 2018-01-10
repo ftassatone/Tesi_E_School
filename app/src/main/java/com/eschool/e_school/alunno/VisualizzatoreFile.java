@@ -21,7 +21,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +54,8 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
 
     private final static int ID_RICHIESTA_PERMISSION = 0;
     private ImageButton btSucc,btPrec,btPlay,btPausa,btStop;
+    private Button sintetizzatore, mappa;
+    private LinearLayout media, menuSuperiore,contenitore;
     private PDFView pdfView;
     private ProgressBar pb;
     private  Dialog dialog;
@@ -65,7 +69,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
     private String[] frasi;
     private String download_file_path;
     private HashMap<String, String> map;
-    private Boolean controllo = false;
+    private Boolean controllo = false, controlloSint = false;
     private PowerManager pm;
     private PowerManager.WakeLock wl;
 
@@ -88,6 +92,10 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         btPlay = (ImageButton) findViewById(R.id.btPlay);
         btPausa = (ImageButton) findViewById(R.id.btPausa);
         btStop = (ImageButton) findViewById(R.id.btStop);
+        sintetizzatore = (Button) findViewById(R.id.btSintetizzatore);
+        media = (LinearLayout) findViewById(R.id.media);
+        menuSuperiore = (LinearLayout) findViewById(R.id.menuSuperiore);
+        contenitore = (LinearLayout) findViewById(R.id.contenitore);
 
         testoPagine = new ArrayList<>();
         tts = new TextToSpeech(this, this);
@@ -105,6 +113,31 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             showProgress(download_file_path);
             new Download().execute();
         }
+        menuSuperiore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                visualizzaMenu();
+            }
+        });
+
+        contenitore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               visualizzaMenu();
+            }
+        });
+
+        sintetizzatore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                controlloSint = true;
+                if(media.getVisibility() == View.INVISIBLE)
+                    media.setVisibility(View.VISIBLE);
+                else
+                    media.setVisibility(View.INVISIBLE);
+
+            }
+        });
 
         btSucc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -492,5 +525,14 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void visualizzaMenu(){
+        if(controlloSint) {
+            if (media.getVisibility() == View.INVISIBLE)
+                media.setVisibility(View.VISIBLE);
+            else
+                media.setVisibility(View.INVISIBLE);
+        }
     }
 }

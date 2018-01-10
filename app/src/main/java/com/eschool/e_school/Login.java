@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -14,7 +15,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -90,6 +90,7 @@ public class Login extends AppCompatActivity {
             usernameTxt = (EditText) findViewById(R.id.usernameTxtAlunno);
             passwordTxt = (EditText) findViewById(R.id.passwordTxtAlunno);
             btConfermaLogin = (Button) findViewById(R.id.btConfermaLoginAl);
+            txtCredenzialiErrate = (TextView) findViewById(R.id.txtCredenzialiErrateAl);
             cbRicorda = (CheckBox) findViewById(R.id.cbRicorda);
 
             SharedPreferences credenziali = getSharedPreferences(CRED, MODE_PRIVATE);
@@ -157,9 +158,7 @@ public class Login extends AppCompatActivity {
                 Log.v("LOG", "par " + username + ", " + psw);
             }
         });
-
     }
-
 
     //metodo di login, acquisisce i dati dalle editText e le invia al server,
     // ricevuta la risposta (se esiste o meno l'utenete loggato) reindirizza
@@ -173,68 +172,30 @@ public class Login extends AppCompatActivity {
         if(doc){
             urlLogin = "http://www.eschooldb.altervista.org/PHP/login.php";
             richiesta = new JsonRequest(Request.Method.POST, urlLogin, parametri, new Response.Listener<JSONObject>() {
-
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-                        Log.d("LOG", "sono nel try");
                         JSONArray docente = response.getJSONArray("docente");
-                        Log.d("LOG", "docente "+docente);
-                        pswCifrata = docente.getJSONObject(0).getString("password");
-                        Log.d("LOG", "pswCifrata "+pswCifrata);
-                        pswDecifrata = MyCript.decrypt(pswCifrata);
+                        if(docente.length()!=0) {
+                            pswCifrata = docente.getJSONObject(0).getString("password");
+                            pswDecifrata = MyCript.decrypt(pswCifrata);
+
+                            if(psw.equals(pswDecifrata)){
+                                Intent vai = new Intent(getApplicationContext(),HomeDocente.class);
+                                vai.putExtra("username",username);
+                                startActivity(vai);
+                                finish();
+                            }else  {
+                                credenzialiErrate();
+                            }
+                        }else{
+                            credenzialiErrate();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if(psw.equals(pswDecifrata)){
-                        Intent vai = new Intent(getApplicationContext(),HomeDocente.class);
-                        vai.putExtra("username",username);
-                        startActivity(vai);
-                        finish();
-                    }else{
-                        Log.d("LOG","sono nell'else");
-                        txtCredenzialiErrate.setVisibility(View.VISIBLE);
-                        usernameTxt.setTextColor(Color.RED);
-                        usernameTxt.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                            }
-
-                            @Override
-                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                usernameTxt.setTextColor(Color.BLACK);
-                                usernameTxt.setError(null);
-                            }
-
-                            @Override
-                            public void afterTextChanged(Editable editable) {
-
-                            }
-                        });
-
-                        passwordTxt.setTextColor(Color.RED);
-                        passwordTxt.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                            }
-
-                            @Override
-                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                passwordTxt.setTextColor(Color.BLACK);
-                                passwordTxt.setError(null);
-                            }
-
-                            @Override
-                            public void afterTextChanged(Editable editable) {
-
-                            }
-                        });
-                    }
                 }
             }, new Response.ErrorListener() {
-
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.v("LOG","errore "+ error.toString());
@@ -247,13 +208,41 @@ public class Login extends AppCompatActivity {
 
             }
         else if(al) {
-            urlLogin = "http://www.eschooldb.altervista.org/PHP/loginAlunno.php";
+            //urlLogin = "http://www.eschooldb.altervista.org/PHP/loginAlunno.php";
+            urlLogin = "http://www.eschooldb.altervista.org/PHP/logAl.php";
             richiesta = new JsonRequest(Request.Method.POST, urlLogin, parametri, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-                        Log.d("LOG","sono nella richiesta");
+                        JSONArray alunno = response.getJSONArray("alunno");
+                        Log.d("DATI","alunno "+alunno);
+                        if((alunno.length() != 0)){
+                            Log.d("DATI", "---PIENO---");
+                            pswCifrata = alunno.getJSONObject(0).getString("password");
+                            pswDecifrata = MyCript.decrypt(pswCifrata);
+                            if(pswDecifrata.equals(psw)){
+                                if (cbRicorda.isChecked()) {
+                                    SharedPreferences credenziali = getSharedPreferences(CRED, MODE_PRIVATE);
+                                    edit = credenziali.edit();
+                                    edit.putString("username", username);
+                                    edit.putString("password", pswCifrata);
+                                    edit.commit();
+                                }
+                                //TODO da decommentare (controllare nel php quando c'è un errore di connessione)
+                                Intent homeAlunno = new Intent(getApplicationContext(),HomeAlunno.class);
+                                homeAlunno.putExtra("cf", alunno.getJSONObject(0).getString("cf"));
+                                startActivity(homeAlunno);
+                            }else{
+                                Log.d("DATI", "---VUOTO---");
+                                credenzialiErrate();
+                            }
+                        }else{
+                            Log.d("DATI", "---ERRATE---");
+                            credenzialiErrate();
+                        }
+                        /*Log.d("LOG","sono nella richiesta");
                         JSONObject dati = response.getJSONObject("datiAlunno");
+                        Log.d("DATI","alunoo-- "+dati);
                         pswCifrata = dati.getString("password");
                         Log.d("PSW", "pswCifrata "+pswCifrata);
                         pswDecifrata = MyCript.decrypt(pswCifrata);
@@ -271,8 +260,9 @@ public class Login extends AppCompatActivity {
                             homeAlunno.putExtra("cf", dati.getString("cf"));
                             startActivity(homeAlunno);
                         }else{
+                            credenzialiErrate();
                             Toast.makeText(getApplicationContext(), "Non esiste nessun alunno con le credendiali inserite.", Toast.LENGTH_LONG).show();
-                        }
+                        }*/
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -298,6 +288,49 @@ public class Login extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+    }
+
+
+    private void credenzialiErrate(){
+        Log.d("LOG","sono nell'else");
+        txtCredenzialiErrate.setVisibility(View.VISIBLE);
+        usernameTxt.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.errore));
+        usernameTxt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                usernameTxt.setTextColor(Color.BLACK);
+                usernameTxt.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        passwordTxt.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.errore));
+        passwordTxt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                passwordTxt.setTextColor(Color.BLACK);
+                passwordTxt.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
 }

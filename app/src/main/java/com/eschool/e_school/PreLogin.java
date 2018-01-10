@@ -12,19 +12,40 @@ import android.widget.Toast;
 
 public class PreLogin extends AppCompatActivity {
     private RadioButton radioDocente,radioAlunno;
-    private Button btConfermaUtente;
+    private Button btConfermaUtente,btAlunno,btDocente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pre_login);
 
-        radioDocente = (RadioButton) findViewById(R.id.radioDocente);
-        radioAlunno = (RadioButton) findViewById(R.id.radioAlunno);
-        btConfermaUtente = (Button) findViewById(R.id.btConfermaUtente);
+        //radioDocente = (RadioButton) findViewById(R.id.radioDocente);
+        //radioAlunno = (RadioButton) findViewById(R.id.radioAlunno);
+        //btConfermaUtente = (Button) findViewById(R.id.btConfermaUtente);
+
+        btAlunno = (Button) findViewById(R.id.btAlunno);
+        btDocente = (Button) findViewById(R.id.btDocente);
+
+        btAlunno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent vaiLogin = new Intent(getApplicationContext(),Login.class);
+                vaiLogin.putExtra("utente",btAlunno.getText().toString());
+                startActivity(vaiLogin);
+            }
+        });
+
+        btDocente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent vaiLogin = new Intent(getApplicationContext(),Login.class);
+                vaiLogin.putExtra("utente",btDocente.getText().toString());
+                startActivity(vaiLogin);
+            }
+        });
 
 
-        btConfermaUtente.setOnClickListener(new View.OnClickListener() {
+       /* btConfermaUtente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent vaiLogin = new Intent(getApplicationContext(),Login.class);
@@ -39,7 +60,7 @@ public class PreLogin extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
 
 
     }

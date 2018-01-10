@@ -71,6 +71,8 @@
                                         android:layout_width="@dimen/dimenButton"
                                         android:layout_height="wrap_content"
                                         android:text="@string/decrementa"
+                                        android:textStyle="bold"
+                                        android:background="@color/trasparente"
                                         android:layout_marginLeft="@dimen/marginetop"/>
 
                                     <TextView
@@ -84,6 +86,8 @@
                                         android:id="@+id/btIncrementa"
                                         android:layout_width="@dimen/dimenButton"
                                         android:layout_height="wrap_content"
+                                        android:background="@color/trasparente"
+                                        android:textStyle="bold"
                                         android:text="@string/incrementa"/>
 
                                 </LinearLayout>
