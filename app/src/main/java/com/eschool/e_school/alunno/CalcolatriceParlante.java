@@ -16,30 +16,9 @@ import java.util.Locale;
 
 public class CalcolatriceParlante extends Activity implements TextToSpeech.OnInitListener {
 
-    private TextView mDisplay;
-    private TextView mSecondaryDisplay;
-    private TextView mOperatorDisplay;
-    private TextView mMemoryDisplay;
-    private Button mButton1;
-    private Button mButton2;
-    private Button mButton3;
-    private Button mButton4;
-    private Button mButton5;
-    private Button mButton6;
-    private Button mButton7;
-    private Button mButton8;
-    private Button mButton9;
-    private Button mButton0;
-    private Button mButtonPlus;
-    private Button mButtonMinus;
-    private Button mButtonMultiplication;
-    private Button mButtonDivision;
-    private Button mButtonDot;
-    private Button mButtonEqual;
-    private Button mButtonClear;
-    private Button mButtonMemoryClear;
-    private Button mButtonMemorySet;
-    private Button mButtonMemoryRecall;
+    private TextView mDisplay, mSecondaryDisplay,mOperatorDisplay,mMemoryDisplay;
+    private Button mButton1,mButton2,mButton3,mButton4,mButton5,mButton6,mButton7,mButton8,mButton9,mButton0,mButtonPlus, mButtonMinus,
+            mButtonMultiplication,mButtonDivision, mButtonDot, mButtonEqual,mButtonClear,mButtonMemoryClear,mButtonMemorySet,mButtonMemoryRecall;
 
     private Boolean equalJustPressed = false;
     private TextToSpeech tts;
@@ -75,77 +54,6 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
         mButtonMemoryClear =    (Button)this.findViewById(R.id.ButtonMemoryClear);
         mButtonMemorySet =      (Button)this.findViewById(R.id.ButtonMemorySet);
         mButtonMemoryRecall =   (Button)this.findViewById(R.id.ButtonMemoryRecall);
-
-        mButton1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String x = mButton1.getText().toString();
-                updateDisplay('1');
-                leggi(x);
-            }
-        });
-        mButton2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String x = mButton2.getText().toString();
-                updateDisplay('2');
-                leggi(x);
-            }
-        });
-        mButton3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String x = mButton3.getText().toString();
-                updateDisplay('3');
-                leggi(x);
-            }
-        });
-        mButton4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String x = mButton4.getText().toString();
-                updateDisplay('4');
-                leggi(x);
-            }
-        });
-        mButton5.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String x = mButton5.getText().toString();
-                updateDisplay('5');
-                leggi(x);
-            }
-        });
-        mButton6.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String x = mButton6.getText().toString();
-                updateDisplay('6');
-                leggi(x);
-            }
-        });
-        mButton7.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String x = mButton7.getText().toString();
-                updateDisplay('7');
-                leggi(x);
-            }
-        });
-        mButton8.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String x = mButton8.getText().toString();
-                updateDisplay('8');
-                leggi(x);
-            }
-        });
-        mButton9.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String x = mButton9.getText().toString();
-                updateDisplay('9');
-                leggi(x);
-            }
-        });
-        mButton0.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String x = mButton0.getText().toString();
-                updateDisplay('0');
-                leggi(x);
-            }
-        });
 
         mButtonDot.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -256,12 +164,19 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
 
 
     }
-    private void updateDisplay(char digit) {
+    private void updateDisplay(String digit) {
         if (equalJustPressed) {
             mDisplay.setText("");
             equalJustPressed = false;
         }
         mDisplay.setText(mDisplay.getText().toString()+digit);
+    }
+
+    public void calcola(View view){
+        Button button = (Button) view;
+        String x = button.getText().toString();
+        updateDisplay(x);
+        leggi(x);
     }
 
 

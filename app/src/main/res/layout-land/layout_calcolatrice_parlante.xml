@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -124,19 +123,22 @@
                 android:id="@+id/Button1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1" />
+                android:text="1"
+                android:onClick="calcola"/>
 
             <Button
                 android:id="@+id/Button2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2" />
+                android:text="2"
+                android:onClick="calcola"/>
 
             <Button
                 android:id="@+id/Button3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3" />
+                android:text="3"
+                android:onClick="calcola"/>
 
             <Button
                 android:id="@+id/ButtonPlus"
@@ -155,19 +157,22 @@
                 android:id="@+id/Button4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4" />
+                android:text="4"
+                android:onClick="calcola"/>
 
             <Button
                 android:id="@+id/Button5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5" />
+                android:text="5"
+                android:onClick="calcola"/>
 
             <Button
                 android:id="@+id/Button6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="6" />
+                android:text="6"
+                android:onClick="calcola"/>
 
             <Button
                 android:id="@+id/ButtonMinus"
@@ -185,19 +190,22 @@
                 android:id="@+id/Button7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="7" />
+                android:text="7"
+                android:onClick="calcola"/>
 
             <Button
                 android:id="@+id/Button8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8" />
+                android:text="8"
+                android:onClick="calcola"/>
 
             <Button
                 android:id="@+id/Button9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9" />
+                android:text="9"
+                android:onClick="calcola"/>
 
             <Button
                 android:id="@+id/ButtonMultiplication"
@@ -223,7 +231,8 @@
                 android:id="@+id/Button0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0" />
+                android:text="0"
+                android:onClick="calcola"/>
 
             <Button
                 android:id="@+id/ButtonEqual"
