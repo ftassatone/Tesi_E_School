@@ -13,16 +13,17 @@ import android.widget.Toast;
 
 import com.eschool.e_school.R;
 import com.eschool.e_school.alunno.VisualizzatoreFile;
+import com.eschool.e_school.elementiBase.Esercizio;
 import com.eschool.e_school.elementiBase.Teoria;
 
 import java.util.ArrayList;
 
-public class CustomAdapterRigaTeoria_A extends BaseAdapter{
+public class CustomAdapterRigaEsercizi extends BaseAdapter{
     private Context context;
-    private ArrayList<Teoria> lista;
-    private Teoria t;
+    private ArrayList<Esercizio> lista;
+    private Esercizio t;
 
-    public CustomAdapterRigaTeoria_A(Context context, ArrayList<Teoria> lista){
+    public CustomAdapterRigaEsercizi(Context context, ArrayList<Esercizio> lista){
         this.context = context;
         this.lista = lista;
     }
@@ -48,25 +49,24 @@ public class CustomAdapterRigaTeoria_A extends BaseAdapter{
             view = LayoutInflater.from(context).inflate(R.layout.riga_teoria,null);
             TextView nomeFile = view.findViewById(R.id.nomeFile);
             ImageButton btVisualizza = view.findViewById(R.id.visualizzaFile);
-            t = (Teoria) getItem(i);
+            t = (Esercizio) getItem(i);
 
-            nomeFile.setText((i+1) + " - " + t.getTitolo());
+            //nomeFile.setText((i+1) + " - " + t.getTitolo());
 
             btVisualizza.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("DATI","file= "+((Teoria) getItem(i)).getFile().equalsIgnoreCase("null"));
-                    if(!((Teoria) getItem(i)).getFile().equalsIgnoreCase("null")) {
+                   // Log.d("DATI","file= "+((Esercizio) getItem(i)).getFile().equalsIgnoreCase("null"));
+                    /*if(!((Esercizio) getItem(i)).getFile().equalsIgnoreCase("null")) {
                         Log.d("DATI","if");
                         Intent visualizza = new Intent(context, VisualizzatoreFile.class);
-                        //Intent visualizza = new Intent(context, VisualizzatoreFile.class);
                         visualizza.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        visualizza.putExtra("file", ((Teoria) getItem(i)).getFile());
+                        visualizza.putExtra("file", ((Esercizio) getItem(i)).getFile());
                         context.startActivity(visualizza);
                     }else{
                         Log.d("DATI","else");
                         Toast.makeText(context, "File assente.", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                 }
             });
 

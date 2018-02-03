@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.eschool.e_school.DialogDsa;
+import com.eschool.e_school.Dialog.DialogDsa;
 import com.eschool.e_school.MyCript;
 import com.eschool.e_school.R;
 import com.eschool.e_school.connessione.JsonRequest;

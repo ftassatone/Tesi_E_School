@@ -48,9 +48,8 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".docente.Registro"
-            android:label="@string/registro"
-            android:screenOrientation="landscape">
+            android:name=".docente.NuovaPaginaTeoria"
+            android:screenOrientation="landscape" >
         </activity>
 
         <activity
@@ -74,6 +73,7 @@
             android:screenOrientation="landscape"
             android:parentActivityName=".alunno.HomeMateria">
         </activity>
+
     </application>
 
 </manifest>

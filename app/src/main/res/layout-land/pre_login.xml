@@ -37,19 +37,6 @@
             android:layout_weight="1"/>
 
         <Button
-            android:id="@+id/btAlunno"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/alunno"
-            android:background="@color/trasparente"
-            android:textAllCaps="false"
-            android:layout_weight="1"
-            android:text="@string/alunno"/>
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <Button
             android:id="@+id/btDocente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,6 +45,20 @@
             android:background="@color/trasparente"
             android:textAllCaps="false"
             android:text="@string/docente"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btAlunno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/alunno"
+            android:background="@color/trasparente"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:text="@string/alunno"/>
+
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

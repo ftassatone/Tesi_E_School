@@ -1,10 +1,12 @@
-package com.eschool.e_school;
+package com.eschool.e_school.Dialog;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+
+import com.eschool.e_school.R;
 
 import java.util.ArrayList;
 

@@ -6,24 +6,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/marginetop"
+        android:layout_marginBottom="@dimen/marginetop"
+        android:layout_marginLeft="@dimen/marginetop">
+
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_dialog_info"
-            android:layout_marginTop="@dimen/minimoMarginetop"
-            android:layout_marginLeft="@dimen/marginetop"
-            android:layout_marginBottom="@dimen/marginetop"/>
+            android:src="@drawable/school_home"
+            android:layout_marginRight="@dimen/marginetop"/>
 
         <TextView
             android:id="@+id/txtBenvenutoAlunno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/minimoMarginetop"
-            android:layout_marginLeft="@dimen/marginetop"
-            android:layout_marginBottom="@dimen/marginetop"/>
+            android:layout_gravity="center|center_vertical"
+            android:textStyle="italic"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/minimoMarginetop"
+        android:layout_marginBottom="@dimen/minimoMarginetop"
+        android:textStyle="italic"
+        android:textSize="@dimen/textInfo"
+        android:text="Seleziona la materia:"/>
 
     <GridView
         android:id="@+id/grigliaMaterie"

@@ -51,6 +51,7 @@
         android:layout_width="200sp"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
+        android:fontFamily="sans-serif"
         android:maxLines="@integer/numeroRighe"
         android:hint="@string/inserisci"
         android:layout_gravity="center"/>

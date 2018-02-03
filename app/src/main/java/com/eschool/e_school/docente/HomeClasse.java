@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +17,6 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,10 +33,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
-public class HomeClasse extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeClasse extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ListView listViewElencoAlunni, listViewProgramma;
     private String nomeArgomento;
@@ -99,7 +100,6 @@ public class HomeClasse extends AppCompatActivity
                 startActivity(vaiArgo);
             }
         });
-
     }
 
     @Override
@@ -134,16 +134,19 @@ public class HomeClasse extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }*/
 
+    /**
+     * Menù di navigazione laterale
+     * @param item
+     * @return
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.registro) {
-            // Handle the camera action
-        } else if (id == R.id.eserciziSvolti) {
-
+        if (id == R.id.eserciziSvolti) {
+            //TODO da fare
         } else if (id == R.id.homePrincipale) {
             Intent home = new Intent(getApplicationContext(),HomeDocente.class);
             Log.d("LOG", HomeDocente.DOC);
@@ -197,6 +200,7 @@ public class HomeClasse extends AppCompatActivity
                         elencoAlunni.add(alunno);
                         //datiAlunni.add(alunno.getNome() + " " + alunno.getCognome());
                     }
+                    Collections.sort(elencoAlunni, new Ordina());
                     adapterAlunni = new CustomAdapterElenco(getApplicationContext(),elencoAlunni);
                     listViewElencoAlunni.setAdapter(adapterAlunni);
                     //adapterAlunni = new ArrayAdapter<String>(getApplicationContext(), R.layout.layout_riga_elenco, datiAlunni);
@@ -204,7 +208,7 @@ public class HomeClasse extends AppCompatActivity
 
                     JSONArray elencoProgramma = response.getJSONArray("programma");
                     for(int j =0; j < elencoProgramma.length(); j++){
-                        nomeArgomento = elencoProgramma.getJSONObject(j).getString("argomento");
+                        nomeArgomento =elencoProgramma.getJSONObject(j).getString("argomento");
                         programma.add(nomeArgomento);
                     }
                     adapterProgramma = new ArrayAdapter<String>(getApplicationContext(), R.layout.riga_lista_programma, programma);
@@ -228,7 +232,15 @@ public class HomeClasse extends AppCompatActivity
         RequestSingleton.getInstance(this).addToRequestQueue(richiesta);
     }
 
-
+    /**
+     * Ordina la lista di alunni per cognome
+     */
+    public class Ordina implements Comparator<Alunno> {
+        @Override
+        public int compare(Alunno al1, Alunno al2) {
+            return al1.getCognome().compareTo(al2.getCognome());
+        }
+    }
 
 
 }

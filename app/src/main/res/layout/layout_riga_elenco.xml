@@ -8,12 +8,13 @@
         android:id="@+id/nominativo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="n - nome cognome"
         android:layout_alignTop="@+id/imageButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="@dimen/marginetop"
-        android:layout_marginLeft="@dimen/marginetop"/>
+        android:textColor="@color/coloreTesto"
+        android:paddingLeft="@dimen/minimoMarginetop"
+        android:paddingBottom="@dimen/minimoMarginetop"
+        android:paddingTop="@dimen/minimoMarginetop"/>
 
     <ImageButton
         android:background="@color/trasparente"
@@ -24,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="@dimen/marginetop"
-        android:layout_marginTop="@dimen/minimoMarginetop"/>
+        android:paddingBottom="@dimen/minimoMarginetop"
+        android:layout_marginRight="@dimen/marginetop"/>
 
 </RelativeLayout>

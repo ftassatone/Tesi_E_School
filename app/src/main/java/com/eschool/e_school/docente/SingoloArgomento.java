@@ -78,7 +78,8 @@ public class SingoloArgomento extends AppCompatActivity {
         btAperte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent vai = new Intent(getApplicationContext(), NuovaPaginaTeoria.class);
+                startActivity(vai);
             }
         });
         btCaricaFile.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +104,7 @@ public class SingoloArgomento extends AppCompatActivity {
         listViewTeoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+                Log.d("DATI", "cisono");
                 //TODO listener per l'apertura del singolo file di teoria
                 /*Log.d("DATI","path "+listaPath.get(i));
                 //showProgress(listaPath.get(i));

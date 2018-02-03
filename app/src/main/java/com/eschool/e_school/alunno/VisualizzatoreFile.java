@@ -2,7 +2,6 @@ package com.eschool.e_school.alunno;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -32,6 +31,10 @@ import com.eschool.e_school.R;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfArray;
+import com.itextpdf.text.pdf.PdfDictionary;
+import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.shockwave.pdfium.PdfDocument;
@@ -59,19 +62,20 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
     private PDFView pdfView;
     private ProgressBar pb;
     private  Dialog dialog;
-    private int downloadedSize = 0, totalSize = 0, countPlay = 0;
-    private File dir, teoria, pdfFileName;
+    private int downloadedSize = 0, totalSize = 0, countPlay = 0; //countPlay contatore di lettura
+    private File dir, teoria;
     private TextView cur_val;
     private Integer pageNumber = 0;
-    private ArrayList<CharSequence> testoPagine;  //lista del testo per ogni pagina
+    private ArrayList<String> testoPagine;  //lista del testo per ogni pagina
     private TextToSpeech tts;
-    private CharSequence toSpeak, pagina = "";
     private String[] frasi;
     private String download_file_path;
     private HashMap<String, String> map;
-    private Boolean controllo = false, controlloSint = false;
+    private Boolean controllo = false;
+    private Boolean controlloSint = false;  //controlla se il sintetizzatore è stato attivato
     private PowerManager pm;
     private PowerManager.WakeLock wl;
+    private HashMap<String,String> listaImage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,28 +102,29 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         contenitore = (LinearLayout) findViewById(R.id.contenitore);
 
         testoPagine = new ArrayList<>();
-        tts = new TextToSpeech(this, this);
+        listaImage = new HashMap<>();
 
+        tts = new TextToSpeech(this, this);
+        btSucc.setEnabled(false);
+        btPrec.setEnabled(false);
+
+        //ottengo la path del file selezionato
         download_file_path = getIntent().getStringExtra("file");
-        Log.d("DATI", "dowload_file "+download_file_path);
+
         if(download_file_path.equalsIgnoreCase("")){
-            Log.d("DATI", "ottengo2: " + download_file_path);
-            Log.d("DATI", "NULL");
             Toast.makeText(VisualizzatoreFile.this, "Non c'è nulla da scaricare.", Toast.LENGTH_SHORT).show();
         }else {
-            Log.d("DATI", "avvio");
-            Log.d("DATI", "ottengo: " + download_file_path);
-            //visualizza la progressbar e avvia il download
-            showProgress(download_file_path);
-            new Download().execute();
+            showProgress(download_file_path);   //visualizza la progressbar e avvia il download
+            new Download().execute(download_file_path);           //avvio il download
         }
+
+        //permettono di rendere visibile/invisibile il menu per l alettura
         menuSuperiore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 visualizzaMenu();
             }
         });
-
         contenitore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,12 +135,40 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         sintetizzatore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controlloSint = true;
+                controlloSint = true;   //indica che il sintetizzatore è stato cliccato e quindi posso utilizzare il menu lettura
                 if(media.getVisibility() == View.INVISIBLE)
                     media.setVisibility(View.VISIBLE);
                 else
                     media.setVisibility(View.INVISIBLE);
+            }
+        });
 
+        btPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //abilito i pulsati
+                btSucc.setEnabled(true);
+                btPrec.setEnabled(true);
+
+                ottieniRighePagina();   //ottengo la lsita delle righe per pagina
+
+                listenerSitesi();
+                tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
+            }
+        });
+
+        btPausa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tts.stop();
+            }
+        });
+
+        btStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stopSpeech();
+                //wl.release();
             }
         });
 
@@ -143,8 +176,21 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             @Override
             public void onClick(View view) {
                 listenerSitesi();
-
-                tts.speak(frasi[++countPlay], TextToSpeech.QUEUE_FLUSH, null, "messaggioID");
+               /*if( countPlay == frasi.length-1){
+                    if((pageNumber+1) != 1){
+                        //stopSpeech();
+                        //voltaPagina();
+                        Toast.makeText(VisualizzatoreFile.this, "Non ci sono altre pagine--------", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(VisualizzatoreFile.this, "Non ci sono altre pagine", Toast.LENGTH_SHORT).show();
+                    }
+                }else {*/
+                if((countPlay+1)<frasi.length-1) {
+                    tts.speak(frasi[++countPlay], TextToSpeech.QUEUE_FLUSH, null, "messaggioID");
+                }else {
+                    stopSpeech();
+                    voltaPagina();
+                }
             }
         });
 
@@ -161,64 +207,47 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                 }
             }
         });
-
-        btPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btSucc.setEnabled(true);
-                btPrec.setEnabled(true);
-
-                ottieniRighePagina();
-                listenerSitesi();
-
-                tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
-            }
-        });
-
-        btPausa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tts.stop();
-            }
-        });
-
-        btStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stopSpeech();
-                wl.release();
-            }
-        });
-
     }
+
+    /**
+     * Listner legato alla sintesi volcale, gestisce cosa deve succedere all fine della lettura del testo
+     */
     private void listenerSitesi(){
-        map = new HashMap<String, String>();
+
+        map = new HashMap<>();
         map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "messageID");
         tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+
             @Override
             public void onStart(String s) {
-                pm = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
+                /*pm = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
                 wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "lock");
-                wl.acquire(); //Forzo l'accensione dello schermo
+                wl.acquire(); //Forzo l'accensione dello schermo*/
 
             }
 
             @Override
             public void onDone(String s) {
-                if (countPlay < frasi.length - 1) {
+                //if (countPlay < frasi.length - 1) {
                     /*controllo se la posizione all'interno dell'array è piena, nel caso la leggo;
                         altrimenti se la lunghezza della frase è minore o uguale ad uno, vuol dire che sono alla fine della lista delle frasi
                         quindi posso cambiare pagina e continuare a leggere la pagian successiva*/
-                    if (frasi[countPlay + 1].length() > 1) {
+                    //if (frasi[countPlay + 1].length() > 1) {
+                    if((countPlay+1)<frasi.length-1) {
                         tts.speak(frasi[++countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
-                    } else {
+                    }else {
                         stopSpeech();
                         voltaPagina();
                     }
-                }
-                if(!pm.isInteractive()) {
+                   /* } else {
+                        Log.d("INDICI","sto per voltare pagina");
+                        stopSpeech();
+                        voltaPagina();
+                    }*/
+                //}
+                /*if(!pm.isInteractive()) {
                     wl.release();
-                }
+                }*/
             }
 
             @Override
@@ -228,10 +257,17 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         });
     }
 
+    /**
+     * Permette la suddivisione del testo il blocchi in modo da potersi fermare in un punto,
+     * per poi ricominciare a leggere da lì e non dover leggere il pdf dall'inizio
+     * Effetua un controllo su possibili posizioni vuore (blocco di linee bianche) in modo da rendere la lettura e l'avanzamento di frasi
+     * fluido
+     */
     private void ottieniRighePagina() {
         ArrayList<Integer> posVuote = new ArrayList<>();
         String testoPag = (String) testoPagine.get(pageNumber);
-        frasi = testoPag.split("\\n");
+        frasi = testoPag.split("\\n");                          //TODO provare a separare per "."
+        //Log.d("INDICI","frasi "+frasi.length);
         for (int i = 0; i < frasi.length - 1; i++) {
             if (frasi[i].length() == 1) {
                 posVuote.add(i);
@@ -246,73 +282,92 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         }
     }
 
+    /**
+     * Stoppo il tts e azzero il contatore in modo da ricominciare la lettura dall'inizio
+     */
     private void stopSpeech() {
         tts.stop();
         countPlay = 0;
     }
 
+    /**
+     * Permette di voltare pagina e continuare al lettura della pagina successiva
+     * quando la sintesi vocale ha terminato la pagina corrente.
+     */
     private void voltaPagina() {
-        controllo = true;
-        pageNumber = pageNumber + 1;
-        if (pageNumber <= testoPagine.size()) {
+        controllo = true;          //TODO ricorda a cosa serviva!!!
+         pageNumber = pageNumber + 1;
+        //se il numero di pagina in cui mi trovo è <= alla size del testoPagina, vuol dire che essite la pagina da leggere
+        //quindi posso visualizzarla
+        if (pageNumber < testoPagine.size()) {
             pdfView.fromFile(teoria)
                     .defaultPage(pageNumber)
                     .onPageChange(this)
                     .load();
-        }
-        ottieniRighePagina();
 
-        //listenerSitesi();
-        map = new HashMap<String, String>();
-        map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "messageID");
-        tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-            @Override
-            public void onStart(String s) {
-                //do nothing
-            }
+            ottieniRighePagina();   //dopo aver voltato(visualizzato) pagina, acquisisco le righe della nuova pagina
 
-            @Override
-            public void onDone(String s) {
-                controllo = false;
-                if (countPlay < frasi.length - 1) {
-                    countPlay = countPlay + 1;
-                    tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
-                } else {
-                    stopSpeech();
+            //listenerSitesi();
+            //associo al tts il listenr per il controllo della lettura
+            map = new HashMap<String, String>();
+            map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "messageID");
+            tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                @Override
+                public void onStart(String s) {
+                    //do nothing
                 }
-            }
 
-            @Override
-            public void onError(String s) {
-                //do nothing
-            }
-        });
-        tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
-    }
+                @Override
+                public void onDone(String s) {
+                    controllo = false;
+                    if (countPlay < frasi.length - 1) {
+                        countPlay = countPlay + 1;
+                        tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
+                    } else {
+                        stopSpeech();
+                    }
+                }
 
-    @Override
-    public void onInit(int status) {
-        if (status == TextToSpeech.SUCCESS) {
-            int result = tts.setLanguage(Locale.ITALIAN); //impostiamo l'italiano
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.d("LOG", "Mancano i dati vocali: installali per continuare");
-            } else {
-                Log.d("LOG", "giunge qui se tutto va come previsto");
-            }
-        } else {
-            Log.d("LOG", "Il Text To Speech sembra non essere supportato");
+                @Override
+                public void onError(String s) {
+                    //do nothing
+                }
+            });
+            tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
+        }else{
+            stopSpeech();
+            Toast.makeText(VisualizzatoreFile.this, "non ci sono piu pagine da leggere ", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * Visualizza il menu dei pulsanti che permetteranno la lettura del pdf
+     */
+    private void visualizzaMenu(){
+        if(controlloSint) {
+            if (media.getVisibility() == View.INVISIBLE)
+                media.setVisibility(View.VISIBLE);
+            else
+                media.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * Vedi AsyncTask
+     */
     private void ottieniTesto() {
         new OttieniTesto().execute();
     }
 
-    private File downloadFile() {
+    /**
+     * Permette di scaricare il file sul dispositivo
+     * @return file
+     */
+    private File downloadFile(String pathFile) {
 
         try {
             //scarico il file
-            URL url = new URL(download_file_path);
+            URL url = new URL(pathFile);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             urlConnection.setRequestMethod("GET");
@@ -395,8 +450,12 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         return null;
     }
 
+    /**
+     * Visualizzo il file a video
+     * @param x - file da visualizzare
+     */
     private void display(File x) {
-        pdfView.fromFile(x)
+                pdfView.fromFile(x)
                 .defaultPage(pageNumber)
                 .enableSwipe(true)
                 .swipeHorizontal(false)
@@ -406,11 +465,17 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                 .load();
     }
 
+    /**
+     * Al cambiamento della pagina setta il titolo con il numero di pagine lette e da leggere
+     * e nel caso si stia voltando pagina mentre la sistensi è ancora in azione la stoppa
+     * @param page
+     * @param pageCount
+     */
     @Override
     public void onPageChanged(int page, int pageCount) {
         pageNumber = page;
-        setTitle(String.format("%s %s / %s", pdfFileName, page + 1, pageCount));
-        if(tts.isSpeaking() && !controllo) {
+        setTitle(String.format("%s / %s",page + 1, pageCount));
+        if(tts.isSpeaking() && !controllo) {    //stoppa la sintesi al volta pagina
             stopSpeech();
         }
     }
@@ -423,48 +488,107 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
 
     private void printBookmarksTree(List<PdfDocument.Bookmark> tree, String sep) {
         for (PdfDocument.Bookmark b : tree) {
-            Log.e("DATI", String.format("%s %s, p %d", sep, b.getTitle(), b.getPageIdx()));
+            //Log.e("DATI", String.format("%s %s, p %d", sep, b.getTitle(), b.getPageIdx()));
             if (b.hasChildren()) {
                 printBookmarksTree(b.getChildren(), sep + "-");
             }
         }
     }
 
+    /**
+     * Mostra la progressBar durante il download del file
+     * @param file_path
+     */
     private void showProgress(String file_path) {
         dialog = new Dialog(VisualizzatoreFile.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.progressbar_dialog);
         dialog.setTitle("Download Progress");
 
-        TextView text = (TextView) dialog.findViewById(R.id.tv1);
+        TextView text = dialog.findViewById(R.id.tv1);
         text.setText("Downloading file from ... " + file_path);
-        cur_val = (TextView) dialog.findViewById(R.id.cur_pg_tv);
+        cur_val = dialog.findViewById(R.id.cur_pg_tv);
         cur_val.setText("Starting download...");
         dialog.show();
 
-        pb = (ProgressBar) dialog.findViewById(R.id.progress_bar);
+        pb = dialog.findViewById(R.id.progress_bar);
         pb.setProgress(0);
         pb.setProgressDrawable(getResources().getDrawable(R.drawable.layout_progressbar));
     }
 
-    private class Download extends AsyncTask<Void, Void, Void> {
+    /**
+     * AsyncTAck che permette il download del file e l'estrazione del testo
+     * Concluso il download visualizzo il file sul display
+     */
+    private class Download extends AsyncTask<String, Void, File> {
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(File file) {
+            super.onPostExecute(file);
             dialog.dismiss();
-            display(teoria);
+            display(teoria); //visualizzo il file
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            teoria = downloadFile();    //scarico il file
+        protected File doInBackground(String... strings) {
+            teoria = downloadFile(strings[0]);    //scarico il file
+            try {
+                manipulatePdf(teoria.getAbsolutePath()); //ottengo le immgaini presenti nel pdf
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (DocumentException e) {
+                e.printStackTrace();
+            }
             ottieniTesto();             //acquisisco il testo per pagina
-            return null;
+            return teoria;
         }
     }
 
+    /**
+     * Utilizzando la libreria ITEXT riesco a risalire alla struttira del pdf
+     * e sfruttando il metodo "manipulate", rieso ad analizzare elemento per elemento.
+     * Se l'elemento in analisi è una figura, aggiungo nell'HashMap listaImage l'id e il testo alternativo associato all'immagine.
+     * LIMITAZIONE: L'analisi della struttura del pdf è possibilie solo se quest'ultimo è stato creato con la libreria ITEXT
+     * e se è un pdf Tagged, in caso contrario non sarà possiblile accedere alla struttura e all'eventuale presenza di immagini
+     * @param file
+     * @throws IOException
+     * @throws DocumentException
+     */
+    public void manipulatePdf(String file) throws IOException, DocumentException {
+        PdfReader reader = new PdfReader(file);
+        PdfDictionary catalog = reader.getCatalog();
+        //Log.d("DATI", "catalog " + catalog);
+        PdfDictionary structTreeRoot = catalog.getAsDict(PdfName.STRUCTTREEROOT);
+        //Log.d("DATI", "structure " + structTreeRoot);
+        manipulate(structTreeRoot);
+    }
+
+    /**
+     * Permette di analizzare gli elementi del pdf.
+     * Richiamato nel metodo "manipulatePdf"
+     * @param element
+     */
+    public void manipulate(PdfDictionary element) {
+        if (element == null)
+            return;
+        if (PdfName.FIGURE.equals(element.get(PdfName.S))) {
+            listaImage.put("(IMG_"+element.get(PdfName.ID).toString() +")",element.get(PdfName.ALT).toString());
+            //Log.d("DATI", "elemento alt " + element.get(PdfName.ALT));
+        }
+        PdfArray kids = element.getAsArray(PdfName.K);
+        if (kids == null) return;
+        for (int i = 0; i < kids.size(); i++)
+            manipulate(kids.getAsDict(i));
+    }
+
+    /**
+     * AsyncTask che mi permette di estrarre il testo per pagina ed in presenza di immagini nel pdf
+     * sostituuire l'indicazione (IMG_x) con il testo alternativo asssociato, se è presente.
+     * LIMITAZIONE: Ciò è possibile solo se il pdf è stato creato con l'app, poichè alla creazione viene data la possibilità
+     * di associare testo alternativo alle immagini inserite.
+     */
     private class OttieniTesto extends AsyncTask<Void, Void, Void> {
 
+        //finita al'estrazione di testo, posso abilitare i buttun per la lettura
         @Override
         protected void onPostExecute(Void aVoid) {
             btPlay.setEnabled(true);
@@ -476,11 +600,25 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         @Override
         protected Void doInBackground(Void... strings) {
             try {
-                CharSequence parsedText = "";
+                String parsedText = "";
                 PdfReader reader = new PdfReader(download_file_path);
                 int n = reader.getNumberOfPages();
                 for (int i = 0; i < n; i++) {
-                    parsedText = PdfTextExtractor.getTextFromPage(reader, i + 1).trim() + ""; //Extracting the content from the different pages
+                    parsedText = PdfTextExtractor.getTextFromPage(reader, i + 1).trim() + ""; //Estrazione del contenuto di ogni pagina
+                    Log.d("INDICI","-------"+parsedText);
+                    //per ogni immagine(id,testoAlternativo) salvata nell'hashMap listaImage controllo se l'id è presente nel testo
+                    //estratto dalla singola pagina, se è presente sistituisco lo con il testo alternativo associato all'id nell'hashMap
+                    for (int j = 1; j <= listaImage.size();j++) {
+                        String idImg = "(IMG_" +j+")";
+                        if(parsedText.contains(idImg)){
+                            String alt = listaImage.get("(IMG_"+j+")");
+                            if(alt != null) {
+                                parsedText = parsedText.replace(idImg, " " + "immagine " + j + " " + alt);
+                            }
+                        }
+                    }
+
+                    //mi salvo il testo dell asingola nell'arrayList testoPagine
                     testoPagine.add(parsedText);
                 }
                 reader.close();
@@ -491,18 +629,33 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         }
     }
 
+    /**
+     * Listener del TextToSpeech che informa del completamento dell'inizializzazione.
+     * @param status
+     */
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            int result = tts.setLanguage(Locale.ITALIAN); //impostiamo l'italiano
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.d("LOG", "Mancano i dati vocali: installali per continuare");
+            } else {
+                Log.d("LOG", "giunge qui se tutto va come previsto");
+            }
+        } else {
+            Log.d("LOG", "Il Text To Speech sembra non essere supportato");
+        }
+    }
+
     @Override
     protected void onPause() {
-        Log.d("DATI","sono in onPause");
         super.onPause();
+        //stoppo il tts
         tts.stop();
-        //Log.d("DATI", "contatore onPause "+countPlay);
-        //Log.d("DATI", "frase onPause"+ frasi.toString());
     }
 
     @Override
     public void onStop() {
-        Log.d("DATI","sono in onStop");
         super.onStop();
         stopSpeech();
     }
@@ -525,14 +678,5 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void visualizzaMenu(){
-        if(controlloSint) {
-            if (media.getVisibility() == View.INVISIBLE)
-                media.setVisibility(View.VISIBLE);
-            else
-                media.setVisibility(View.INVISIBLE);
-        }
     }
 }

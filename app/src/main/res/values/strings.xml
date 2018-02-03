@@ -51,7 +51,7 @@
 
 
     <!-- form  -->
-    <string name="username">Username</string>
+    <string name="username">Username*</string>
     <string name="pswAlunno">Password</string>
 
     <!-- messaggi di errore o informativi -->
@@ -130,7 +130,7 @@
 
     <!-- sezione alunno -->
     <string name="sezioneEs">Sezione esercizi:</string>
-    <string name="eserciziSvolti">Esercizi svolti</string>
+    <string name="eserciziCorretti">Esercizi corretti</string>
     <string name="eserciziAssegnati">Esercizi asseganti</string>
     <string name="studiamoInsieme">Studiamo insieme:</string>
     <string name="sintesivocale">Sintetizzatore</string>

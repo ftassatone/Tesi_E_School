@@ -14,7 +14,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sezioneEs"
+            android:textSize="@dimen/textInfo"
+            android:layout_marginLeft="@dimen/minimoMarginetop"
             android:layout_gravity="center"/>
+
+        <FrameLayout
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btEserciziMateria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:drawableTop="@drawable/es_assegnati"
+            android:text="@string/eserciziAssegnati"
+            android:textAllCaps="false"
+            android:background="@color/trasparente"/>
 
         <FrameLayout
             android:layout_weight="1"
@@ -25,25 +41,10 @@
             android:id="@+id/btTeoriaMateria"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/eserciziSvolti"
+            android:text="@string/eserciziCorretti"
             android:layout_weight="0.5"
             android:textAllCaps="false"
-            android:drawableTop="@android:drawable/btn_plus"
-            android:background="@color/trasparente"/>
-
-        <FrameLayout
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btEserciziMateria"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:drawableTop="@android:drawable/btn_plus"
-            android:text="@string/eserciziAssegnati"
-            android:textAllCaps="false"
+            android:drawableTop="@drawable/es_corretti"
             android:background="@color/trasparente"/>
 
         <FrameLayout

@@ -88,7 +88,7 @@ public class HomeAlunno extends AppCompatActivity {
                     JSONArray materie = response.getJSONArray("nomeMaterie");
                     arrayMaterie = new ArrayList<>();
                     for(int i=0; i<materie.length(); i++){
-                        txtBenvenutoAlunno.setText(materie.getJSONObject(i).getString("nome"));
+                        txtBenvenutoAlunno.setText("Ciao "+materie.getJSONObject(i).getString("nome"));
                         materia = materie.getJSONObject(i).getString("nomeMateria");
                         livello = String.valueOf(materie.getJSONObject(i).getString("nomeClasse").charAt(0));
                         arrayMaterie.add(materia);

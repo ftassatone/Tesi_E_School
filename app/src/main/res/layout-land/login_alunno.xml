@@ -52,6 +52,7 @@
         android:maxLines="@integer/numeroRighe"
         android:hint="@string/inserisci"
         android:inputType="textPassword"
+        android:fontFamily="sans-serif"
         android:layout_gravity="center"/>
 
     <CheckBox

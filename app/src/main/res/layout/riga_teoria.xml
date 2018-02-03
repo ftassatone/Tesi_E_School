@@ -2,18 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/minimoMarginetop">
+    android:layout_marginBottom="@dimen/minimoMarginetop"
+    >
 
     <TextView
         android:id="@+id/nomeFile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="n - nome cognome"
+        android:textColor="@color/coloreTesto"
         android:layout_alignTop="@+id/imageButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="@dimen/marginetop"
-        android:layout_marginLeft="@dimen/marginetop"/>
+        android:paddingLeft="@dimen/minimoMarginetop"
+        android:paddingBottom="@dimen/minimoMarginetop"
+        android:paddingTop="@dimen/minimoMarginetop"/>
 
     <ImageButton
         android:id="@+id/visualizzaFile"
@@ -24,7 +26,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="@dimen/marginetop"
-        android:layout_marginTop="@dimen/minimoMarginetop"/>
+        android:paddingBottom="@dimen/minimoMarginetop"
+        android:layout_marginRight="@dimen/marginetop"/>
 
 </RelativeLayout>

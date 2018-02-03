@@ -28,7 +28,6 @@ public class CustomAdapterElenco extends BaseAdapter{
         this.context = context;
     }
 
-
     @Override
     public int getCount() {
         return lista.size();
@@ -49,11 +48,11 @@ public class CustomAdapterElenco extends BaseAdapter{
         if (view == null)
         {
             view = LayoutInflater.from(context).inflate(R.layout.layout_riga_elenco, null);
-            TextView nominativo = (TextView) view.findViewById(R.id.nominativo);
-            ImageButton bt = (ImageButton) view.findViewById(R.id.visualizza);
+            TextView nominativo = view.findViewById(R.id.nominativo);
+            ImageButton bt = view.findViewById(R.id.visualizza);
 
             al = (Alunno) getItem(i) ;
-            nominativo.setText((i+1)+". - "+al.getNome() +" "+ al.getCognome());
+            nominativo.setText((i+1)+". "+al.getCognome()+" "+ al.getNome());
             view.setTag(i);
 
             bt.setOnClickListener(new View.OnClickListener() {
@@ -68,5 +67,4 @@ public class CustomAdapterElenco extends BaseAdapter{
         }
         return view;
     }
-
 }

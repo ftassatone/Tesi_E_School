@@ -2,16 +2,15 @@ package com.eschool.e_school.elementiBase;
 
 public class Teoria {
     private int codiceTeoria;
-    private String argomento,titolo,testo, livello, codiceMateria,dataCreazione, file, nomeMateria;
+    private String argomento,titolo,livello, codiceMateria,dataCreazione, file, nomeMateria;
     private Boolean sintetizzatore,microfono,riscontroLettura;
 
-    public Teoria(int codiceTeoria, String argomento, String titolo, String testo,Boolean sintetizzatore,
+    public Teoria(int codiceTeoria, String argomento, String titolo,Boolean sintetizzatore,
                   Boolean microfono, Boolean riscontroLettura, String livello,String dataCreazione,
                   String codiceMateria, String fileTeoria, String nomeMateria) {
         this.codiceTeoria = codiceTeoria;
         this.argomento = argomento;
         this.titolo = titolo;
-        this.testo = testo;
         this.livello = livello;
         this.codiceMateria = codiceMateria;
         this.dataCreazione = dataCreazione;
@@ -43,14 +42,6 @@ public class Teoria {
 
     public void setTitolo(String titolo) {
         this.titolo = titolo;
-    }
-
-    public String getTesto() {
-        return testo;
-    }
-
-    public void setTesto(String testo) {
-        this.testo = testo;
     }
 
     public String getLivello() {
@@ -111,7 +102,6 @@ public class Teoria {
                 "codiceTeoria=" + codiceTeoria +
                 ", argomento='" + argomento + '\'' +
                 ", titolo='" + titolo + '\'' +
-                ", testo='" + testo + '\'' +
                 ", livello='" + livello + '\'' +
                 ", codiceMateria='" + codiceMateria + '\'' +
                 ", dataCreazione='" + dataCreazione + '\'' +

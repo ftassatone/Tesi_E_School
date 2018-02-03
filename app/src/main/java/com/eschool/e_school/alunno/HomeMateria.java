@@ -20,6 +20,7 @@ import com.eschool.e_school.R;
 import com.eschool.e_school.adapter.CustomAdapterRigaTeoria_A;
 import com.eschool.e_school.connessione.JsonRequest;
 import com.eschool.e_school.connessione.RequestSingleton;
+import com.eschool.e_school.elementiBase.Esercizio;
 import com.eschool.e_school.elementiBase.Teoria;
 
 import org.json.JSONArray;
@@ -41,6 +42,7 @@ public class HomeMateria extends AppCompatActivity {
     private CustomAdapterRigaTeoria_A adapterTeo;
     private ArrayList<String> lista;
     private ArrayList<Teoria> listObTeoria;
+    private ArrayList<Esercizio> listObEsercizio;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,32 +101,50 @@ public class HomeMateria extends AppCompatActivity {
                                 riscontroLettura= true;
                             }
                             Teoria t = new Teoria(arrayTeoria.getJSONObject(i).getInt("codiceTeoria"),arrayTeoria.getJSONObject(i).getString("argomento"),
-                                    arrayTeoria.getJSONObject(i).getString("titolo"),arrayTeoria.getJSONObject(i).getString("testo"),
-                                    sintetizzatore,microfono,riscontroLettura,arrayTeoria.getJSONObject(i).getString("livello"),
+                                    arrayTeoria.getJSONObject(i).getString("titolo"),sintetizzatore,microfono,riscontroLettura,arrayTeoria.getJSONObject(i).getString("livello"),
                                     arrayTeoria.getJSONObject(i).getString("dataCreazione"),arrayTeoria.getJSONObject(i).getString("codiceMateria"),
                                     arrayTeoria.getJSONObject(i).getString("fileTeoria"),arrayTeoria.getJSONObject(i).getString("nomeMateria"));
                             listObTeoria.add(t);
                             listTeo.add(t.getTitolo());
                         }
                         //adapterTeo = new ArrayAdapter(getApplicationContext(), R.layout.riga_lista_programma, listTeo);
+                        Log.d("DATI","titoli: "+listObTeoria);
                         adapterTeo = new CustomAdapterRigaTeoria_A(getApplicationContext(),listObTeoria);
                         listaTeoria.setAdapter(adapterTeo);
                     }
                     if(arrayEsercizi.length() != 0){
                         for(int i = 0; i<arrayEsercizi.length();i++){
                             listEs.add(arrayEsercizi.getJSONObject(i).getString("codice")+" - "+arrayEsercizi.getJSONObject(i).getString("argomento"));
-                        }
+                            /*Boolean sintetizzatore = false, microfono = false, riscontroLettura = false;
+                            if(arrayEsercizi.getJSONObject(i).getString("sintetizzatore").toString() == "1"){
+                                sintetizzatore = true;
+                            }
+                            if(arrayEsercizi.getJSONObject(i).getString("microfono").toString() == "1"){
+                                microfono = true;
+                            }
+                            if(arrayEsercizi.getJSONObject(i).getString("riscontroLettura").toString() == "1"){
+                                riscontroLettura= true;
+                            }
+                            Esercizio es = new Esercizio(arrayEsercizi.getJSONObject(i).getInt("codice"),arrayEsercizi.getJSONObject(i).getInt("voto"),
+                                    arrayEsercizi.getJSONObject(i).getInt("numeroErrori"),arrayEsercizi.getJSONObject(i).getInt("codiceTeoria"),
+                                    arrayEsercizi.getJSONObject(i).getString("descrizione"),arrayEsercizi.getJSONObject(i).getString("livello"),
+                                    arrayEsercizi.getJSONObject(i).getString("opzioneRisposta"), arrayEsercizi.getJSONObject(i).getString("dataCreazione"),
+                                    sintetizzatore, riscontroLettura,microfono);
+                            listObEsercizio.add(es);*/
+                            }
+
+
                         adapterEs = new ArrayAdapter(getApplicationContext(), R.layout.riga_lista_programma, listEs);
                         listaEsercizi.setAdapter(adapterEs);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                        e.printStackTrace();
+                    }
                 }
-            }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("DATI","err");
+                error.printStackTrace();
             }
         });
         Log.d("DATI","fuori");
