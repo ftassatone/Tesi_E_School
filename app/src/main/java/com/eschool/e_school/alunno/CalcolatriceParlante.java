@@ -79,8 +79,7 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
 
         mButtonMinus.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String x = mButtonMinus.getText().toString();
-                leggi(x);
+                leggi("meno");
                 mSecondaryDisplay.setText(mDisplay.getText().toString());
                 mOperatorDisplay.setText("-");
                 mDisplay.setText("");
@@ -89,8 +88,7 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
 
         mButtonMultiplication.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String x = mButtonMultiplication.getText().toString();
-                leggi(x);
+                leggi("per");
                 mSecondaryDisplay.setText(mDisplay.getText().toString());
                 mOperatorDisplay.setText("*");
                 mDisplay.setText("");
@@ -99,8 +97,7 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
 
         mButtonDivision.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String x = mButtonDivision.getText().toString();
-                leggi(x);
+                leggi("diviso");
                 mSecondaryDisplay.setText(mDisplay.getText().toString());
                 mOperatorDisplay.setText("/");
                 mDisplay.setText("");
@@ -109,8 +106,7 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
 
         mButtonEqual.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String x = mButtonEqual.getText().toString();
-                leggi(x);
+                leggi("il risultato è");
                 float op1 = Float.parseFloat(mSecondaryDisplay.getText().toString());
                 float op2 = Float.parseFloat(mDisplay.getText().toString());
                 float res = 0;
@@ -130,8 +126,7 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
 
         mButtonClear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String x = mButtonClear.getText().toString();
-                leggi(x);
+                leggi("cancella");
                 mSecondaryDisplay.setText("");
                 mOperatorDisplay.setText("");
                 mDisplay.setText("");
@@ -140,24 +135,21 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
 
         mButtonMemorySet.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String x = mButtonMemorySet.getText().toString();
-                leggi(x);
+                leggi("aggiungi alla memoria");
                 mMemoryDisplay.setText(mDisplay.getText().toString());
             }
         });
 
         mButtonMemoryRecall.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String x = mButtonMemoryRecall.getText().toString();
-                leggi(x);
+                leggi("Richiama dati in memoria");
                 mDisplay.setText(mMemoryDisplay.getText().toString());
             }
         });
 
         mButtonMemoryClear.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String x = mButtonMemoryClear.getText().toString();
-                leggi(x);
+                leggi("Cancella memoria");
                 mMemoryDisplay.setText("");
             }
         });
