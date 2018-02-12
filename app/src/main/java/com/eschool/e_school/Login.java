@@ -215,9 +215,7 @@ public class Login extends AppCompatActivity {
                 public void onResponse(JSONObject response) {
                     try {
                         JSONArray alunno = response.getJSONArray("alunno");
-                        Log.d("DATI","alunno "+alunno);
                         if((alunno.length() != 0)){
-                            Log.d("DATI", "---PIENO---");
                             pswCifrata = alunno.getJSONObject(0).getString("password");
                             pswDecifrata = MyCript.decrypt(pswCifrata);
                             if(pswDecifrata.equals(psw)){
@@ -228,7 +226,6 @@ public class Login extends AppCompatActivity {
                                     edit.putString("password", pswCifrata);
                                     edit.commit();
                                 }
-                                //TODO da decommentare (controllare nel php quando c'è un errore di connessione)
                                 Intent homeAlunno = new Intent(getApplicationContext(),HomeAlunno.class);
                                 homeAlunno.putExtra("cf", alunno.getJSONObject(0).getString("cf"));
                                 startActivity(homeAlunno);

@@ -3,10 +3,8 @@ package com.eschool.e_school.elementiBase;
 public class Teoria {
     private int codiceTeoria;
     private String argomento,titolo,livello, codiceMateria,dataCreazione, file, nomeMateria;
-    private Boolean sintetizzatore,microfono,riscontroLettura;
 
-    public Teoria(int codiceTeoria, String argomento, String titolo,Boolean sintetizzatore,
-                  Boolean microfono, Boolean riscontroLettura, String livello,String dataCreazione,
+    public Teoria(int codiceTeoria, String argomento, String titolo,String livello,String dataCreazione,
                   String codiceMateria, String fileTeoria, String nomeMateria) {
         this.codiceTeoria = codiceTeoria;
         this.argomento = argomento;
@@ -14,9 +12,6 @@ public class Teoria {
         this.livello = livello;
         this.codiceMateria = codiceMateria;
         this.dataCreazione = dataCreazione;
-        this.sintetizzatore = sintetizzatore;
-        this.microfono = microfono;
-        this.riscontroLettura = riscontroLettura;
         this.file = fileTeoria;
         this.nomeMateria = nomeMateria;
     }
@@ -68,30 +63,6 @@ public class Teoria {
         this.dataCreazione = dataCreazione;
     }
 
-    public Boolean getSintetizzatore() {
-        return sintetizzatore;
-    }
-
-    public void setSintetizzatore(Boolean sintetizzatore) {
-        this.sintetizzatore = sintetizzatore;
-    }
-
-    public Boolean getMicrofono() {
-        return microfono;
-    }
-
-    public void setMicrofono(Boolean microfono) {
-        this.microfono = microfono;
-    }
-
-    public Boolean getRiscontroLettura() {
-        return riscontroLettura;
-    }
-
-    public void setRiscontroLettura(Boolean riscontroLettura) {
-        this.riscontroLettura = riscontroLettura;
-    }
-
     public String getFile() {
         return file;
     }
@@ -107,9 +78,6 @@ public class Teoria {
                 ", dataCreazione='" + dataCreazione + '\'' +
                 ", file='" + file + '\'' +
                 ", nomeMateria='" + nomeMateria + '\'' +
-                ", sintetizzatore=" + sintetizzatore +
-                ", microfono=" + microfono +
-                ", riscontroLettura=" + riscontroLettura +
                 '}';
     }
 }

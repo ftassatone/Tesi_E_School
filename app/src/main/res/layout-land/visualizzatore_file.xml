@@ -46,13 +46,13 @@
             android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/btMappa"
+            android:id="@+id/btCal"
             android:layout_weight="0.5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/trasparente"
             android:layout_gravity="center"
-            android:text="@string/mappa"
+            android:text="@string/calcolatrice"
             android:textAllCaps="false"
             android:drawableTop="@android:drawable/btn_star_big_on"/>
 
@@ -74,7 +74,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="invisible">
+        android:visibility="visible">
+
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

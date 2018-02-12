@@ -1,7 +1,11 @@
 package com.eschool.e_school;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,11 +17,18 @@ import android.widget.Toast;
 public class PreLogin extends AppCompatActivity {
     private RadioButton radioDocente,radioAlunno;
     private Button btConfermaUtente,btAlunno,btDocente;
+    int ID_RICHIESTA_PERMISSION = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pre_login);
+
+        //permessi
+        int statoPermissionWrite = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (statoPermissionWrite == PackageManager.PERMISSION_DENIED ) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ID_RICHIESTA_PERMISSION);
+        }
 
         //radioDocente = (RadioButton) findViewById(R.id.radioDocente);
         //radioAlunno = (RadioButton) findViewById(R.id.radioAlunno);

@@ -146,7 +146,7 @@ public class HomeClasse extends AppCompatActivity implements NavigationView.OnNa
         int id = item.getItemId();
 
         if (id == R.id.eserciziSvolti) {
-            //TODO da fare
+            startActivity(new Intent(getApplicationContext(),SingoloArgomento.class));
         } else if (id == R.id.homePrincipale) {
             Intent home = new Intent(getApplicationContext(),HomeDocente.class);
             Log.d("LOG", HomeDocente.DOC);
@@ -156,7 +156,6 @@ public class HomeClasse extends AppCompatActivity implements NavigationView.OnNa
         } else if(id == R.id.sezOpzioniDsa){
             //TODO passare alla sezione opzioni dsa
             //startActivity(new Intent(getApplicationContext(),SezioneOpzDsa.class));
-            startActivity(new Intent(getApplicationContext(),SingoloArgomento.class));
         }else if (id == R.id.impostazioni) {
             //TODO passare ad impostazioni
         } else if (id == R.id.logout) {

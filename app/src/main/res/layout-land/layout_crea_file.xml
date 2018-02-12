@@ -17,7 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="aggiungi titolo"/>
+            android:textAllCaps="false"
+            android:text="Aggiungi testo"/>
         <!--Button
             android:id="@+id/btSottotitolo"
             android:layout_width="wrap_content"
@@ -35,7 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="aggiungi immagine"/>
+            android:textAllCaps="false"
+            android:text="Aggiungi immagine"/>
 
     </LinearLayout>
 
@@ -52,11 +54,49 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="corpo"/-->
-    <EditText
-        android:id="@+id/editNome"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="NomeFile"/>
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inserire nome documento:"/>
+
+            <EditText
+                android:id="@+id/editNome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="NomeFile"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inserire argomento trattato:"/>
+
+            <EditText
+                android:id="@+id/editArgomento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="NomeFile"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/content"

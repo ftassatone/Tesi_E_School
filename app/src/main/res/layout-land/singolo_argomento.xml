@@ -89,7 +89,7 @@
                     android:id="@+id/btMultiple"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/aperte"
+                    android:text="@string/multiple"
                     android:textAllCaps="false"
                     android:layout_weight="1"/>
 
@@ -97,7 +97,7 @@
                     android:id="@+id/btAperte"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/multiple"
+                    android:text="@string/aperte"
                     android:textAllCaps="false"
                     android:layout_weight="1"/>
 

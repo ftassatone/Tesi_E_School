@@ -90,18 +90,9 @@ public class HomeMateria extends AppCompatActivity {
                     Log.d("DATI","arrayT- "+arrayTeoria);
                     if(arrayTeoria.length() != 0){
                         for(int i = 0; i<arrayTeoria.length();i++){
-                            Boolean sintetizzatore = false, microfono = false, riscontroLettura = false;
-                            if(arrayTeoria.getJSONObject(i).getString("sintetizzatore").toString() == "1"){
-                                sintetizzatore = true;
-                            }
-                            if(arrayTeoria.getJSONObject(i).getString("microfono").toString() == "1"){
-                                microfono = true;
-                            }
-                            if(arrayTeoria.getJSONObject(i).getString("riscontroLettura").toString() == "1"){
-                                riscontroLettura= true;
-                            }
+
                             Teoria t = new Teoria(arrayTeoria.getJSONObject(i).getInt("codiceTeoria"),arrayTeoria.getJSONObject(i).getString("argomento"),
-                                    arrayTeoria.getJSONObject(i).getString("titolo"),sintetizzatore,microfono,riscontroLettura,arrayTeoria.getJSONObject(i).getString("livello"),
+                                    arrayTeoria.getJSONObject(i).getString("titolo"),arrayTeoria.getJSONObject(i).getString("livello"),
                                     arrayTeoria.getJSONObject(i).getString("dataCreazione"),arrayTeoria.getJSONObject(i).getString("codiceMateria"),
                                     arrayTeoria.getJSONObject(i).getString("fileTeoria"),arrayTeoria.getJSONObject(i).getString("nomeMateria"));
                             listObTeoria.add(t);

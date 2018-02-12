@@ -44,8 +44,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            >
+            android:paddingTop="20dp">
 
             <TextView
                 android:id="@+id/calcdisplay"
@@ -59,8 +58,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            >
+            android:paddingTop="20dp">
 
             <TextView
                 android:id="@+id/memoryTitle"

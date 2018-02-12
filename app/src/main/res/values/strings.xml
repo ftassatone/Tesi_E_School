@@ -134,7 +134,8 @@
     <string name="eserciziAssegnati">Esercizi asseganti</string>
     <string name="studiamoInsieme">Studiamo insieme:</string>
     <string name="sintesivocale">Sintetizzatore</string>
-    <string name="mappa">Mappa</string>
+    <string name="calcolatrice">Calcolatrice</string>
+    <string name="label_speech_speed">Velocità di riproduzione</string>
 
 
 

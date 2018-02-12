@@ -2,6 +2,7 @@ package com.eschool.e_school.alunno;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -57,7 +58,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
 
     private final static int ID_RICHIESTA_PERMISSION = 0;
     private ImageButton btSucc,btPrec,btPlay,btPausa,btStop;
-    private Button sintetizzatore, mappa;
+    private Button sintetizzatore, cal;
     private LinearLayout media, menuSuperiore,contenitore;
     private PDFView pdfView;
     private ProgressBar pb;
@@ -71,7 +72,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
     private String[] frasi;
     private String download_file_path;
     private HashMap<String, String> map;
-    private Boolean controllo = false;
+    private Boolean controllo = false, controlloTesto = false;
     private Boolean controlloSint = false;  //controlla se il sintetizzatore è stato attivato
     private PowerManager pm;
     private PowerManager.WakeLock wl;
@@ -85,9 +86,11 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         //permessi
         int statoPermissionWrite = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int statoPermissionRead = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        if (statoPermissionWrite == PackageManager.PERMISSION_DENIED || statoPermissionRead == PackageManager.PERMISSION_DENIED) {
+        int statoPermissionLock = ContextCompat.checkSelfPermission(this, Manifest.permission.WAKE_LOCK);
+        if (statoPermissionWrite == PackageManager.PERMISSION_DENIED || statoPermissionRead == PackageManager.PERMISSION_DENIED || statoPermissionLock == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ID_RICHIESTA_PERMISSION);
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, ID_RICHIESTA_PERMISSION);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WAKE_LOCK}, ID_RICHIESTA_PERMISSION);
         }
 
         pdfView = (PDFView) findViewById(R.id.pdfView);
@@ -97,6 +100,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         btPausa = (ImageButton) findViewById(R.id.btPausa);
         btStop = (ImageButton) findViewById(R.id.btStop);
         sintetizzatore = (Button) findViewById(R.id.btSintetizzatore);
+        cal = (Button) findViewById(R.id.btCal);
         media = (LinearLayout) findViewById(R.id.media);
         menuSuperiore = (LinearLayout) findViewById(R.id.menuSuperiore);
         contenitore = (LinearLayout) findViewById(R.id.contenitore);
@@ -118,6 +122,12 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             new Download().execute(download_file_path);           //avvio il download
         }
 
+        cal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),CalcolatriceParlante.class));
+            }
+        });
         //permettono di rendere visibile/invisibile il menu per l alettura
         menuSuperiore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,17 +156,13 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         btPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //abilito i pulsati
                 btSucc.setEnabled(true);
                 btPrec.setEnabled(true);
-
                 ottieniRighePagina();   //ottengo la lsita delle righe per pagina
-
                 listenerSitesi();
                 tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
             }
         });
-
         btPausa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,23 +174,13 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             @Override
             public void onClick(View view) {
                 stopSpeech();
-                //wl.release();
+                wl.release();
             }
         });
-
         btSucc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listenerSitesi();
-               /*if( countPlay == frasi.length-1){
-                    if((pageNumber+1) != 1){
-                        //stopSpeech();
-                        //voltaPagina();
-                        Toast.makeText(VisualizzatoreFile.this, "Non ci sono altre pagine--------", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(VisualizzatoreFile.this, "Non ci sono altre pagine", Toast.LENGTH_SHORT).show();
-                    }
-                }else {*/
                 if((countPlay+1)<frasi.length-1) {
                     tts.speak(frasi[++countPlay], TextToSpeech.QUEUE_FLUSH, null, "messaggioID");
                 }else {
@@ -193,12 +189,10 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                 }
             }
         });
-
         btPrec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listenerSitesi();
-
                 if (countPlay >= 1) {
                     countPlay = countPlay - 1;
                     tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messaggioID");
@@ -220,9 +214,9 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
 
             @Override
             public void onStart(String s) {
-                /*pm = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
+                pm = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
                 wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "lock");
-                wl.acquire(); //Forzo l'accensione dello schermo*/
+                wl.acquire(); //Forzo l'accensione dello schermo
 
             }
 
@@ -266,7 +260,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
     private void ottieniRighePagina() {
         ArrayList<Integer> posVuote = new ArrayList<>();
         String testoPag = (String) testoPagine.get(pageNumber);
-        frasi = testoPag.split("\\n");                          //TODO provare a separare per "."
+        frasi = testoPag.split("\\n");
         //Log.d("INDICI","frasi "+frasi.length);
         for (int i = 0; i < frasi.length - 1; i++) {
             if (frasi[i].length() == 1) {
@@ -389,7 +383,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             //File SDCardRoot = Environment.getExternalStorageDirectory();
             //Log.d("DATI", "memorizzo qui " + dir);
             //create a new file, to save the downloaded file
-            File file = new File(dir, "teoria.pdf");
+            File file = new File(dir, "eschool_teoria.pdf");
 
             FileOutputStream fileOutput = new FileOutputStream(file);
 
@@ -416,6 +410,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                     public void run() {
                         pb.setProgress(downloadedSize);
                         float per = ((float) downloadedSize / totalSize) * 100;
+                        Log.d("PROG","progresso "+per);
                         cur_val.setText("Downloaded " + downloadedSize + "KB / " + totalSize + "KB (" + (int) per + "%)");
                     }
                 });
@@ -524,15 +519,15 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         @Override
         protected void onPostExecute(File file) {
             super.onPostExecute(file);
-            dialog.dismiss();
-            display(teoria); //visualizzo il file
+                dialog.dismiss();
+                display(teoria); //visualizzo il file
         }
 
         @Override
         protected File doInBackground(String... strings) {
             teoria = downloadFile(strings[0]);    //scarico il file
             try {
-                manipulatePdf(teoria.getAbsolutePath()); //ottengo le immgaini presenti nel pdf
+                manipulatePdf(teoria.getAbsolutePath()); //ottengo le immagini presenti nel pdf
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (DocumentException e) {
@@ -556,12 +551,10 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
     public void manipulatePdf(String file) throws IOException, DocumentException {
         PdfReader reader = new PdfReader(file);
         PdfDictionary catalog = reader.getCatalog();
-        //Log.d("DATI", "catalog " + catalog);
         PdfDictionary structTreeRoot = catalog.getAsDict(PdfName.STRUCTTREEROOT);
         //Log.d("DATI", "structure " + structTreeRoot);
         manipulate(structTreeRoot);
     }
-
     /**
      * Permette di analizzare gli elementi del pdf.
      * Richiamato nel metodo "manipulatePdf"
@@ -608,16 +601,21 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                     Log.d("INDICI","-------"+parsedText);
                     //per ogni immagine(id,testoAlternativo) salvata nell'hashMap listaImage controllo se l'id è presente nel testo
                     //estratto dalla singola pagina, se è presente sistituisco lo con il testo alternativo associato all'id nell'hashMap
-                    for (int j = 1; j <= listaImage.size();j++) {
-                        String idImg = "(IMG_" +j+")";
-                        if(parsedText.contains(idImg)){
-                            String alt = listaImage.get("(IMG_"+j+")");
-                            if(alt != null) {
-                                parsedText = parsedText.replace(idImg, " " + "immagine " + j + " " + alt);
+
+                    if(!listaImage.isEmpty()) {
+                        Log.d("DAT","entro");
+                        for (int j = 1; j <= listaImage.size(); j++) {
+                            String idImg = "(IMG_" + j + ")";
+                            if (parsedText.contains(idImg)) {
+                                String alt = listaImage.get("(IMG_" + j + ")");
+                                Log.d("DAT", "alt " + alt);
+                                if (alt != "") {
+                                    parsedText = parsedText.replace(idImg, " " + "immagine " + j + " " + alt);
+                                }
                             }
                         }
+                        Log.d("DATI","testo "+parsedText);
                     }
-
                     //mi salvo il testo dell asingola nell'arrayList testoPagine
                     testoPagine.add(parsedText);
                 }

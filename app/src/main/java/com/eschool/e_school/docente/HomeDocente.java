@@ -71,6 +71,11 @@ public class HomeDocente extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Menu superiore sinistro
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

@@ -53,6 +53,7 @@ public class HomeDocenteFragment extends Fragment {
     private Button btVaiClasse;
     private RadioButton[] rbMat,rbCl;
     private TextView txtBenvenuto;
+    static String materia = null, classe = null;
 
     //private OnFragmentInteractionListener mListener;
 
@@ -64,8 +65,6 @@ public class HomeDocenteFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param
-     * @param
      * @return A new instance of fragment HomeDocenteFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -122,6 +121,8 @@ public class HomeDocenteFragment extends Fragment {
 
                 if(radioClasse != null && radioMateria != null) {
                     Intent vaiHomeClasse = new Intent(getContext(), HomeClasse.class);
+                    materia = radioMateria;
+                    classe = radioClasse;
                     vaiHomeClasse.putExtra("Materia", radioMateria);
                     vaiHomeClasse.putExtra("Classe", radioClasse);
                     startActivity(vaiHomeClasse);

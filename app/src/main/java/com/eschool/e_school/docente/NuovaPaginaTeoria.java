@@ -1,9 +1,7 @@
 package com.eschool.e_school.docente;
 
-import android.Manifest;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,11 +10,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,6 +26,7 @@ import android.widget.Toast;
 
 import com.eschool.e_school.Dialog.DialogAltText;
 import com.eschool.e_school.R;
+import com.eschool.e_school.altervista.ParametriAltervista;
 import com.eschool.e_school.altervista.SaveOnAltervista;
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
@@ -56,42 +54,36 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltText.NoticeDialogListener/*, TextToSpeech.OnInitListener*/ {
-    private EditText titolo,sottotitolo, corpo,nomeF;
-    private final static int ID_RICHIESTA_PERMISSION = 0;
-    private Button btCreaFile;
-    private Button newTitolo, newSottotitolo, newCorpo, newImage,btTesto;
+public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltText.NoticeDialogListener {
+
+    private EditText argomento,nomeF;
+    private Button newTitolo, newImage;
     private LinearLayout contenitoreTesto;
-    private String path= "/storage/emulated/0/proviamo.pdf";
-    Paragraph paragrafo;
-    ArrayList<Image> listaImage;
-    Document doc;
-    File file;
-    int countImg=0;
-    String alternativeText = "";
-    String fpath;
-    HashMap<String,String> listaAlt;
-    int cont=0;
-    TextToSpeech tts;
+    private Paragraph paragrafo;
+    private ArrayList<Image> listaImage;
+    private Document doc;
+    private File file;
+    private int countImg=0;
+    private String alternativeText = "", fpath;
+    private HashMap<String,String> listaAlt;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_crea_file);
-        //permessi
+
+        /*permessi
         int statoPermissionWrite = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (statoPermissionWrite == PackageManager.PERMISSION_DENIED ) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ID_RICHIESTA_PERMISSION);
+        }*/
 
-        }
         listaAlt = new HashMap<>();
         listaImage = new ArrayList<>();
         nomeF = (EditText) findViewById(R.id.editNome);
         newTitolo = (Button) findViewById(R.id.btTitolo);
-        //newSottotitolo = (Button) findViewById(R.id.btSottotitolo);
-        //newCorpo = (Button) findViewById(R.id.btCorpo);
         newImage = (Button) findViewById(R.id.btImg);
-        //btTesto = (Button) findViewById(R.id.btTesto);
+        argomento = (EditText) findViewById(R.id.editArgomento);
         contenitoreTesto = (LinearLayout) findViewById(R.id.contenitoreTeoria);
 
         //tts = new TextToSpeech(this,this);
@@ -102,18 +94,6 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
                 aggiungiTesto("titolo");
             }
         });
-        /*newSottotitolo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                aggiungiTesto("sottotitolo");
-            }
-        });
-        newCorpo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                aggiungiTesto("corpo");
-            }
-        });*/
 
         newImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +102,6 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
                 startActivityForResult(galleria, 0);
             }
         });
-
     }
 
     /**
@@ -159,7 +138,7 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
            doc.setPageSize(PageSize.A4);
 
             paragrafo = new Paragraph();
-            if(!nomeF.getText().toString().equals("")) {
+            if(!nomeF.getText().toString().equals("") && !argomento.getText().toString().equals("")) {
                 try {
                     fpath = String.valueOf(Environment.getExternalStorageDirectory()) + "/" + nomeF.getText().toString() + ".pdf";
                     Log.d("DATI", "path " + fpath);
@@ -175,7 +154,6 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
                         w.setTagged();
 
                         doc.open();
-                        //w.setPageEvent(new MyFooter());
                         PdfPTable tab = new PdfPTable(1);
                         for (int i = 0; i < contenitoreTesto.getChildCount(); i++) {
                             paragrafo = new Paragraph();
@@ -216,10 +194,28 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
                         doc.add(tab);
                         //doc.add(paragrafo);
                         doc.close();
-                        new SaveOnAltervista().execute(file);       //salvo il file su altervista
+                        ParametriAltervista param = new ParametriAltervista(getApplicationContext(),file,HomeDocenteFragment.materia,HomeDocenteFragment.classe);
+                        new SaveOnAltervista().execute(param);       //salvo il file su altervista
                         Toast.makeText(NuovaPaginaTeoria.this, "Creato!", Toast.LENGTH_SHORT).show();
-                    }else
-                        Toast.makeText(NuovaPaginaTeoria.this, "Non va bene ", Toast.LENGTH_SHORT).show();
+                    }else {
+                        nomeF.setError("File già esistente.");
+                        nomeF.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                nomeF.setError(null);
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable editable) {
+
+                            }
+                        });
+                    }
                 } catch (BadElementException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -228,8 +224,43 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
                     e.printStackTrace();
                 }
 
-            }else
+            }else {
+                nomeF.setError("Inserire nome file.");
+                nomeF.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        nomeF.setError(null);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
+                argomento.setError("Inserire argomento trattato.");
+                argomento.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        argomento.setError(null);
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
                 Toast.makeText(NuovaPaginaTeoria.this, "Dare nome al file!", Toast.LENGTH_SHORT).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -244,39 +275,6 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
         listaAlt.put(path,testoAlt);
 
     }
-
-   /* @Override
-    public void onInit(int status) {
-        if (status == TextToSpeech.SUCCESS) {
-            int result = tts.setLanguage(Locale.ITALIAN); //impostiamo l'italiano
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.d("LOG", "Mancano i dati vocali: installali per continuare");
-            } else {
-                Log.d("LOG", "giunge qui se tutto va come previsto");
-            }
-        } else {
-            Log.d("LOG", "Il Text To Speech sembra non essere supportato");
-        }
-    }*/
-
-    /**
-     * aggiunta del footer
-     */
-    class MyFooter extends PdfPageEventHelper {
-        public void onEndPage(PdfWriter writer, Document document) {
-            Log.d("DATI","hai creato una pagina nuova");
-            PdfContentByte cb = writer.getDirectContent();
-            ColumnText.showTextAligned(cb, Element.ALIGN_CENTER, footer(),(document.right() - document.left()) / 2 + document.leftMargin(),document.bottom()+ 10, 0);
-        }
-        private Paragraph footer(){
-            Font ffont = new Font(Font.FontFamily.UNDEFINED, 5, Font.ITALIC, BaseColor.BLACK);
-            Paragraph p = new Paragraph("_");
-            p.setRole(PdfName.STRUCTELEM);
-            p.setAccessibleAttribute(PdfName.ALT,new PdfString("END"));
-            return p;
-        }
-    }
-
 
     /**
      * metodo che acuisisce lìimmagine selezinata dalla galleria
@@ -330,4 +328,6 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
             }
         };
     }
+
+
 }

@@ -1,8 +1,12 @@
 package com.eschool.e_school.docente;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
@@ -17,11 +21,14 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.eschool.e_school.R;
+import com.eschool.e_school.altervista.ParametriAltervista;
+import com.eschool.e_school.altervista.SaveOnAltervista;
 import com.eschool.e_school.connessione.JsonRequest;
 import com.eschool.e_school.connessione.RequestSingleton;
 import com.eschool.e_school.elementiBase.Esercizio;
@@ -32,11 +39,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SingoloArgomento extends AppCompatActivity {
 
+    final static int FILE_SELECT_CODE= 0;
     private ListView listViewEsercizi,listViewTeoria;
     private Button btMultiple,btAperte,btFile,btCaricaFile;
     private String argo;
@@ -78,14 +88,13 @@ public class SingoloArgomento extends AppCompatActivity {
         btAperte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent vai = new Intent(getApplicationContext(), NuovaPaginaTeoria.class);
-                startActivity(vai);
+                startActivity(new Intent(getApplicationContext(), NuovaPaginaTeoria.class));
             }
         });
         btCaricaFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                showFileChooser();
             }
         });
         btFile.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +106,7 @@ public class SingoloArgomento extends AppCompatActivity {
         btMultiple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getApplicationContext(), NuovaPaginaTeoria.class));
             }
         });
 
@@ -117,6 +126,19 @@ public class SingoloArgomento extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void showFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/pdf");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), FILE_SELECT_CODE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            // Potentially direct the user to the Market with a Dialog
+            Toast.makeText(this, "Please install a File Manager.",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -193,111 +215,53 @@ public class SingoloArgomento extends AppCompatActivity {
         RequestSingleton.getInstance(this).addToRequestQueue(richiesta);
     }
 
-    /*void downloadFile(String path) {
-        File dir;
-        try {
-            URL url = new URL(path);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case FILE_SELECT_CODE:
+                if (resultCode == RESULT_OK) {
+                    // Get the Uri of the selected file
+                    Uri uri = data.getData();
+                    Log.d("DATI", "File Uri: " + uri.toString());
+                   // String path = ottieniPath(uri, getApplicationContext());
+                    Log.d("DATI","Path "+uri.getScheme());
+                    Log.d("DATI","ris  "+ottieniPath(uri));
 
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoOutput(true);
+                    /*}else{
+                        Log.d("DATI", "non c'è");
+                    }*/
+                    // Get the path
 
-            //connect
-            urlConnection.connect();
-            File sdCard;
-            //controllo sulla memeoria esterna
-            //String state = Environment.getExternalStorageState();
-            sdCard = Environment.getExternalStorageDirectory();
-            if (sdCard.exists()) {
-                dir = sdCard;
-                Log.d("DATI", "card");
-            } else {
-                Log.d("DATI", "no card");
-                dir = getDir("prova.pdf", MODE_PRIVATE);
-
-            }
-            //set the path where we want to save the file
-            //File SDCardRoot = Environment.getExternalStorageDirectory();
-            Log.d("DATI", "memorizzo qui " + dir);
-            //create a new file, to save the downloaded file
-            File file = new File(dir, "teoria.pdf");
-
-            FileOutputStream fileOutput = new FileOutputStream(file);
-
-            //Stream used for reading the data from the internet
-            InputStream inputStream = urlConnection.getInputStream();
-
-            totalSize = urlConnection.getContentLength();
-
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    pb.setMax(totalSize);
+                    //Log.d("DATI", "File Path: " + path);
+                    // Get the file instance
+                    // File file = new File(path);
+                    // Initiate the upload
                 }
-            });
-
-            //create a buffer...
-            byte[] buffer = new byte[1024];
-            int bufferLength = 0;
-
-            while ((bufferLength = inputStream.read(buffer)) > 0) {
-                fileOutput.write(buffer, 0, bufferLength);
-                downloadedSize += bufferLength;
-                // update the progressbar //
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        pb.setProgress(downloadedSize);
-                        //per un'eventuale indicazione dei kb scaricati
-                        //float per = ((float) downloadedSize / totalSize) * 100;
-                        //cur_val.setText("Downloaded " + downloadedSize + "KB / " + totalSize + "KB (" + (int) per + "%)");
-                    }
-                });
-            }
-            //close the output stream when complete //
-            fileOutput.close();
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    // pb.dismiss(); // if you want close it..
-                }
-            });
-            if (file.exists()) {
-                Uri pathF = Uri.fromFile(file);
-                Log.d("DATI", String.valueOf(path));
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(pathF, "application/pdf");
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            } else {
-                Log.d("DATI", "non ci sono");
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+                break;
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
-    void showError(final String err){
-        runOnUiThread(new Runnable() {
-            public void run() {
-                Log.d("DATI","errore");
-                Toast.makeText(getApplicationContext(), err, Toast.LENGTH_LONG).show();
+    private String ottieniPath(Uri uri){
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = { "_data" };
+            Cursor cursor = null;
+
+            try {
+                cursor = getContentResolver().query(uri, projection, null, null, null);
+                int column_index = cursor.getColumnIndexOrThrow("_data");
+                if (cursor.moveToFirst()) {
+                    return cursor.getString(column_index);
+                }
+            } catch (Exception e) {
+                // Eat it
             }
-        });
+        }
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            return uri.getPath();
+        }
+
+        return null;
     }
 
-   void showProgress(String file_path){
-        dialog = new Dialog(Docente_SingoloArgomento.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.progressbar);
-        dialog.setTitle("Download Progress");
-        dialog.show();
-
-        pb = (ProgressBar)dialog.findViewById(R.id.progressBar);
-        pb.setProgress(0);
-        pb.setProgressDrawable(getResources().getDrawable(R.drawable.progress_line));
-    }*/
 }
