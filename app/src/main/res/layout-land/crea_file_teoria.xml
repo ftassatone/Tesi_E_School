@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CREA FILE TEORIA"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btTitolo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="aggiungi titolo"/>
+        <!--Button
+            android:id="@+id/btSottotitolo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="aggiungi sottotitolo"/>
+        <Button
+            android:id="@+id/btCorpo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="aggiungi corpo"/-->
+        <Button
+            android:id="@+id/btImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="aggiungi immagine"/>
+        <Button
+            android:id="@+id/btTesto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ottieni testo"/>
+    </LinearLayout>
+
+
+
+    <!--EditText
+        android:id="@+id/editSottoTit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="sottotitolo"/>
+
+    <EditText
+        android:id="@+id/editCorpo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="corpo"/-->
+    <EditText
+        android:id="@+id/editNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="NomeFile"/>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/contenitoreTeoria"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--EditText
+                android:id="@+id/editTitolo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Titolo"/-->
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

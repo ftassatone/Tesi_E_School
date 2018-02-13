@@ -32,11 +32,14 @@ import com.eschool.e_school.R;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfArray;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 import com.shockwave.pdfium.PdfDocument;
 
@@ -158,11 +161,13 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             public void onClick(View view) {
                 btSucc.setEnabled(true);
                 btPrec.setEnabled(true);
-                ottieniRighePagina();   //ottengo la lsita delle righe per pagina
+                ottieniRighePagina(pageNumber);   //ottengo la lsita delle righe per pagina
                 listenerSitesi();
                 tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
             }
         });
+
+
         btPausa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,6 +182,8 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                 wl.release();
             }
         });
+
+
         btSucc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -207,7 +214,6 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
      * Listner legato alla sintesi volcale, gestisce cosa deve succedere all fine della lettura del testo
      */
     private void listenerSitesi(){
-
         map = new HashMap<>();
         map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "messageID");
         tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
@@ -217,31 +223,16 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                 pm = (PowerManager)getApplicationContext().getSystemService(Context.POWER_SERVICE);
                 wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "lock");
                 wl.acquire(); //Forzo l'accensione dello schermo
-
             }
 
             @Override
             public void onDone(String s) {
-                //if (countPlay < frasi.length - 1) {
-                    /*controllo se la posizione all'interno dell'array è piena, nel caso la leggo;
-                        altrimenti se la lunghezza della frase è minore o uguale ad uno, vuol dire che sono alla fine della lista delle frasi
-                        quindi posso cambiare pagina e continuare a leggere la pagian successiva*/
-                    //if (frasi[countPlay + 1].length() > 1) {
-                    if((countPlay+1)<frasi.length-1) {
+                    if((countPlay+1)<frasi.length) {
                         tts.speak(frasi[++countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
                     }else {
                         stopSpeech();
                         voltaPagina();
                     }
-                   /* } else {
-                        Log.d("INDICI","sto per voltare pagina");
-                        stopSpeech();
-                        voltaPagina();
-                    }*/
-                //}
-                /*if(!pm.isInteractive()) {
-                    wl.release();
-                }*/
             }
 
             @Override
@@ -257,11 +248,10 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
      * Effetua un controllo su possibili posizioni vuore (blocco di linee bianche) in modo da rendere la lettura e l'avanzamento di frasi
      * fluido
      */
-    private void ottieniRighePagina() {
+    private void ottieniRighePagina(Integer pagina) {
         ArrayList<Integer> posVuote = new ArrayList<>();
-        String testoPag = (String) testoPagine.get(pageNumber);
+        String testoPag = (String) testoPagine.get(pagina);
         frasi = testoPag.split("\\n");
-        //Log.d("INDICI","frasi "+frasi.length);
         for (int i = 0; i < frasi.length - 1; i++) {
             if (frasi[i].length() == 1) {
                 posVuote.add(i);
@@ -274,10 +264,14 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                 }
             }
         }
+        for(int i =0; i < frasi.length; i++){
+            Log.d("PROG", "-- " +frasi[i]);
+        }
     }
 
     /**
-     * Stoppo il tts e azzero il contatore in modo da ricominciare la lettura dall'inizio
+     * Stoppo il tts e azzero il contatore
+     * in modo da ricominciare la lettura dall'inizio
      */
     private void stopSpeech() {
         tts.stop();
@@ -289,20 +283,13 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
      * quando la sintesi vocale ha terminato la pagina corrente.
      */
     private void voltaPagina() {
-        controllo = true;          //TODO ricorda a cosa serviva!!!
+        controllo = true;
          pageNumber = pageNumber + 1;
-        //se il numero di pagina in cui mi trovo è <= alla size del testoPagina, vuol dire che essite la pagina da leggere
+        //se il numero di pagina in cui mi trovo è <= alla size del testoPagina, vuol dire che esiste la pagina da leggere
         //quindi posso visualizzarla
         if (pageNumber < testoPagine.size()) {
-            pdfView.fromFile(teoria)
-                    .defaultPage(pageNumber)
-                    .onPageChange(this)
-                    .load();
-
-            ottieniRighePagina();   //dopo aver voltato(visualizzato) pagina, acquisisco le righe della nuova pagina
-
-            //listenerSitesi();
-            //associo al tts il listenr per il controllo della lettura
+            pdfView.fromFile(teoria).defaultPage(pageNumber).onPageChange(this).load();
+            ottieniRighePagina(pageNumber);   //dopo aver voltato(visualizzato) pagina, acquisisco le righe della nuova pagina
             map = new HashMap<String, String>();
             map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "messageID");
             tts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
@@ -310,7 +297,6 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                 public void onStart(String s) {
                     //do nothing
                 }
-
                 @Override
                 public void onDone(String s) {
                     controllo = false;
@@ -321,10 +307,8 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                         stopSpeech();
                     }
                 }
-
                 @Override
-                public void onError(String s) {
-                    //do nothing
+                public void onError(String s) {//do nothing
                 }
             });
             tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
@@ -496,6 +480,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
      */
     private void showProgress(String file_path) {
         dialog = new Dialog(VisualizzatoreFile.this);
+        dialog.setCancelable(false);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.progressbar_dialog);
         dialog.setTitle("Download Progress");
@@ -519,8 +504,11 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         @Override
         protected void onPostExecute(File file) {
             super.onPostExecute(file);
-                dialog.dismiss();
-                display(teoria); //visualizzo il file
+            Log.d("POST","ha finito ");
+            //dialog.dismiss();
+            //display(teoria); //visualizzo il file
+            cur_val.setText("Attendi qualche altro secondo... ");
+            ottieniTesto();
         }
 
         @Override
@@ -533,7 +521,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             } catch (DocumentException e) {
                 e.printStackTrace();
             }
-            ottieniTesto();             //acquisisco il testo per pagina
+            //ottieniTesto();             //acquisisco il testo per pagina
             return teoria;
         }
     }
@@ -584,10 +572,12 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         //finita al'estrazione di testo, posso abilitare i buttun per la lettura
         @Override
         protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            dialog.dismiss();
+            display(teoria); //visualizzo il file
             btPlay.setEnabled(true);
             btPausa.setEnabled(true);
             btStop.setEnabled(true);
-            super.onPostExecute(aVoid);
         }
 
         @Override
@@ -677,4 +667,19 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void evidenzia(String src) throws IOException, DocumentException {
+        PdfReader reader = new PdfReader(src);
+        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(src));
+        PdfContentByte canvas = stamper.getUnderContent(1);
+        canvas.saveState();
+        canvas.setColorFill(BaseColor.YELLOW);
+        canvas.rectangle(36, 786, 66, 16);
+        canvas.fill();
+        canvas.restoreState();
+        stamper.close();
+        reader.close();
+    }
+
+
 }
