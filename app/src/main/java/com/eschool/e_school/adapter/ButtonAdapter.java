@@ -2,6 +2,7 @@ package com.eschool.e_school.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import com.eschool.e_school.R;
+import com.eschool.e_school.alunno.HomeAlunno;
 import com.eschool.e_school.alunno.HomeMateria;
 
 import java.util.ArrayList;
@@ -52,6 +54,15 @@ public class ButtonAdapter extends BaseAdapter {
         Button bt = (Button) view.findViewById(R.id.btMateria);
         c= mat.get(i);
         bt.setText(c);
+        bt.setBackgroundColor(context.getColor(R.color.trasparente));
+        bt.setTextColor(Color.BLACK);
+        bt.setBackground(context.getDrawable(R.drawable.button));
+        if(c.equalsIgnoreCase("matematica")){
+            bt.setCompoundDrawablesWithIntrinsicBounds( R.drawable.icona_mate, 0, 0, 0);
+        }else if(c.equalsIgnoreCase("italiano")){
+            bt.setCompoundDrawablesWithIntrinsicBounds( R.drawable.icona_ita, 0, 0, 0);
+        }
+
         final String finalC = c;
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +71,7 @@ public class ButtonAdapter extends BaseAdapter {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("materia", finalC);
                 intent.putExtra("livello",liv);
+                intent.putExtra("alunno", HomeAlunno.al);
                 context.startActivity(intent);
             }
         });

@@ -30,10 +30,12 @@
         <activity
             android:name=".docente.Registrazione"
             android:parentActivityName=".Login"
+            android:label="@string/title_activity_registrazione"
             android:screenOrientation="landscape" >
         </activity>
         <activity
             android:name=".docente.HomeClasse"
+            android:label="@string/homeClasse"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
@@ -44,7 +46,7 @@
         </activity>
         <activity
             android:name=".docente.HomeDocente"
-            android:label="@string/title_activity_home"
+            android:label="@string/title_activity_homeDocente"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
@@ -55,7 +57,7 @@
 
         <activity
             android:name=".alunno.HomeAlunno"
-            android:label="@string/home"
+            android:label="@string/title_activity_homeAlunno"
             android:screenOrientation="landscape">
         </activity>
 

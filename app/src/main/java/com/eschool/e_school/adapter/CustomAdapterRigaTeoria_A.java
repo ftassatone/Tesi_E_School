@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eschool.e_school.R;
+import com.eschool.e_school.alunno.HomeAlunno;
 import com.eschool.e_school.alunno.VisualizzatoreFile;
 import com.eschool.e_school.elementiBase.Teoria;
 
@@ -46,8 +47,9 @@ public class CustomAdapterRigaTeoria_A extends BaseAdapter{
     public View getView(final int i, View view, ViewGroup viewGroup) {
         if(view == null){
             view = LayoutInflater.from(context).inflate(R.layout.riga_teoria,null);
+            //view.setBackground(context.getDrawable(R.drawable.liste));
             TextView nomeFile = view.findViewById(R.id.nomeFile);
-            ImageButton btVisualizza = view.findViewById(R.id.visualizzaFile);
+            final ImageButton btVisualizza = view.findViewById(R.id.visualizzaFile);
             t = (Teoria) getItem(i);
 
             nomeFile.setText((i+1) + " - " + t.getTitolo());
@@ -62,6 +64,8 @@ public class CustomAdapterRigaTeoria_A extends BaseAdapter{
                         //Intent visualizza = new Intent(context, VisualizzatoreFile.class);
                         visualizza.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         visualizza.putExtra("file", ((Teoria) getItem(i)).getFile());
+                        Log.d("ALUNNO","DSA adapter "+HomeAlunno.al.getDsa());
+                        visualizza.putExtra("dsa", HomeAlunno.al.getDsa());
                         context.startActivity(visualizza);
                     }else{
                         Log.d("DATI","else");

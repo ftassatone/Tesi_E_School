@@ -3,13 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/minimoMarginetop"
-    >
+    android:gravity="center_vertical"
+    android:backgroundTint="@android:drawable/screen_background_light_transparent"
+    android:background="@android:drawable/bottom_bar">
 
     <TextView
         android:id="@+id/nomeFile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/coloreTesto"
+        android:textSize="@dimen/textSize"
         android:layout_alignTop="@+id/imageButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

@@ -147,7 +147,7 @@ public class HomeMateria extends AppCompatActivity {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             Intent back = NavUtils.getParentActivityIntent(this);
-            back.putExtra("cf", HomeAlunno.alunno);
+            back.putExtra("alunno", HomeAlunno.al);
             if (NavUtils.shouldUpRecreateTask(this, back)) {
                 TaskStackBuilder.create(this).addNextIntentWithParentStack(back).startActivities();
             } else {

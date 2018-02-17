@@ -6,12 +6,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CREA FILE TEORIA"
+        android:textStyle="bold|italic"
         android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textInfo"
+        android:textStyle="italic"
+        android:text="Indicazioni: inserire il nome del file da creare, successivamente introdurre l'argomento trattato nel file (esempio: operazioni). Infine, utilizzare i pulsanti aggiunti testo ed immagini per creare la struttura del file."/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/btTitolo"
             android:layout_width="wrap_content"
@@ -38,7 +46,6 @@
             android:layout_weight="1"
             android:textAllCaps="false"
             android:text="Aggiungi immagine"/>
-
     </LinearLayout>
 
 

@@ -20,6 +20,7 @@ import com.eschool.e_school.PreLogin;
 import com.eschool.e_school.R;
 import com.eschool.e_school.connessione.JsonRequest;
 import com.eschool.e_school.connessione.RequestSingleton;
+import com.eschool.e_school.elementiBase.Alunno;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,13 +36,12 @@ public class HomeAlunno extends AppCompatActivity {
     private AlertDialog.Builder infoAlert;
     private String url = "http://www.eschooldb.altervista.org/PHP/getMaterieAlunno.php";
     private String materia,livello;
-    public static String alunno;
+    public  String alunno;
+    public static Alunno al;
     private ArrayList<String> arrayMaterie;
     private ArrayAdapter<String> adapterMaterie;
     private ButtonAdapter adapter;
     private ArrayList<Button> listaBt;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +51,10 @@ public class HomeAlunno extends AppCompatActivity {
         grigliaMaterie = (GridView) findViewById(R.id.grigliaMaterie);
         txtBenvenutoAlunno = (TextView) findViewById(R.id.txtBenvenutoAlunno);
         infoAlert = new AlertDialog.Builder(getApplicationContext());
-        alunno = getIntent().getStringExtra("cf");
-
+        //alunno = getIntent().getStringExtra("cf");
+        al = (Alunno) getIntent().getSerializableExtra("alunno");
+        Log.d("ALUNNO","--"+al);
+        txtBenvenutoAlunno.setText("Ciao "+al.getNome());
         connessione();
     }
 
@@ -77,18 +79,16 @@ public class HomeAlunno extends AppCompatActivity {
 
     public void connessione(){
         HashMap<String, String> parametri = new HashMap<String, String>();
-        parametri.put("cf", alunno);
+        parametri.put("cf", al.getCf());
         JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
                 listaBt = new ArrayList<>();
-
                 try {
                     JSONArray materie = response.getJSONArray("nomeMaterie");
                     arrayMaterie = new ArrayList<>();
                     for(int i=0; i<materie.length(); i++){
-                        txtBenvenutoAlunno.setText("Ciao "+materie.getJSONObject(i).getString("nome"));
                         materia = materie.getJSONObject(i).getString("nomeMateria");
                         livello = String.valueOf(materie.getJSONObject(i).getString("nomeClasse").charAt(0));
                         arrayMaterie.add(materia);
@@ -118,4 +118,5 @@ public class HomeAlunno extends AppCompatActivity {
     public void onBackPressed() {
 
     }
+
 }

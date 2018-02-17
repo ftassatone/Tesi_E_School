@@ -38,7 +38,7 @@
             android:background="@color/trasparente"
             android:text="@string/sintesivocale"
             android:textAllCaps="false"
-            android:drawableTop="@android:drawable/ic_btn_speak_now"/>
+            android:drawableTop="@drawable/sintesi"/>
 
         <FrameLayout
             android:layout_weight="0.05"
@@ -76,61 +76,85 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <ImageButton
+                android:background="@drawable/bt_standard"
                 android:id="@+id/btPlay"
                 android:layout_weight="1"
+                android:layout_marginRight="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:src="@android:drawable/ic_media_play"/>
+                android:src="@drawable/play1"/>
 
             <ImageButton
+                android:background="@drawable/bt_standard"
                 android:id="@+id/btPausa"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:enabled="false"
-                android:src="@android:drawable/ic_media_pause"/>
+                android:src="@drawable/pausa1"/>
 
             <ImageButton
+                android:background="@drawable/bt_standard"
                 android:id="@+id/btStop"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:src="@android:drawable/ic_delete"/>
+                android:src="@drawable/stop1"/>
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal">
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <ImageButton
+                android:background="@drawable/bt_standard"
                 android:text="Precendente"
                 android:id="@+id/btPrec"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:enabled="false"
-                android:src="@android:drawable/ic_media_previous"/>
+                android:src="@drawable/prec1"/>
 
             <ImageButton
+                android:background="@drawable/bt_standard"
                 android:id="@+id/btSucc"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:src="@android:drawable/ic_media_next"/>
+                android:src="@drawable/succ1"/>
 
-
+            <FrameLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 

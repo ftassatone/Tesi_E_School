@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/school_home"
+            android:src="@mipmap/home"
             android:layout_marginRight="@dimen/marginetop"/>
 
         <TextView
@@ -24,14 +24,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_vertical"
-            android:textStyle="italic"/>
+            android:textSize="@dimen/textSize"
+            android:textStyle="italic|bold"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/minimoMarginetop"
-        android:layout_marginBottom="@dimen/minimoMarginetop"
+        android:layout_marginBottom="@dimen/marginetop"
         android:textStyle="italic"
         android:textSize="@dimen/textInfo"
         android:text="Seleziona la materia:"/>

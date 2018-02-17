@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin">
     <LinearLayout
         android:id="@+id/linearLayout1"
+        android:background="@drawable/bordo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -20,6 +21,7 @@
         android:paddingBottom="20dp">
 
         <LinearLayout
+            android:id="@+id/sezioneOp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -40,6 +42,32 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/secondarydisplay2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="8"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/operatordisplay2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
+        <View
+            android:id="@+id/linea"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimaryDark"
+            android:layout_height="2dip"
+            android:visibility="visible"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,6 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
+                android:textStyle="bold|italic"
                 android:text="Memory:"
                 android:layout_marginRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -82,167 +111,196 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            >
+            android:paddingTop="5dp">
 
-            <Button
+            <ImageButton
                 android:id="@+id/ButtonClear"
+                android:tag="cancella"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="C" />
-
-            <Button
+                android:background="@color/trasparente"
+                android:src="@drawable/canc"/>
+            <ImageButton
                 android:id="@+id/ButtonMemoryClear"
+                android:tag="cancella memoria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MC" />
-
-            <Button
+                android:background="@color/trasparente"
+                android:src="@drawable/mc"/>
+            <ImageButton
                 android:id="@+id/ButtonMemorySet"
+                android:tag="aggiungi alla memoria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MS" />
+                android:background="@color/trasparente"
+                android:src="@drawable/ms"/>
 
-            <Button
+
+            <ImageButton
                 android:id="@+id/ButtonMemoryRecall"
+                android:tag="richiama dati in memoria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MR" />
+                android:background="@color/trasparente"
+                android:src="@drawable/mr"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="20dp"
-            >
+            android:paddingTop="10dp">
 
-            <Button
+            <ImageButton
                 android:id="@+id/Button1"
+                android:tag="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
+                android:background="@color/trasparente"
+                android:src="@drawable/num1"
                 android:onClick="calcola"/>
-
-            <Button
+            <ImageButton
                 android:id="@+id/Button2"
+                android:tag="2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2"
+                android:background="@color/trasparente"
+                android:src="@drawable/num2"
                 android:onClick="calcola"/>
-
-            <Button
+            <ImageButton
                 android:id="@+id/Button3"
+                android:tag="3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3"
+                android:background="@color/trasparente"
+                android:src="@drawable/num3"
                 android:onClick="calcola"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/ButtonPlus"
+                android:tag="+"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+" />
+                android:background="@color/trasparente"
+                android:src="@drawable/piu"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
-            <Button
+            <ImageButton
                 android:id="@+id/Button4"
+                android:tag="4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4"
+                android:background="@color/trasparente"
+                android:src="@drawable/num4"
                 android:onClick="calcola"/>
-
-            <Button
+            <ImageButton
                 android:id="@+id/Button5"
+                android:tag="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5"
+                android:background="@color/trasparente"
+                android:src="@drawable/num5"
                 android:onClick="calcola"/>
-
-            <Button
+            <ImageButton
                 android:id="@+id/Button6"
+                android:tag="6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="6"
+                android:background="@color/trasparente"
+                android:src="@drawable/num6"
                 android:onClick="calcola"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/ButtonMinus"
+                android:tag="-"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-" />
+                android:background="@color/trasparente"
+                android:src="@drawable/meno"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
-            <Button
+            <ImageButton
                 android:id="@+id/Button7"
+                android:tag="7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="7"
+                android:background="@color/trasparente"
+                android:src="@drawable/num7"
                 android:onClick="calcola"/>
-
-            <Button
+            <ImageButton
                 android:id="@+id/Button8"
+                android:tag="8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8"
+                android:background="@color/trasparente"
+                android:src="@drawable/num8"
                 android:onClick="calcola"/>
-
-            <Button
+            <ImageButton
                 android:id="@+id/Button9"
+                android:tag="9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="9"
+                android:background="@color/trasparente"
+                android:src="@drawable/num9"
                 android:onClick="calcola"/>
 
-            <Button
-                android:id="@+id/ButtonMultiplication"
+            <ImageButton
+                android:id="@+id/ButtonMolt"
+                android:tag="x"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="*" />
-
+                android:background="@color/trasparente"
+                android:src="@drawable/per"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
-            <Button
+            <ImageButton
                 android:id="@+id/ButtonDot"
+                android:tag=","
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="." />
+                android:background="@color/trasparente"
+                android:src="@drawable/punto"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/Button0"
+                android:tag="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:background="@color/trasparente"
+                android:src="@drawable/num0"
                 android:onClick="calcola"/>
 
-            <Button
-                android:id="@+id/ButtonEqual"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="=" />
 
-            <Button
-                android:id="@+id/ButtonDivision"
+            <ImageButton
+                android:id="@+id/ButtonEqual"
+                android:tag="="
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/" />
+                android:background="@color/trasparente"
+                android:src="@drawable/uguale"
+                android:onClick="calcola"/>
+
+            <ImageButton
+                android:id="@+id/ButtonDiv"
+                android:tag="/"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/trasparente"
+                android:src="@drawable/divisione"/>
 
         </LinearLayout>
 

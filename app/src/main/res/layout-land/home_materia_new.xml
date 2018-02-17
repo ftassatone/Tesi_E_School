@@ -68,16 +68,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
             android:layout_weight="1">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TEORIA"/>
+                android:textStyle="bold|italic"
+                android:textSize="@dimen/textSizeTitolo"
+                android:text="Teoria"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:textSize="@dimen/textInfo"
+                android:layout_marginBottom="@dimen/marginetop"
+                android:text="Seleziona la riga per visualizzare il file."/>
 
 
             <ListView
                 android:id="@+id/listaTeoria"
+
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
         </LinearLayout>
@@ -85,18 +97,24 @@
         <View
             android:layout_width="2dip"
             android:background="@color/colorPrimaryDark"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
+            android:layout_marginRight="10dp"
             android:layout_weight="1">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ESERCIZI"/>
+                android:textStyle="bold|italic"
+                android:textSize="@dimen/textSizeTitolo"
+                android:layout_marginBottom="@dimen/marginetop"
+                android:text="Esercizi"/>
 
             <ListView
                 android:id="@+id/listaEsercizi"

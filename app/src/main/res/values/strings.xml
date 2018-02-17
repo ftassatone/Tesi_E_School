@@ -3,10 +3,11 @@
     <string name="app_name">E_School</string>
 
     <!-- titoli sezioni -->
-    <string name="title_activity_home">Home</string>
-    <string name="title_activity_registro">Registro</string>
+    <string name="title_activity_homeDocente">Home</string>
     <string name="title_activity_homeClasse">Home classe</string>
     <string name="title_activity_datiAlunno">Informazioni alunno</string>
+    <string name="title_activity_homeAlunno">Benvenuto nella tua home</string>
+    <string name="title_activity_registrazione">Registrazione</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

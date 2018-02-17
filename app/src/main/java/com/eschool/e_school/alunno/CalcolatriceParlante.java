@@ -8,6 +8,8 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.eschool.e_school.R;
@@ -17,11 +19,12 @@ import java.util.Locale;
 public class CalcolatriceParlante extends Activity implements TextToSpeech.OnInitListener {
 
     private TextView mDisplay, mSecondaryDisplay,mOperatorDisplay,mMemoryDisplay;
-    private Button mButton1,mButton2,mButton3,mButton4,mButton5,mButton6,mButton7,mButton8,mButton9,mButton0,mButtonPlus, mButtonMinus,
+    private ImageButton mButton1,mButton2,mButton3,mButton4,mButton5,mButton6,mButton7,mButton8,mButton9,mButton0,mButtonPlus, mButtonMinus,
             mButtonMultiplication,mButtonDivision, mButtonDot, mButtonEqual,mButtonClear,mButtonMemoryClear,mButtonMemorySet,mButtonMemoryRecall;
 
     private Boolean equalJustPressed = false;
     private TextToSpeech tts;
+    private LinearLayout sezioneOp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,35 +32,37 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
         setContentView(R.layout.layout_calcolatrice_parlante);
 
         tts = new TextToSpeech(getApplicationContext(), this);
-        mDisplay = (TextView)findViewById(R.id.calcdisplay);
-        mSecondaryDisplay = (TextView)findViewById(R.id.secondarydisplay);
-        mOperatorDisplay = (TextView)findViewById(R.id.operatordisplay);
-        mMemoryDisplay = (TextView)findViewById(R.id.memorydisplay);
+        mDisplay = findViewById(R.id.calcdisplay);
+        mSecondaryDisplay = findViewById(R.id.secondarydisplay);
+        mOperatorDisplay = findViewById(R.id.operatordisplay);
+        mMemoryDisplay = findViewById(R.id.memorydisplay);
 
-        mButton1 = (Button)this.findViewById(R.id.Button1);
-        mButton2 = (Button)this.findViewById(R.id.Button2);
-        mButton3 = (Button)this.findViewById(R.id.Button3);
-        mButton4 = (Button)this.findViewById(R.id.Button4);
-        mButton5 = (Button)this.findViewById(R.id.Button5);
-        mButton6 = (Button)this.findViewById(R.id.Button6);
-        mButton7 = (Button)this.findViewById(R.id.Button7);
-        mButton8 = (Button)this.findViewById(R.id.Button8);
-        mButton9 = (Button)this.findViewById(R.id.Button9);
-        mButton0 = (Button)this.findViewById(R.id.Button0);
-        mButtonPlus =           (Button)this.findViewById(R.id.ButtonPlus);
-        mButtonMinus =          (Button)this.findViewById(R.id.ButtonMinus);
-        mButtonMultiplication = (Button)this.findViewById(R.id.ButtonMultiplication);
-        mButtonDivision =       (Button)this.findViewById(R.id.ButtonDivision);
-        mButtonDot =            (Button)this.findViewById(R.id.ButtonDot);
-        mButtonEqual =          (Button)this.findViewById(R.id.ButtonEqual);
-        mButtonClear =          (Button)this.findViewById(R.id.ButtonClear);
-        mButtonMemoryClear =    (Button)this.findViewById(R.id.ButtonMemoryClear);
-        mButtonMemorySet =      (Button)this.findViewById(R.id.ButtonMemorySet);
-        mButtonMemoryRecall =   (Button)this.findViewById(R.id.ButtonMemoryRecall);
+        sezioneOp = findViewById(R.id.sezioneOp);
+
+        mButton1 = this.findViewById(R.id.Button1);
+        mButton2 = this.findViewById(R.id.Button2);
+        mButton3 = this.findViewById(R.id.Button3);
+        mButton4 = this.findViewById(R.id.Button4);
+        mButton5 = this.findViewById(R.id.Button5);
+        mButton6 = this.findViewById(R.id.Button6);
+        mButton7 = this.findViewById(R.id.Button7);
+        mButton8 = this.findViewById(R.id.Button8);
+        mButton9 = this.findViewById(R.id.Button9);
+        mButton0 = this.findViewById(R.id.Button0);
+        mButtonPlus = this.findViewById(R.id.ButtonPlus);
+        mButtonMinus = this.findViewById(R.id.ButtonMinus);
+        mButtonMultiplication = this.findViewById(R.id.ButtonMolt);
+        mButtonDivision = this.findViewById(R.id.ButtonDiv);
+        mButtonDot = this.findViewById(R.id.ButtonDot);
+        mButtonEqual = this.findViewById(R.id.ButtonEqual);
+        mButtonClear = this.findViewById(R.id.ButtonClear);
+        mButtonMemoryClear = this.findViewById(R.id.ButtonMemoryClear);
+        mButtonMemorySet = this.findViewById(R.id.ButtonMemorySet);
+        mButtonMemoryRecall = this.findViewById(R.id.ButtonMemoryRecall);
 
         mButtonDot.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String x = mButtonDot.getText().toString();
+                String x = mButtonDot.getTag().toString();
                 leggi(x);
                 if (mDisplay.getText().toString().contains(".")) {
                     //do nothing
@@ -69,38 +74,30 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
 
         mButtonPlus.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String x = mButtonPlus.getText().toString();
+                String x = mButtonPlus.getTag().toString();
                 leggi(x);
-                mSecondaryDisplay.setText(mDisplay.getText().toString());
-                mOperatorDisplay.setText("+");
-                mDisplay.setText("");
+                scrivi(v.getTag().toString());
             }
         });
 
         mButtonMinus.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 leggi("meno");
-                mSecondaryDisplay.setText(mDisplay.getText().toString());
-                mOperatorDisplay.setText("-");
-                mDisplay.setText("");
+                scrivi(v.getTag().toString());
             }
         });
 
         mButtonMultiplication.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 leggi("per");
-                mSecondaryDisplay.setText(mDisplay.getText().toString());
-                mOperatorDisplay.setText("*");
-                mDisplay.setText("");
+                scrivi(v.getTag().toString());
             }
         });
 
         mButtonDivision.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 leggi("diviso");
-                mSecondaryDisplay.setText(mDisplay.getText().toString());
-                mOperatorDisplay.setText("/");
-                mDisplay.setText("");
+                scrivi(v.getTag().toString());
             }
         });
 
@@ -153,9 +150,29 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
                 mMemoryDisplay.setText("");
             }
         });
-
-
     }
+
+    private void crealineaOp(View v){
+        LinearLayout riga = new LinearLayout(getApplicationContext());
+        riga.setOrientation(LinearLayout.HORIZONTAL);
+        TextView operatore = new TextView(getApplicationContext());
+        TextView op = new TextView(getApplicationContext());
+        Button button = (Button) v;
+        String x = button.getText().toString();
+        riga.addView(op);
+        riga.addView(operatore);
+        if(equalJustPressed){
+            View linea = new View(getApplicationContext());
+            riga.addView(linea);
+        }
+    }
+
+    private void scrivi(String op){
+        mSecondaryDisplay.setText(mDisplay.getText().toString());
+        mOperatorDisplay.setText(op);
+        mDisplay.setText("");
+    }
+
     private void updateDisplay(String digit) {
         if (equalJustPressed) {
             mDisplay.setText("");
@@ -165,8 +182,8 @@ public class CalcolatriceParlante extends Activity implements TextToSpeech.OnIni
     }
 
     public void calcola(View view){
-        Button button = (Button) view;
-        String x = button.getText().toString();
+        ImageButton button = (ImageButton) view;
+        String x = button.getTag().toString();
         updateDisplay(x);
         leggi(x);
     }

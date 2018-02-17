@@ -24,6 +24,7 @@ import com.eschool.e_school.connessione.JsonRequest;
 import com.eschool.e_school.connessione.RequestSingleton;
 import com.eschool.e_school.docente.HomeDocente;
 import com.eschool.e_school.docente.Registrazione;
+import com.eschool.e_school.elementiBase.Alunno;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -90,6 +91,7 @@ public class Login extends AppCompatActivity {
             usernameTxt = (EditText) findViewById(R.id.usernameTxtAlunno);
             passwordTxt = (EditText) findViewById(R.id.passwordTxtAlunno);
             btConfermaLogin = (Button) findViewById(R.id.btConfermaLoginAl);
+            btConfermaLogin.setBackground(getDrawable(R.drawable.button));
             txtCredenzialiErrate = (TextView) findViewById(R.id.txtCredenzialiErrateAl);
             cbRicorda = (CheckBox) findViewById(R.id.cbRicorda);
 
@@ -215,6 +217,7 @@ public class Login extends AppCompatActivity {
                 public void onResponse(JSONObject response) {
                     try {
                         JSONArray alunno = response.getJSONArray("alunno");
+                        boolean dsa= false;
                         if((alunno.length() != 0)){
                             pswCifrata = alunno.getJSONObject(0).getString("password");
                             pswDecifrata = MyCript.decrypt(pswCifrata);
@@ -226,8 +229,20 @@ public class Login extends AppCompatActivity {
                                     edit.putString("password", pswCifrata);
                                     edit.commit();
                                 }
+
+                                if(alunno.getJSONObject(0).getString("dsa").equalsIgnoreCase("1")){
+                                    dsa = true;
+                                }
+                                Alunno al = new Alunno(alunno.getJSONObject(0).getString("cf"), alunno.getJSONObject(0).getString("nome"),
+                                        alunno.getJSONObject(0).getString("cognome"),alunno.getJSONObject(0).getString("dataNascita"),
+                                        alunno.getJSONObject(0).getString("luogoNascita"),alunno.getJSONObject(0).getString("residenza"),
+                                        alunno.getJSONObject(0).getString("numeroTelefono"),alunno.getJSONObject(0).getString("cellulare"),
+                                        alunno.getJSONObject(0).getString("email"),dsa, alunno.getJSONObject(0).getString("username"),alunno.getJSONObject(0).getString("password"),
+                                        alunno.getJSONObject(0).getString("nomeClasse"));
+
                                 Intent homeAlunno = new Intent(getApplicationContext(),HomeAlunno.class);
-                                homeAlunno.putExtra("cf", alunno.getJSONObject(0).getString("cf"));
+                                homeAlunno.putExtra("alunno", al);
+                                //homeAlunno.putExtra("cf", alunno.getJSONObject(0).getString("cf"));
                                 startActivity(homeAlunno);
                             }else{
                                 Log.d("DATI", "---VUOTO---");

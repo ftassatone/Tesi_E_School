@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
@@ -75,11 +76,12 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
     private String[] frasi;
     private String download_file_path;
     private HashMap<String, String> map;
-    private Boolean controllo = false, controlloTesto = false;
+    private Boolean controllo = false, isTTSready; //isTTSready controllo sull'istanza TextToSpeech
     private Boolean controlloSint = false;  //controlla se il sintetizzatore è stato attivato
     private PowerManager pm;
     private PowerManager.WakeLock wl;
     private HashMap<String,String> listaImage;
+    private boolean opzDsa;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,11 +114,19 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         listaImage = new HashMap<>();
 
         tts = new TextToSpeech(this, this);
+
         btSucc.setEnabled(false);
         btPrec.setEnabled(false);
 
-        //ottengo la path del file selezionato
         download_file_path = getIntent().getStringExtra("file");
+        opzDsa = getIntent().getBooleanExtra("dsa",false);
+        Log.d("ALUNNO","dsa "+opzDsa);
+        //abilito/disabilito la sezione degli strumenti compensativi
+        if(opzDsa){
+            menuSuperiore.setVisibility(View.VISIBLE);
+        }else{
+            menuSuperiore.setVisibility(View.INVISIBLE);
+        }
 
         if(download_file_path.equalsIgnoreCase("")){
             Toast.makeText(VisualizzatoreFile.this, "Non c'è nulla da scaricare.", Toast.LENGTH_SHORT).show();
@@ -131,7 +141,8 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                 startActivity(new Intent(getApplicationContext(),CalcolatriceParlante.class));
             }
         });
-        //permettono di rendere visibile/invisibile il menu per l alettura
+
+        //permettono di rendere visibile/invisibile il menu per la lettura
         menuSuperiore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -163,7 +174,8 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
                 btPrec.setEnabled(true);
                 ottieniRighePagina(pageNumber);   //ottengo la lsita delle righe per pagina
                 listenerSitesi();
-                tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
+                lettura(frasi[countPlay],"messageID");
+                //tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
             }
         });
 
@@ -171,6 +183,8 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         btPausa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("DATI", "entro in pausa");
+
                 tts.stop();
             }
         });
@@ -183,31 +197,45 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             }
         });
 
-
         btSucc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listenerSitesi();
                 if((countPlay+1)<frasi.length-1) {
-                    tts.speak(frasi[++countPlay], TextToSpeech.QUEUE_FLUSH, null, "messaggioID");
+                    lettura(frasi[++countPlay],"messageID");
+                    //tts.speak(frasi[++countPlay], TextToSpeech.QUEUE_FLUSH, null, "messaggioID");
                 }else {
                     stopSpeech();
                     voltaPagina();
                 }
             }
         });
+
         btPrec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listenerSitesi();
                 if (countPlay >= 1) {
                     countPlay = countPlay - 1;
-                    tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messaggioID");
+                    lettura(frasi[countPlay],"messageID");
+                    //tts.speak(frasi[countPlay], TextToSpeech.QUEUE_FLUSH, null, "messaggioID");
                 } else {
                     Toast.makeText(getApplicationContext(), "Non puoi andare indietro.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    public void lettura(String testo,String message){
+        if (isTTSready) {
+            if(Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                tts.speak(testo, TextToSpeech.QUEUE_FLUSH, null, message);
+            } else {
+                map = new HashMap<>();
+                map.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, message);
+                tts.speak(testo, TextToSpeech.QUEUE_FLUSH,map);
+            }
+        }
     }
 
     /**
@@ -228,13 +256,13 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             @Override
             public void onDone(String s) {
                     if((countPlay+1)<frasi.length) {
-                        tts.speak(frasi[++countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
+                        lettura(frasi[++countPlay],"messageID");
+                        //tts.speak(frasi[++countPlay], TextToSpeech.QUEUE_FLUSH, null, "messageID");
                     }else {
                         stopSpeech();
                         voltaPagina();
                     }
             }
-
             @Override
             public void onError(String s) {
                 //do nothing
@@ -285,8 +313,6 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
     private void voltaPagina() {
         controllo = true;
          pageNumber = pageNumber + 1;
-        //se il numero di pagina in cui mi trovo è <= alla size del testoPagina, vuol dire che esiste la pagina da leggere
-        //quindi posso visualizzarla
         if (pageNumber < testoPagine.size()) {
             pdfView.fromFile(teoria).defaultPage(pageNumber).onPageChange(this).load();
             ottieniRighePagina(pageNumber);   //dopo aver voltato(visualizzato) pagina, acquisisco le righe della nuova pagina
@@ -485,8 +511,8 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         dialog.setContentView(R.layout.progressbar_dialog);
         dialog.setTitle("Download Progress");
 
-        TextView text = dialog.findViewById(R.id.tv1);
-        text.setText("Downloading file from ... " + file_path);
+       // TextView text = dialog.findViewById(R.id.tv1);
+        //text.setText("Downloading file from ... " + file_path);
         cur_val = dialog.findViewById(R.id.cur_pg_tv);
         cur_val.setText("Starting download...");
         dialog.show();
@@ -504,11 +530,8 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         @Override
         protected void onPostExecute(File file) {
             super.onPostExecute(file);
-            Log.d("POST","ha finito ");
-            //dialog.dismiss();
-            //display(teoria); //visualizzo il file
             cur_val.setText("Attendi qualche altro secondo... ");
-            ottieniTesto();
+            new OttieniTesto().execute(download_file_path);  //acquisisco il testo per pagina
         }
 
         @Override
@@ -521,7 +544,6 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             } catch (DocumentException e) {
                 e.printStackTrace();
             }
-            //ottieniTesto();             //acquisisco il testo per pagina
             return teoria;
         }
     }
@@ -540,7 +562,6 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         PdfReader reader = new PdfReader(file);
         PdfDictionary catalog = reader.getCatalog();
         PdfDictionary structTreeRoot = catalog.getAsDict(PdfName.STRUCTTREEROOT);
-        //Log.d("DATI", "structure " + structTreeRoot);
         manipulate(structTreeRoot);
     }
     /**
@@ -553,7 +574,6 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             return;
         if (PdfName.FIGURE.equals(element.get(PdfName.S))) {
             listaImage.put("(IMG_"+element.get(PdfName.ID).toString() +")",element.get(PdfName.ALT).toString());
-            //Log.d("DATI", "elemento alt " + element.get(PdfName.ALT));
         }
         PdfArray kids = element.getAsArray(PdfName.K);
         if (kids == null) return;
@@ -567,9 +587,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
      * LIMITAZIONE: Ciò è possibile solo se il pdf è stato creato con l'app, poichè alla creazione viene data la possibilità
      * di associare testo alternativo alle immagini inserite.
      */
-    private class OttieniTesto extends AsyncTask<Void, Void, Void> {
-
-        //finita al'estrazione di testo, posso abilitare i buttun per la lettura
+    private class OttieniTesto extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
@@ -579,34 +597,25 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             btPausa.setEnabled(true);
             btStop.setEnabled(true);
         }
-
         @Override
-        protected Void doInBackground(Void... strings) {
+        protected Void doInBackground(String... strings) {
             try {
                 String parsedText = "";
-                PdfReader reader = new PdfReader(download_file_path);
+                PdfReader reader = new PdfReader(strings[0]);
                 int n = reader.getNumberOfPages();
                 for (int i = 0; i < n; i++) {
                     parsedText = PdfTextExtractor.getTextFromPage(reader, i + 1).trim() + ""; //Estrazione del contenuto di ogni pagina
-                    Log.d("INDICI","-------"+parsedText);
-                    //per ogni immagine(id,testoAlternativo) salvata nell'hashMap listaImage controllo se l'id è presente nel testo
-                    //estratto dalla singola pagina, se è presente sistituisco lo con il testo alternativo associato all'id nell'hashMap
-
                     if(!listaImage.isEmpty()) {
-                        Log.d("DAT","entro");
                         for (int j = 1; j <= listaImage.size(); j++) {
                             String idImg = "(IMG_" + j + ")";
                             if (parsedText.contains(idImg)) {
                                 String alt = listaImage.get("(IMG_" + j + ")");
-                                Log.d("DAT", "alt " + alt);
                                 if (alt != "") {
                                     parsedText = parsedText.replace(idImg, " " + "immagine " + j + " " + alt);
                                 }
                             }
                         }
-                        Log.d("DATI","testo "+parsedText);
                     }
-                    //mi salvo il testo dell asingola nell'arrayList testoPagine
                     testoPagine.add(parsedText);
                 }
                 reader.close();
@@ -624,6 +633,13 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
+            isTTSready = true;
+            int result = tts.setLanguage(Locale.ITALIAN);
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(getApplicationContext(), "Ligua non trovata.", Toast.LENGTH_LONG).show();
+            }
+        }
+        /*if (status == TextToSpeech.SUCCESS) {
             int result = tts.setLanguage(Locale.ITALIAN); //impostiamo l'italiano
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.d("LOG", "Mancano i dati vocali: installali per continuare");
@@ -632,7 +648,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             }
         } else {
             Log.d("LOG", "Il Text To Speech sembra non essere supportato");
-        }
+        }*/
     }
 
     @Override
@@ -667,19 +683,5 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void evidenzia(String src) throws IOException, DocumentException {
-        PdfReader reader = new PdfReader(src);
-        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(src));
-        PdfContentByte canvas = stamper.getUnderContent(1);
-        canvas.saveState();
-        canvas.setColorFill(BaseColor.YELLOW);
-        canvas.rectangle(36, 786, 66, 16);
-        canvas.fill();
-        canvas.restoreState();
-        stamper.close();
-        reader.close();
-    }
-
 
 }
