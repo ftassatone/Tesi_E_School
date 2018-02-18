@@ -6,75 +6,79 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
-        android:id="@+id/linearSezDiagnostica"
-        android:layout_width="wrap_content"
+        android:id="@+id/lintext"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/marginetop"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sezioneTest"
-            android:textAllCaps="true"/>
+            android:layout_weight="1"
+            android:text="Test livello 1"/>
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="wrap_content">
+        </FrameLayout>
 
         <TextView
-            android:id="@+id/txTestDiagnostico"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/testDiagnostico"
-            android:clickable="true"/>
+            android:layout_weight="1"
+            android:text="Test livello 2"/>
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="wrap_content">
+        </FrameLayout>
 
         <TextView
-            android:id="@+id/txTestDiagnosticoErrori"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/testDiagnosticoErrori"
-            android:clickable="true"/>
-
-        <TextView
-            android:id="@+id/txListaErrori"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/listaErrori"
-            android:clickable="true"/>
-
+            android:layout_weight="1"
+            android:text="Test livello 3"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearSezTest"
-        android:layout_toRightOf="@id/linearSezDiagnostica"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/marginetop">
+        android:orientation="horizontal"
+        android:layout_below="@id/lintext"
+        android:layout_marginTop="10dp">
 
-        <TextView
+        <ListView
+            android:id="@+id/listaTestLv1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/schedeLetture"
-            android:textAllCaps="true"/>
+            android:layout_weight="1">
+        </ListView>
 
-        <TextView
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="wrap_content">
+        </FrameLayout>
+
+        <ListView
+            android:id="@+id/listaTestLv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/livello1"
-            android:clickable="true"/>
+            android:layout_weight="1">
+        </ListView>
 
-        <TextView
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="wrap_content">
+        </FrameLayout>
+
+        <ListView
+            android:id="@+id/listaTestLv3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/livello2"
-            android:clickable="true"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/livello3"
-            android:clickable="true"/>
-
+            android:layout_weight="1">
+        </ListView>
     </LinearLayout>
 </RelativeLayout>
 
