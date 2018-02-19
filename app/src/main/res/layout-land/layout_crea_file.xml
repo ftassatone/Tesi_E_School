@@ -9,6 +9,8 @@
         android:textStyle="bold|italic"
         android:layout_gravity="center"/>
     <TextView
+        android:layout_marginLeft="@dimen/minimoMarginetop"
+        android:layout_marginRight="@dimen/minimoMarginetop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/textInfo"
@@ -18,6 +20,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:drawable/screen_background_light_transparent"
         android:orientation="horizontal">
 
         <Button
@@ -32,15 +35,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="aggiungi sottotitolo"/>
+            android:text="aggiungi sottotitolo"/-->
         <Button
             android:id="@+id/btCorpo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="aggiungi corpo"/-->
+            android:textAllCaps="false"
+            android:text="Aggiungi corpo"/>
         <Button
             android:id="@+id/btImg"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -48,19 +53,6 @@
             android:text="Aggiungi immagine"/>
     </LinearLayout>
 
-
-
-    <!--EditText
-        android:id="@+id/editSottoTit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="sottotitolo"/>
-
-    <EditText
-        android:id="@+id/editCorpo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="corpo"/-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,12 +67,12 @@
                 android:layout_height="wrap_content"
                 android:text="Inserire nome documento:"/>
 
-            <EditText
+             <EditText
                 android:id="@+id/editNome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="NomeFile"/>
+                android:hint="nome file"/>
 
         </LinearLayout>
 
@@ -99,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="NomeFile"/>
+                android:hint=" argomento"/>
 
         </LinearLayout>
     </LinearLayout>

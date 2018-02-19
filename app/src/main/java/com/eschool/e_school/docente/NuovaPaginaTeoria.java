@@ -1,6 +1,8 @@
 package com.eschool.e_school.docente;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -57,7 +60,7 @@ import java.util.HashMap;
 public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltText.NoticeDialogListener {
 
     private EditText argomento,nomeF;
-    private Button newTitolo, newImage;
+    private Button newTitolo, newImage, btBody;
     private LinearLayout contenitoreTesto;
     private Paragraph paragrafo;
     private ArrayList<Image> listaImage;
@@ -82,6 +85,7 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
         listaImage = new ArrayList<>();
         nomeF = (EditText) findViewById(R.id.editNome);
         newTitolo = (Button) findViewById(R.id.btTitolo);
+        btBody = (Button) findViewById(R.id.btCorpo);
         newImage = (Button) findViewById(R.id.btImg);
         argomento = (EditText) findViewById(R.id.editArgomento);
         contenitoreTesto = (LinearLayout) findViewById(R.id.contenitoreTeoria);
@@ -94,6 +98,14 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
                 aggiungiTesto("titolo");
             }
         });
+        btBody.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                aggiungiTesto("corpo");
+            }
+        });
+
+
 
         newImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +128,8 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
             tit.setHintTextColor(Color.GRAY);
             tit.setTextColor(Color.BLACK);
             tit.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            contenitoreTesto.addView(tit);
+            tit.setOnLongClickListener(eliminaView(tit));
+        contenitoreTesto.addView(tit);
         //}
     }
 
@@ -158,8 +171,14 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
                         for (int i = 0; i < contenitoreTesto.getChildCount(); i++) {
                             paragrafo = new Paragraph();
                             if (contenitoreTesto.getChildAt(i) instanceof EditText) {
+
                                 EditText c = (EditText) contenitoreTesto.getChildAt(i);
-                                Chunk cn = new Chunk(c.getText().toString());
+                                Font font = new Font(Font.FontFamily.TIMES_ROMAN,Font.DEFAULTSIZE,Font.NORMAL);
+                                Chunk cn = new Chunk(c.getText().toString(),font);
+                                if(c.getTag().toString().equalsIgnoreCase("titolo")){
+                                    Font fontBold = new Font(Font.FontFamily.TIMES_ROMAN,20f,Font.BOLD);
+                                    cn.setFont(fontBold);
+                                }
                                 cn.setAccessibleAttribute(PdfName.ALT, new PdfString(c.getText().toString()));
                                 //paragrafo.add(cn);
 
@@ -194,7 +213,7 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
                         doc.add(tab);
                         //doc.add(paragrafo);
                         doc.close();
-                        ParametriAltervista param = new ParametriAltervista(getApplicationContext(),file,HomeDocenteFragment.materia,HomeDocenteFragment.classe);
+                        ParametriAltervista param = new ParametriAltervista(getApplicationContext(),file,HomeDocenteFragment.materia,HomeDocenteFragment.classe, argomento.getText().toString());
                         new SaveOnAltervista().execute(param);       //salvo il file su altervista
                         Toast.makeText(NuovaPaginaTeoria.this, "Creato!", Toast.LENGTH_SHORT).show();
                     }else {
@@ -303,6 +322,7 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
                 imgV.setTag(imagePath);
                 imgV.setId(countImg);
                 imgV.setOnClickListener(getOnClickDoSomething(imgV));
+                imgV.setOnLongClickListener(eliminaView(imgV));
                 contenitoreTesto.addView(imgV);
 
             } catch (IOException e) {
@@ -329,5 +349,14 @@ public class NuovaPaginaTeoria extends AppCompatActivity implements DialogAltTex
         };
     }
 
+    View.OnLongClickListener eliminaView(View v){
+        return new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View view) {
+                contenitoreTesto.removeView(view);
+                return true;
+            }
+        };
+    }
 
 }

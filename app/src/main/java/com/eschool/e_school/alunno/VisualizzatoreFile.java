@@ -105,7 +105,7 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
         btPausa = (ImageButton) findViewById(R.id.btPausa);
         btStop = (ImageButton) findViewById(R.id.btStop);
         sintetizzatore = (Button) findViewById(R.id.btSintetizzatore);
-        cal = (Button) findViewById(R.id.btCal);
+        //cal = (Button) findViewById(R.id.btCal);
         media = (LinearLayout) findViewById(R.id.media);
         menuSuperiore = (LinearLayout) findViewById(R.id.menuSuperiore);
         contenitore = (LinearLayout) findViewById(R.id.contenitore);
@@ -135,12 +135,12 @@ public class VisualizzatoreFile extends AppCompatActivity implements OnPageChang
             new Download().execute(download_file_path);           //avvio il download
         }
 
-        cal.setOnClickListener(new View.OnClickListener() {
+        /*cal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),CalcolatriceParlante.class));
             }
-        });
+        });*/
 
         //permettono di rendere visibile/invisibile il menu per la lettura
         menuSuperiore.setOnClickListener(new View.OnClickListener() {

@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.eschool.e_school.connessione.JsonRequest;
 import com.eschool.e_school.connessione.RequestSingleton;
+import com.eschool.e_school.elementiBase.Teoria;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -22,6 +23,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 /**
@@ -150,7 +153,12 @@ public class SaveOnAltervista extends AsyncTask<ParametriAltervista,Void,Void> {
     private void salvaFileDb() {
         String url = "http://www.eschooldb.altervista.org/PHP/aggiungiFileTeoria.php";
         HashMap<String, String> parametri = new HashMap<String, String>();
+
         parametri.put("fileTeoria", path + "/" + param.getClasse() + "/" + file.getName());
+        parametri.put("argomento",param.getArgomento());
+        //parametri.put("dataCreazione",);
+        parametri.put("livello",param.getClasse().substring(1));
+        parametri.put("nomeMateria",param.getMateria());
 
         JsonRequest richiesta = new JsonRequest(Request.Method.POST, url, parametri, new Response.Listener<JSONObject>() {
             @Override
