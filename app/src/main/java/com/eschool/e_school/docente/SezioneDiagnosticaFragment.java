@@ -2,13 +2,23 @@ package com.eschool.e_school.docente;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.eschool.e_school.R;
+import com.eschool.e_school.adapter.AdapterTestDiagnostici;
+
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +37,8 @@ public class SezioneDiagnosticaFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private ListView listaTestLv1,listaTestLv2,listaTestLv3;
 
     //private OnFragmentInteractionListener mListener;
 
@@ -65,7 +77,12 @@ public class SezioneDiagnosticaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sezione_diagnostica, container, false);
+        View view =  inflater.inflate(R.layout.fragment_sezione_diagnostica, container, false);
+        listaTestLv1 = (ListView) view.findViewById(R.id.listaTestLv1);
+        listaTestLv2 = (ListView) view.findViewById(R.id.listaTestLv2);
+        listaTestLv3 = (ListView) view.findViewById(R.id.listaTestLv3);
+        new RetriveFromAltervista2().execute();
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -106,4 +123,100 @@ public class SezioneDiagnosticaFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }*/
+
+
+    public class RetriveFromAltervista2 extends AsyncTask<Void,Void,ArrayList<String>> {
+
+        public  ArrayList<String> list,listLv1,listLv2,listLv3;
+        private SezioneDiagnosticaFragment sezioneDiagnosticaFragment;
+        FTPFile[] filesLv1 = new FTPFile[0];
+        FTPFile[] filesLv2 = new FTPFile[0];
+        FTPFile[] filesLv3 = new FTPFile[0];
+        AdapterTestDiagnostici adapterTestDiagnostici,adapterTestDiagnostici2,adapterTestDiagnostici3;
+
+        @Override
+        protected ArrayList<String> doInBackground(Void... voids) {
+            list = new ArrayList<>();
+            listLv1 = new ArrayList<>();
+            listLv2 = new ArrayList<>();
+            listLv3 = new ArrayList<>();
+            FTPClient client = new FTPClient();
+            try {
+                //questo path lo ottieni da altervista se clicchi su connessione ftp, ti da tutte le informazioni li
+                client.connect("ftp.eschooldb.altervista.org");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            client.enterLocalPassiveMode();
+            try {
+                //metti la tua login e password
+                client.login("eschooldb", "robyfrancy");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //Allora choise � un intero che passavo per vedere in quale delle due cartelle mi interessa andare a vedere, se conosci la path a prescindere
+            //non � un problema
+            try {
+                filesLv1 = client.listFiles("File/diagnostica/livello1");
+                Log.d("FILE", "lv1 "+filesLv1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                filesLv2 = client.listFiles("File/diagnostica/livello2");
+                Log.d("FILE", "lv2 "+filesLv2);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                filesLv3 = client.listFiles("File/diagnostica/livello3");
+                Log.d("FILE", "lv3 "+filesLv3);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //qui inserisco i nomi del file nell'arraylist di stringhe che poi restituisco e faccio visualizzare nella mia UI
+            for (FTPFile file : filesLv1) {
+                System.out.println(file.getName());
+                //Log.d("MIOFILE", file.getLink().toString());
+                list.add(file.getName());
+                listLv1.add(file.getName());
+
+                // FileOutputStream fos = new FileOutputStream("Ftp Files/" + file.getName());
+                // client.retrieveFile(file.getName(), fos);
+            }
+            for (FTPFile file : filesLv2) {
+                System.out.println(file.getName());
+                Log.d("FileSequence", file.getName());
+                list.add(file.getName());
+                listLv2.add(file.getName());
+
+                // FileOutputStream fos = new FileOutputStream("Ftp Files/" + file.getName());
+                // client.retrieveFile(file.getName(), fos);
+            }
+            for (FTPFile file : filesLv3) {
+                System.out.println(file.getName());
+                list.add(file.getName());
+                listLv3.add(file.getName());
+
+                // FileOutputStream fos = new FileOutputStream("Ftp Files/" + file.getName());
+                // client.retrieveFile(file.getName(), fos);
+            }
+            return list;
+        }
+
+        @Override
+        public void onPostExecute(ArrayList<String> strings) {
+            super.onPostExecute(strings);
+            adapterTestDiagnostici = new AdapterTestDiagnostici(getActivity(),listLv1);
+            listaTestLv1.setAdapter(adapterTestDiagnostici);
+            adapterTestDiagnostici2 = new AdapterTestDiagnostici(getActivity(),listLv2);
+            listaTestLv2.setAdapter(adapterTestDiagnostici2);
+            adapterTestDiagnostici3 = new AdapterTestDiagnostici(getActivity(),listLv3);
+            listaTestLv3.setAdapter(adapterTestDiagnostici3);
+        }
+    }
+
+
 }
