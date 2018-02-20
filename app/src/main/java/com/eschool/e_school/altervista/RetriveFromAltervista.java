@@ -7,6 +7,8 @@ import android.util.Log;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -61,8 +63,17 @@ public class RetriveFromAltervista extends AsyncTask<Integer,Void,ArrayList<Stri
             System.out.println(file.getName());
             Log.d("FileSequence", file.getName());
             list.add(file.getName());
-            // FileOutputStream fos = new FileOutputStream("Ftp Files/" + file.getName());
-            // client.retrieveFile(file.getName(), fos);
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream("Ftp Files/" + file.getName());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                client.retrieveFile(file.getName(), fos);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return list;
     }

@@ -13,11 +13,16 @@ import android.widget.ListView;
 
 import com.eschool.e_school.R;
 import com.eschool.e_school.adapter.AdapterTestDiagnostici;
+import com.github.barteksc.pdfviewer.util.FileUtils;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
@@ -128,7 +133,6 @@ public class SezioneDiagnosticaFragment extends Fragment {
     public class RetriveFromAltervista2 extends AsyncTask<Void,Void,ArrayList<String>> {
 
         public  ArrayList<String> list,listLv1,listLv2,listLv3;
-        private SezioneDiagnosticaFragment sezioneDiagnosticaFragment;
         FTPFile[] filesLv1 = new FTPFile[0];
         FTPFile[] filesLv2 = new FTPFile[0];
         FTPFile[] filesLv3 = new FTPFile[0];
@@ -177,38 +181,53 @@ public class SezioneDiagnosticaFragment extends Fragment {
                 e.printStackTrace();
             }
             //qui inserisco i nomi del file nell'arraylist di stringhe che poi restituisco e faccio visualizzare nella mia UI
-            for (FTPFile file : filesLv1) {
-                System.out.println(file.getName());
-                //Log.d("MIOFILE", file.getLink().toString());
-                list.add(file.getName());
-                listLv1.add(file.getName());
+            String path = "http://www.eschooldb.altervista.org/File/diagnostica/livello1/";
 
-                // FileOutputStream fos = new FileOutputStream("Ftp Files/" + file.getName());
-                // client.retrieveFile(file.getName(), fos);
-            }
-            for (FTPFile file : filesLv2) {
-                System.out.println(file.getName());
-                Log.d("FileSequence", file.getName());
-                list.add(file.getName());
-                listLv2.add(file.getName());
+                for (FTPFile file : filesLv1) {
+                    //Log.d("DANIELE","--- Nuovo tentativo ---");
+                    //System.out.println(file.getName());
+                    //FileOutputStream fileOutputStream = new FileOutputStream(new File());
+                    //client.retrieveFile("http://www.eschooldb.altervista.org/File/diagnostica/livello1/"+ file.getName(),outputStream);
+                    //f = outputStream.
+                    //OutputStream iStream= client.retrieveFileStream();
+                    //Log.d("DANIELE", "status del client: " + client.getStatus());
+                    //Log.d("DANIELE","iStream is null?" + (iStream==null?"yes":"no"));
+                    //File f = File.createTempFile("tmp", null);
+                    //Log.d("DANIELE","f is null?" + (f==null?"yes":"no"));
+                    //FileUtils.copy(iStream,f);
+                    //Log.d("MIOFILE", file.getLink().toString());
+                    list.add(path + file.getName());
+                    listLv1.add(path + file.getName());
 
-                // FileOutputStream fos = new FileOutputStream("Ftp Files/" + file.getName());
-                // client.retrieveFile(file.getName(), fos);
-            }
-            for (FTPFile file : filesLv3) {
-                System.out.println(file.getName());
-                list.add(file.getName());
-                listLv3.add(file.getName());
+                    // FileOutputStream fos = new FileOutputStream("Ftp Files/" + file.getName());
+                    // client.retrieveFile(file.getName(), fos);
+                }
 
-                // FileOutputStream fos = new FileOutputStream("Ftp Files/" + file.getName());
-                // client.retrieveFile(file.getName(), fos);
-            }
+                path = "http://www.eschooldb.altervista.org/File/diagnostica/livello2/";
+                for (FTPFile file : filesLv2) {
+                    list.add(path + file.getName());
+                    listLv2.add(path + file.getName());
+
+                    // FileOutputStream fos = new FileOutputStream("Ftp Files/" + file.getName());
+                    // client.retrieveFile(file.getName(), fos);
+                }
+
+            path = "http://www.eschooldb.altervista.org/File/diagnostica/livello3/";
+
+                for (FTPFile file : filesLv3) {
+                    list.add(path + file.getName());
+                    listLv3.add(path + file.getName());
+
+                    // FileOutputStream fos = new FileOutputStream("Ftp Files/" + file.getName());
+                    // client.retrieveFile(file.getName(), fos);
+                }
+
             return list;
         }
 
         @Override
-        public void onPostExecute(ArrayList<String> strings) {
-            super.onPostExecute(strings);
+        public void onPostExecute(ArrayList<String> files) {
+            super.onPostExecute(files);
             adapterTestDiagnostici = new AdapterTestDiagnostici(getActivity(),listLv1);
             listaTestLv1.setAdapter(adapterTestDiagnostici);
             adapterTestDiagnostici2 = new AdapterTestDiagnostici(getActivity(),listLv2);

@@ -14,7 +14,7 @@ public class DialogDsa extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //TODO vedere cosa usare per i vari strumenti compensativi al posto di un'array statico
-        String[] lista= {"sintetizzatore","mappe","microfono"};
+        String[] lista= {"sintetizzatore","calcolatrice parlante"};
         //lista degli item selezionati
         final ArrayList itemSelezionati = new ArrayList();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
