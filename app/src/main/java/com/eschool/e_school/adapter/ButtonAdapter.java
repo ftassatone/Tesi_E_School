@@ -61,6 +61,10 @@ public class ButtonAdapter extends BaseAdapter {
             bt.setCompoundDrawablesWithIntrinsicBounds( R.drawable.icona_mate, 0, 0, 0);
         }else if(c.equalsIgnoreCase("italiano")){
             bt.setCompoundDrawablesWithIntrinsicBounds( R.drawable.icona_ita, 0, 0, 0);
+        }else if(c.equalsIgnoreCase("Storia")){
+            bt.setCompoundDrawablesWithIntrinsicBounds( R.drawable.icona_storia2, 0, 0, 0);
+        }else if(c.equalsIgnoreCase("Geografia")){
+            bt.setCompoundDrawablesWithIntrinsicBounds( R.drawable.icona_geo2, 0, 0, 0);
         }
 
         final String finalC = c;

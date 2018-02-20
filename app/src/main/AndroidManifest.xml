@@ -77,8 +77,14 @@
             android:parentActivityName=".alunno.HomeMateria">
         </activity>
         <activity
+            android:name=".alunno.VisualizzaEsercizio"
+            android:screenOrientation="landscape"
+            android:parentActivityName=".alunno.HomeMateria">
+        </activity>
+        <activity
             android:name=".alunno.CalcolatriceParlante"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:parentActivityName=".alunno.HomeMateria">
         </activity>
     </application>
 

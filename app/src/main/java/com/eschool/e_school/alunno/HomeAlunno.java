@@ -90,6 +90,7 @@ public class HomeAlunno extends AppCompatActivity {
                     arrayMaterie = new ArrayList<>();
                     for(int i=0; i<materie.length(); i++){
                         materia = materie.getJSONObject(i).getString("nomeMateria");
+                        Log.d("MATERIA","mat "+materia);
                         livello = String.valueOf(materie.getJSONObject(i).getString("nomeClasse").charAt(0));
                         arrayMaterie.add(materia);
                         listaBt.add(new Button(getApplicationContext()));

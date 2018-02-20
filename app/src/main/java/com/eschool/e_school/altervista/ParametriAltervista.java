@@ -7,12 +7,13 @@ import java.io.File;
 public class ParametriAltervista{
     private File f;
     private Context context;
-    private String materia,classe;
-    public ParametriAltervista(Context context,File f, String materia, String classe) {
+    private String materia,classe, argomento;
+    public ParametriAltervista(Context context,File f, String materia, String classe,String argomento) {
         this.context = context;
         this.f = f;
         this.materia = materia;
         this.classe = classe;
+        this.argomento = argomento;
     }
 
     public File getF() {
@@ -21,6 +22,10 @@ public class ParametriAltervista{
 
     public String getClasse() {
         return classe;
+    }
+
+    public String getArgomento() {
+        return argomento;
     }
 
     public String getMateria() {
